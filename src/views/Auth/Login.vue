@@ -7,7 +7,7 @@
     <form onsubmit:prevent=""
     class="bg-white font-albra-serif-regular z-10 px-10 py-6 pb-10 rounded-lg flex flex-col gap-6 items-center"
       >
-      <img src="../../assets/logo_completo.png" class="w-32 " alt="">
+      <img src="/logo/logo-fondo.jpg" class="w-32 " alt="">
       
     <div class="card flex justify-content-center w-full">
 
