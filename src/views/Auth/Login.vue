@@ -1,7 +1,6 @@
 <template>
   <div class="w-full  bg-cover relative h-screen flex justify-center items-center">
-    <img src="/6.jpg" class="w-full h-full absolute top-0 left-0 z-0" alt="">
-    <div class="w-full h-full absolute top-0 left-0 z-0 bg-green-900/40"></div>
+    <div class="w-full h-full absolute top-0 left-0 z-0 bg-[#449ca8]"></div>
 
 <ProgressBar mode="indeterminate" v-if="loading" class="z-10 w-full top-0 absolute" style="height: 6px"></ProgressBar>
 

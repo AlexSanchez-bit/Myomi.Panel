@@ -3,15 +3,10 @@ import { supabase } from "@/setup";
 
 export class UserService extends TableService<any> {
   constructor() {
-    super("user", ["id,email", "name", "last_name", "created_at"]);
+    super("user", ["id,email", "name", "created_at"]);
   }
 
-  async createUser(
-    name: string,
-    last_name: string,
-    email: string,
-    password: string,
-  ) {
+  async createUser(name: string, email: string, password: string) {
     const { data, error } = await supabase.functions.invoke("create_user", {
       method: "POST",
       body: JSON.stringify({
