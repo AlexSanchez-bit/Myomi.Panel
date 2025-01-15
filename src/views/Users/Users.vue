@@ -1,0 +1,74 @@
+<script setup lang="ts">
+import Actions from "./Actions.vue";
+import Table from "@/utils/Table.vue";
+import { table_configs } from "./tableconfig";
+import { useUserService } from "./composables/useUserService";
+import Button from "primevue/button";
+import Dialog from "primevue/dialog";
+import AddUser from "./AddUser.vue";
+
+import { ref } from "vue";
+
+const { userService } = useUserService();
+function formatDate(date_str: string) {
+  const date = new Date(date_str);
+  return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
+}
+
+const create_active = ref(false);
+const table = ref();
+
+function refresh() {
+  table.value.refresh();
+}
+
+function open_create_user() {
+  create_active.value = true;
+}
+</script>
+<template>
+  <div>
+    <Dialog v-model:visible="create_active">
+      <template #container="{ closeCallback }">
+        <AddUser :closeCb="closeCallback" @added="refresh"></AddUser>
+      </template>
+    </Dialog>
+
+    <Table ref="table" :dataService="userService" :columns="table_configs">
+      <template #header>
+        <h1 class="font-albra-serif-bold">Newsletter</h1>
+      </template>
+
+      <template #toolbar>
+        <Button
+          icon="pi pi-plus"
+          v-tooltip.bottom="{
+            value: $t('create_user'),
+            showDelay: 100,
+            hideDelay: 300,
+          }"
+          severity="secondary"
+          text
+          rounded
+          outlined
+          @click="open_create_user()"
+        />
+      </template>
+
+      <template #column-actions="{ data }">
+        <Actions
+          :user_data="data"
+          @removed="refresh"
+          @edited="refresh"
+          v-if="data"
+        ></Actions>
+      </template>
+
+      <template #column-created_at="{ data }">
+        <div v-if="data && data.created_at">
+          {{ formatDate(data.created_at) }}
+        </div>
+      </template>
+    </Table>
+  </div>
+</template>
