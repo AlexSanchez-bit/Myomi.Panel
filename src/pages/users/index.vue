@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import Actions from "./Actions.vue";
+import Actions from "@/components/Users/Actions.vue";
 import Table from "@/utils/Table.vue";
 import { table_configs } from "./tableconfig";
-import { useUserService } from "./composables/useUserService";
+import { useUserService } from "@/composables/Users/useUserService";
 import Button from "primevue/button";
 import Dialog from "primevue/dialog";
-import AddUser from "./AddUser.vue";
+import AddUser from "@/components/Users/AddUser.vue";
 
 import { ref } from "vue";
 
@@ -28,31 +28,26 @@ function open_create_user() {
 </script>
 <template>
   <div>
-    <Dialog v-model:visible="create_active">
-      <template #container="{ closeCallback }">
-        <AddUser :closeCb="closeCallback" @added="refresh"></AddUser>
-      </template>
-    </Dialog>
-
     <Table ref="table" :dataService="userService" :columns="table_configs">
       <template #header>
-        <h1 class="font-albra-serif-bold">Newsletter</h1>
+        <h1 class="">Usuarios</h1>
       </template>
 
       <template #toolbar>
-        <Button
-          icon="pi pi-plus"
-          v-tooltip.bottom="{
-            value: $t('create_user'),
-            showDelay: 100,
-            hideDelay: 300,
-          }"
-          severity="secondary"
-          text
-          rounded
-          outlined
-          @click="open_create_user()"
-        />
+        <router-link :to="{ name: 'users.create' }">
+          <Button
+            icon="pi pi-plus"
+            v-tooltip.bottom="{
+              value: $t('create_user'),
+              showDelay: 100,
+              hideDelay: 300,
+            }"
+            severity="secondary"
+            text
+            rounded
+            outlined
+          />
+        </router-link>
       </template>
 
       <template #column-actions="{ data }">

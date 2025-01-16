@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import MainLayout from "../components/Layout/components/MainLayout.vue";
 import { useAuthStore } from "@/stores/AuthStore";
 import { useSplashStore } from "@/stores/SplashScreen";
+import { userRoutes } from "./modules/user";
 
 const router = createRouter({
   history: createWebHistory("#"),
@@ -16,23 +17,18 @@ const router = createRouter({
           name: "default",
           component: () => import("@/components/Default/Default.vue"),
         },
-        {
-          path: "newsletter",
-          name: "newsletter",
-          component: () =>
-            import("@/views/Newsletter/NewsLetterSubscriptions.vue"),
-        },
-        {
-          path: "users",
-          name: "users",
-          component: () => import("@/views/Users/Users.vue"),
-        },
+        ...userRoutes,
       ],
     },
     {
       path: "/login",
       name: "login",
-      component: () => import("@/views/Auth/Login.vue"),
+      component: () => import("@/pages/Auth/Login.vue"),
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      name: "404",
+      component: () => import("@/pages/404.vue"),
     },
   ],
 });

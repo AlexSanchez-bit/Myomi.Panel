@@ -1,4 +1,4 @@
-import { UserService } from "../services/User.service";
+import { UserService } from "@/services/Users/User.service";
 
 const userService = new UserService();
 

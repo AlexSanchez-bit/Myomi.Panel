@@ -6,6 +6,17 @@ export class UserService extends TableService<any> {
     super("user", ["id,email", "name", "created_at"]);
   }
 
+  async getUserData(id: string) {
+    const { data, error } = await supabase
+      .from(this.tablename)
+      .select()
+      .eq("id", id);
+    if (error) {
+      this.notify.notify("error", "", error.message, 3000);
+    }
+    return { data, error };
+  }
+
   async createUser(name: string, email: string, password: string) {
     const { data, error } = await supabase.functions.invoke("create_user", {
       method: "POST",

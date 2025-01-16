@@ -12,15 +12,6 @@
     />
   </div>
 
-  <Dialog v-model:visible="edit_visible">
-    <template #container="{ closeCallback }">
-      <EditUser
-        :user_info="user_data"
-        @edited="edited"
-        :closeCb="closeCallback"
-      ></EditUser>
-    </template>
-  </Dialog>
   <div class="flex flex-row gap-4">
     <Button
       v-tooltip="$t('remove_user')"
@@ -30,34 +21,35 @@
       aria-label="Cancel"
       @click="confirmDelete"
     />
-    <Button
-      v-tooltip="$t('edit_user')"
-      icon="pi pi-pencil"
-      severity="help"
-      rounded
-      aria-label="Favorite"
-      @click="edit_visible = true"
-    />
+    <router-link :to="{ name: 'users.edit', params: { id: user_data.id } }">
+      <Button
+        v-tooltip="$t('edit_user')"
+        icon="pi pi-pencil"
+        severity="help"
+        rounded
+        aria-label="Favorite"
+        @click="edit_visible = true"
+      />
+    </router-link>
   </div>
 </template>
 
 <script setup lang="ts">
 import ProgressSpinner from "primevue/progressspinner";
-import { type UserData } from "./entity/UserData";
+import { type UserData } from "@/utils/Users/UserData";
 import Dialog from "primevue/dialog";
 import Button from "primevue/button";
-import EditUser from "./EditUser.vue";
+import EditUser from "@/components/Users/EditUser.vue";
 
+import { ref } from "vue";
+import { useUserService } from "@/composables/Users/useUserService";
 import { useConfirm } from "primevue/useconfirm";
-import { useUserService } from "./composables/useUserService";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 const confirm = useConfirm();
 
 const { userService } = useUserService();
-
-import { ref } from "vue";
 
 const emit = defineEmits<{
   (e: "edited");

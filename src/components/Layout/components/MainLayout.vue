@@ -6,7 +6,7 @@
     :style="{ width: '25rem' }"
   >
   </Dialog>
-  <div class="flex flex-row w-full">
+  <div class="flex-row w-full flex">
     <div
       @mouseleave="toggle_panel(true)"
       @mouseenter="toggle_panel(false)"
@@ -15,7 +15,7 @@
         'w-72': static_pane || visible,
         'slide-bar': !static_pane,
       }"
-      class="hover:w-72 sticky drop-shadow-md top-0 slide-bar-container z-40 left-0 w-16 p-3 pr-0 h-screen overflow-auto bg-darkblue text-wood"
+      class="hidden md:block hover:w-72 sticky drop-shadow-md top-0 slide-bar-container z-40 left-0 w-16 p-3 pr-0 h-screen overflow-auto bg-darkblue text-wood"
     >
       <div class="flex flex-col">
         <div
@@ -71,7 +71,7 @@
         </div>
       </div>
     </div>
-    <div class="min-h-screen w-full pl-14" :class="{ 'pl-72': static_pane }">
+    <div class="min-h-screen w-full md:pl-14" :class="{ 'pl-72': static_pane }">
       <div
         class="flex flex-row mb-3 p-2 border-gray-200 border rounded-lg gap-4 flex-1 justify-end"
       >
@@ -145,7 +145,8 @@ provide("activatedPanel", activePanel);
 
 <style scoped>
 .slide-bar-container {
-  position: fixed;
+  position: sticky;
+  top: 0;
   transition: all 0.1s ease-out 0.05s;
 }
 

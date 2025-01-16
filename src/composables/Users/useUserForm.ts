@@ -1,5 +1,5 @@
+import { Validators } from "@/utils/Users/form_control/Validators";
 import { reactive, watch } from "vue";
-import { Validators } from "../entity/form_control/Validators";
 export function useUserForm(
   name?: string,
   last_name?: string,
