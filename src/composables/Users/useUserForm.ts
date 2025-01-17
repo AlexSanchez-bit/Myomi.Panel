@@ -5,7 +5,6 @@ export function useUserForm(
   last_name?: string,
   email?: string,
   password?: string,
-  password_confirm?: string,
 ) {
   const { _name, _last_name, _email, _password, _password_confirm } = {
     _name: reactive({ value: name, validity: !!name, touched: !!name }),
@@ -19,11 +18,6 @@ export function useUserForm(
       value: password,
       validity: false,
       touched: !!password,
-    }),
-    _password_confirm: reactive({
-      value: password_confirm,
-      validity: false,
-      touched: !!password_confirm,
     }),
   };
 
@@ -53,19 +47,6 @@ export function useUserForm(
       _password.validity =
         Validators.required(_password.value) &&
         Validators.min(_password.value, 6);
-      _password_confirm.validity = Validators.equals_to(
-        _password_confirm.value,
-        _password.value,
-      );
-    },
-  );
-  watch(
-    () => _password_confirm.value,
-    (_new, _old) => {
-      _password_confirm.validity = Validators.equals_to(
-        _password_confirm.value,
-        _password.value,
-      );
     },
   );
 
@@ -74,6 +55,5 @@ export function useUserForm(
     last_name: _last_name,
     email: _email,
     password: _password,
-    password_confirm: _password_confirm,
   };
 }

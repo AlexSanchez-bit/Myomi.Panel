@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import Actions from "@/components/Users/Actions.vue";
+import Avatar from "primevue/avatar";
 import Table from "@/utils/Table.vue";
 import { table_configs } from "./tableconfig";
 import { useUserService } from "@/composables/Users/useUserService";
 import Button from "primevue/button";
-import Dialog from "primevue/dialog";
-import AddUser from "@/components/Users/AddUser.vue";
 
 import { ref } from "vue";
 
@@ -15,16 +14,11 @@ function formatDate(date_str: string) {
   return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
 }
 
-const create_active = ref(false);
 const table = ref();
 
-function refresh() {
+const refresh = () => {
   table.value.refresh();
-}
-
-function open_create_user() {
-  create_active.value = true;
-}
+};
 </script>
 <template>
   <div>
@@ -51,12 +45,18 @@ function open_create_user() {
       </template>
 
       <template #column-actions="{ data }">
-        <Actions
-          :user_data="data"
-          @removed="refresh"
-          @edited="refresh"
-          v-if="data"
-        ></Actions>
+        <Actions :user_data="data" @removed="refresh" v-if="data"></Actions>
+      </template>
+      <template #column-name="{ data }">
+        <div v-if="data" class="flex flex-row items-center">
+          <Avatar
+            :image="data?.profile_picture"
+            class="mr-2"
+            size="large"
+            shape="circle"
+          />
+          {{ data?.name }}
+        </div>
       </template>
 
       <template #column-created_at="{ data }">

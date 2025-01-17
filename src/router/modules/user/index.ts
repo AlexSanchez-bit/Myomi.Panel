@@ -7,7 +7,7 @@ export const userRoutes = [
   {
     path: "users/:id/edit",
     name: "users.edit",
-    component: () => import("@/pages/users/[id].vue"),
+    component: () => import("@/components/Users/CreateOrModify.vue"),
     props: (route) => ({
       mode: "edit",
       user_id: route.params.id,
@@ -16,7 +16,7 @@ export const userRoutes = [
   {
     path: "users/create",
     name: "users.create",
-    component: () => import("@/pages/users/create.vue"),
+    component: () => import("@/components/Users/CreateOrModify.vue"),
     props: () => ({
       mode: "create",
     }),

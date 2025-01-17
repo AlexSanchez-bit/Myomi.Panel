@@ -15,7 +15,7 @@
         'w-72': static_pane || visible,
         'slide-bar': !static_pane,
       }"
-      class="hidden md:block hover:w-72 sticky drop-shadow-md top-0 slide-bar-container z-40 left-0 w-16 p-3 pr-0 h-screen overflow-auto bg-darkblue text-wood"
+      class="hover:w-72 sticky drop-shadow-md top-0 left-0 slide-bar-container z-40 w-16 p-3 pr-0 h-screen overflow-auto bg-darkblue text-wood"
     >
       <div class="flex flex-col">
         <div
@@ -71,7 +71,7 @@
         </div>
       </div>
     </div>
-    <div class="min-h-screen w-full md:pl-14" :class="{ 'pl-72': static_pane }">
+    <div class="min-h-screen w-full">
       <div
         class="flex flex-row mb-3 p-2 border-gray-200 border rounded-lg gap-4 flex-1 justify-end"
       >
@@ -79,7 +79,9 @@
         <LanguageSelector />
       </div>
 
-      <router-view></router-view>
+      <div class="px-3">
+        <router-view></router-view>
+      </div>
     </div>
   </div>
 </template>

@@ -1,205 +1,285 @@
 <template>
-  <div class="rounded-lg overflow-hidden relative">
-    <!-- Loading Spinner -->
-    <div
-      class="absolute w-full h-full flex justify-center items-center z-10"
-      v-if="loading"
-    >
-      <ProgressSpinner
-        style="width: 50px; height: 50px"
-        strokeWidth="8"
-        fill="var(--surface-ground)"
-        animationDuration=".5s"
-        aria-label="Custom ProgressSpinner"
+  <!-- Foto de Perfil -->
+  <div class="flex justify-start mb-4">
+    <div class="relative">
+      <img
+        :src="profileImage ?? '/extras/defaultprofile.jpg'"
+        alt=""
+        class="w-24 h-24 rounded-full border border-gray-300 object-cover"
       />
-    </div>
-
-    <!-- Header -->
-    <header
-      class="bg-darkblue text-wood font-albra-serif-bold py-5 text-3xl rounded-t-lg text-center px-4"
-    >
-      <h1>
-        {{ mode === "create" ? $t("user_creation") : $t("user_edition") }}
-      </h1>
-    </header>
-
-    <!-- Form -->
-    <div class="flex flex-col gap-6 p-5 px-11 bg- items-center text-brick">
-      <!-- Name -->
-      <FloatLabel class="flex-1">
-        <InputText
-          id="username"
-          class="flex-1"
-          v-model="name.value"
-          :invalid="!name.validity && name.touched"
-          @click="name.touched = true"
-          @input="name.touched = true"
-        />
-        <label for="username">{{ $t("name") }}</label>
-      </FloatLabel>
-
-      <!-- Last Name -->
-      <FloatLabel class="flex-1">
-        <InputText
-          id="last_name"
-          class="flex-1"
-          v-model="last_name.value"
-          :invalid="!last_name.validity && last_name.touched"
-          @click="last_name.touched = true"
-          @input="last_name.touched = true"
-        />
-        <label for="last_name">{{ $t("last_name") }}</label>
-      </FloatLabel>
-
-      <!-- Email -->
-      <FloatLabel class="flex-1">
-        <InputText
-          id="email"
-          class="flex-1"
-          v-model="email.value"
-          :invalid="!email.validity && email.touched"
-          @click="email.touched = true"
-          @input="email.touched = true"
-        />
-        <label for="email">{{ $t("email") }}</label>
-      </FloatLabel>
-
-      <!-- Password Fields (Only for Create Mode) -->
-      <div v-if="mode === 'create'">
-        <FloatLabel class="flex-1">
-          <InputText
-            id="passw"
-            class="flex-1"
-            v-model="password.value"
-            :invalid="!password.validity && password.touched"
-            @click="password.touched = true"
-            @input="password.touched = true"
-          />
-          <label for="passw">{{ $t("password") }}</label>
-        </FloatLabel>
-
-        <FloatLabel class="flex-1">
-          <InputText
-            id="passwC"
-            class="flex-1"
-            v-model="password_confirm.value"
-            :invalid="!password_confirm.validity && password_confirm.touched"
-            @click="password_confirm.touched = true"
-            @input="password_confirm.touched = true"
-          />
-          <label for="passwC">{{ $t("password_confirm") }}</label>
-        </FloatLabel>
-
-        <small
-          class="text-xs text-red-500"
-          v-if="
-            !password_confirm.validity &&
-            (password_confirm.touched || password.touched)
-          "
-        >
-          {{ $t("passwords_dont_match") }}
-        </small>
-      </div>
-
-      <!-- Action Buttons -->
-      <div class="flex flex-row gap-5">
-        <Button
-          severity="primary"
-          :disabled="!formValid"
-          :icon="mode === 'create' ? 'pi pi-check' : 'pi pi-pencil'"
-          :label="mode === 'create' ? $t('create') : $t('edit')"
-          @click="handleSubmit"
-        />
-        <Button severity="secondary" :label="$t('cancel')" @click="closeCb" />
-      </div>
+      <input
+        type="file"
+        accept="image/*"
+        class="absolute inset-0 opacity-0 cursor-pointer"
+        @change="onProfileImageChange"
+      />
+      <i
+        class="pi pi-upload pi-2x absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-darkblue"
+      ></i>
     </div>
   </div>
+
+  <form @submit.prevent="submitForm" class="space-y-4">
+    <!-- Nombre -->
+    <div>
+      <label for="name" class="block text-sm font-medium">{{
+        $t("name")
+      }}</label>
+      <InputText
+        id="name"
+        v-model="form.name"
+        :class="{ 'p-invalid': errors.name }"
+        class="w-full"
+      />
+      <small v-if="errors.name" class="text-red-500">{{
+        $t(errors.name)
+      }}</small>
+    </div>
+
+    <!-- Apellidos -->
+    <div>
+      <label for="lastName" class="block text-sm font-medium">{{
+        $t("last_name")
+      }}</label>
+      <InputText
+        id="lastName"
+        v-model="form.lastName"
+        :class="{ 'p-invalid': errors.lastName }"
+        class="w-full"
+      />
+      <small v-if="errors.lastName" class="text-red-500">{{
+        $t(errors.lastName)
+      }}</small>
+    </div>
+
+    <!-- Correo Electrónico -->
+    <div>
+      <label for="email" class="block text-sm font-medium">{{
+        $t("email")
+      }}</label>
+      <InputText
+        id="email"
+        v-model="form.email"
+        :class="{ 'p-invalid': errors.email }"
+        class="w-full"
+      />
+      <small v-if="errors.email" class="text-red-500">{{
+        $t(errors.email)
+      }}</small>
+    </div>
+
+    <!-- Número Telefónico -->
+    <div>
+      <label for="phone" class="block text-sm font-medium">{{
+        $t("phone")
+      }}</label>
+
+      <InputText
+        id="phone"
+        v-model="form.phone"
+        :class="{ 'p-invalid': errors.phone }"
+        class="w-full"
+      />
+      <small v-if="errors.phone" class="text-red-500">{{
+        $t(errors.phone)
+      }}</small>
+    </div>
+
+    <!-- Contraseña -->
+    <div class="w-full" v-if="mode == 'create'">
+      <label for="password" class="block text-sm font-medium">{{
+        $t("password")
+      }}</label>
+      <Password
+        id="password"
+        v-model="form.password"
+        :class="{ 'p-invalid': errors.password }"
+        class="w-full"
+        feedback
+      />
+      <small v-if="errors.password" class="text-red-500">{{
+        $t(errors.password)
+      }}</small>
+    </div>
+
+    <!-- Botón de Enviar -->
+    <Button
+      type="submit"
+      :label="mode === 'create' ? 'Crear Usuario' : 'Editar Usuario'"
+      icon="pi pi-user-plus"
+      class="w-full"
+      :disabled="isSubmitting"
+    />
+  </form>
 </template>
 
 <script setup lang="ts">
-import ProgressSpinner from "primevue/progressspinner";
-import FloatLabel from "primevue/floatlabel";
-import Button from "primevue/button";
-import InputText from "primevue/inputtext";
 import { ref, onMounted } from "vue";
-import { useUserForm } from "@/composables/Users/useUserForm";
+import InputText from "primevue/inputtext";
+import Password from "primevue/password";
+import Button from "primevue/button";
+
 import { useUserService } from "@/composables/Users/useUserService";
-import { type UserData } from "@/utils/Users/UserData";
+import uploadPublicFile from "@/composables/uploadPublicFile";
+import { useRouter } from "vue-router";
+const { userService: service } = useUserService();
+import { useToastStorage } from "@/stores/ToasterStorage";
+const { notify } = useToastStorage();
+
+const router = useRouter();
 
 interface Props {
   mode: "create" | "edit";
-  user_info?: UserData;
   user_id?: string;
+  createdCb?: (id: string) => void;
 }
 
 const props = defineProps<Props>();
 const { mode, user_id } = props;
 
-const { name, last_name, email, password, password_confirm } = useUserForm();
-
-const { userService } = useUserService();
-const emit = defineEmits<{ (e: "added" | "edited"): void }>();
-const loading = ref(false);
-
-const formValid = ref(false);
-
 onMounted(async () => {
-  loading.value = true;
-  const { data, error } = await userService.getUserData(user_id);
-  loading.value = false;
-  console.log(data, error);
+  if (mode == "edit") {
+    const { data, error } = await service.getUserData(user_id!);
+    if (!error) {
+      form.value = data;
+      console.log(data);
+      profileImage.value = data.profile_picture;
+    } else {
+      notify(
+        "error",
+        "Hubo un problema buscando al usuario",
+        error.message,
+        3000,
+      );
+    }
+  }
 });
 
-// Compute form validity dynamically
-formValid.value =
-  name.validity &&
-  last_name.validity &&
-  email.validity &&
-  (mode === "edit" || (password.validity && password_confirm.validity));
+// Modelo del formulario
+interface UserForm {
+  name: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  password: string;
+}
 
-async function handleSubmit() {
-  loading.value = true;
+// Estado reactivo para el formulario
+const form = ref<UserForm>({
+  name: "",
+  lastName: "",
+  email: "",
+  phone: "",
+  password: "",
+});
 
-  if (mode === "create") {
-    const data = await userService.createUser(
-      name.value,
-      email.value,
-      password.value,
-    );
-    loading.value = false;
-    if (data) {
-      emit("added");
-      closeCb();
+// Validaciones y errores
+const errors = ref<Record<string, string>>({});
+const isSubmitting = ref(false);
+
+// Foto de perfil
+const profileImage = ref<string | null>(null);
+const profileImageFile = ref<File | null>(null);
+
+function validateForm() {
+  errors.value = {};
+
+  // Validar nombre
+  if (!form.value.name.trim()) {
+    errors.value.name = "El nombre es obligatorio.";
+  }
+
+  // Validar correo electrónico
+  if (!form.value.email.trim()) {
+    errors.value.email = "El correo electrónico es obligatorio.";
+  } else if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(form.value.email)) {
+    errors.value.email = "El correo electrónico no es válido.";
+  }
+
+  // Validar contraseña
+  if (mode == "create") {
+    if (!form.value.password.trim()) {
+      errors.value.password = "La contraseña es obligatoria.";
+    } else if (form.value.password.length < 6) {
+      errors.value.password = "La contraseña debe tener al menos 6 caracteres.";
     }
-  } else {
-    const error = await userService.editUser(
-      user_info!.id,
-      name.value,
-      last_name.value,
-      email.value,
-    );
-    loading.value = false;
-    if (!error) {
-      emit("edited");
-      closeCb();
-    }
+  }
+
+  return Object.keys(errors.value).length === 0;
+}
+
+function onProfileImageChange(event: Event) {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    profileImageFile.value = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      profileImage.value = reader.result as string;
+    };
+    reader.readAsDataURL(file);
   }
 }
 
-onMounted(async () => {});
+async function submitForm() {
+  if (!validateForm()) return;
+
+  let imageUrl = profileImage.value;
+  isSubmitting.value = true;
+  if (profileImageFile.value) {
+    imageUrl = await uploadPublicFile(profileImageFile.value);
+    if (!imageUrl) {
+      notify("error", "", "Error al subir la imagen", 3000);
+      isSubmitting.value = false;
+      return;
+    }
+  }
+
+  if (mode == "create") {
+    const { error, user } = await service.createUser(
+      form.value.name,
+      form.value.lastName,
+      form.value.email,
+      form.value.phone,
+      form.value.password,
+      imageUrl,
+    );
+
+    if (!error) {
+      notify("success", "", "Usuario creado", 3000);
+      props.createdCb?.(user.id);
+
+      router.push({ name: "users" });
+    } else {
+      notify("error", "", error, 3000);
+    }
+    isSubmitting.value = false;
+  }
+
+  if (mode == "edit") {
+    const error = await service.updateUser(
+      user_id,
+      form.value.name,
+      form.value.email,
+      form.value.lastName,
+      form.value.phone,
+      imageUrl,
+    );
+
+    if (!error) {
+      notify("success", "", "Usuario editado", 3000);
+      router.push({ name: "users" });
+    } else {
+      notify("error", "", error.message, 3000);
+    }
+    isSubmitting.value = false;
+  }
+}
 </script>
 
 <style>
-/* Override PrimeVue button styles */
-.p-button.p-button-primary {
-  background-color: var(--primary-color-grass) !important;
-  border-color: var(--primary-color-sea) !important;
-  color: var(--primary-color-wood) !important;
-}
-
-.p-button.p-button-secondary {
-  background-color: var(--secondary-color-darkblue) !important;
-  border-color: var(--secondary-color-darkblue) !important;
-  color: var(--secondary-color-darkblue) !important;
+/* Estilo adicional para inputs inválidos */
+.p-invalid {
+  border-color: #f87171 !important;
+  box-shadow: 0 0 0 1px #f87171 !important;
 }
 </style>

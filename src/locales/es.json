@@ -1,4 +1,5 @@
 {
+  "phone": "Numero de Telefono",
   "actions": "Acciones",
   "Newsletter": "Newsletter",
   "email": "Correo",
@@ -21,5 +22,19 @@
   "user_creation": "Creación de Usuarios",
   "user_edition": "Edición de Usuarios",
   "create": "Crear",
-  "edit": "Editar"
+  "edit": "Editar",
+  "general_info": "Información General",
+  "claims": "Permisos",
+  "permission_selector": "Seleccione los Permisos",
+  "select_a_claim": "Seleccionar",
+  "selected_claims": "Permisos Seleccionados",
+  "add": "Añadir",
+  "save": "Guardar",
+  "permissions": {
+    "READ_USER": "Ver Usuarios",
+    "WRITE_USER": "Modificar Usuarios",
+    "READ_CATEGORY": "Ver Categorías",
+    "WRITE_CATEGORY": "Asignar Categorías",
+    "WRITE_CLAIM": "Asignar Permisos"
+  }
 }

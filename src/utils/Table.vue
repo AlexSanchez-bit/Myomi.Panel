@@ -302,7 +302,6 @@ const getAllTotalCount = (
   dataService
     .getAllTotalCount(filter, pagination, order)
     .then((response: { data: any[]; totalCount: number }) => {
-      loading.value = false;
       totalCount.value = response.totalCount;
       const void_rows = pagination.ammount - response.data.length;
       for (let i = 0; i < void_rows; i++) {
@@ -315,6 +314,10 @@ const getAllTotalCount = (
         aux[ele] = typeof products.value[0][ele];
       });
       keys.value = Object.keys(aux);
+      loading.value = false;
+    })
+    .catch((error: any) => {
+      loading.value = false;
     });
 };
 
@@ -394,11 +397,9 @@ function buildFilters() {
 }
 
 const refresh = (): void => {
-  loading.value = true;
   const tmp_filters = buildFilters();
   emit("filtersChange", filtersToExport, dateFilters.value);
   getAllTotalCount(tmp_filters, pagination, sortOrder.value as Sorter[]);
-  loading.value = false;
 };
 
 let exportCallBack: () => void;

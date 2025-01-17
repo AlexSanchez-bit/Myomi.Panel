@@ -1,17 +1,4 @@
 <template>
-  <div
-    v-if="loading"
-    class="fixed w-screen h-screen top-0 left-0 flex justify-center items-center z-20"
-  >
-    <ProgressSpinner
-      style="width: 50px; height: 50px"
-      strokeWidth="8"
-      fill="var(--primary-color-brick)"
-      animationDuration=".5s"
-      aria-label="Custom ProgressSpinner"
-    />
-  </div>
-
   <div class="flex flex-row gap-4">
     <Button
       v-tooltip="$t('remove_user')"
@@ -35,11 +22,8 @@
 </template>
 
 <script setup lang="ts">
-import ProgressSpinner from "primevue/progressspinner";
 import { type UserData } from "@/utils/Users/UserData";
-import Dialog from "primevue/dialog";
 import Button from "primevue/button";
-import EditUser from "@/components/Users/EditUser.vue";
 
 import { ref } from "vue";
 import { useUserService } from "@/composables/Users/useUserService";
@@ -52,7 +36,6 @@ const confirm = useConfirm();
 const { userService } = useUserService();
 
 const emit = defineEmits<{
-  (e: "edited");
   (e: "removed");
 }>();
 
@@ -62,10 +45,6 @@ interface Props {
 const props = defineProps<Props>();
 const edit_visible = ref(false);
 const { user_data } = props;
-
-function edited() {
-  emit("edited");
-}
 
 const loading = ref(false);
 
@@ -80,8 +59,9 @@ const confirmDelete = () => {
     acceptClass: "p-button-danger",
     accept: async () => {
       loading.value = true;
-      const error = await userService.deleteUser(user_data.id);
+      const { error } = await userService.deleteUser(user_data.id);
       loading.value = false;
+
       if (!error) {
         emit("removed");
       }
