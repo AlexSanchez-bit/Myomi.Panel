@@ -34,7 +34,7 @@
       </h3>
     </div>
   </Dialog>
-  <div class="px-4 flex-1">
+  <div class="flex-1">
     <DataTable
       lazy
       v-model:filters="filters!"

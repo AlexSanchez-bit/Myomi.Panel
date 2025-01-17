@@ -12,10 +12,10 @@
       @mouseenter="toggle_panel(false)"
       v-bind:class="{
         closed: !visible && !static_pane,
-        'w-72': static_pane || visible,
+        '!w-72 p-3 pl-0': static_pane || visible,
         'slide-bar': !static_pane,
       }"
-      class="hover:w-72 sticky drop-shadow-md top-0 left-0 slide-bar-container z-40 w-16 p-3 pr-0 h-screen overflow-auto bg-darkblue text-wood"
+      class="hover:w-72 drop-shadow-md top-0 slide-bar-container z-40 left-0 w-0 md:w-16 md:pl-3 md:py-3 pr-0 overflow-auto bg-darkblue text-wood"
     >
       <div class="flex flex-col">
         <div
@@ -23,7 +23,7 @@
           v-show="visible || static_pane"
         >
           <div
-            class="flex text-wood flex-col place-items-center transition-transform"
+            class="hidden md:flex text-wood flex-col place-items-center transition-transform"
             @click="toggle_static_pane"
             :class="static_pane ? [] : ['rotate-45']"
           >
@@ -73,13 +73,23 @@
     </div>
     <div class="min-h-screen w-full">
       <div
-        class="flex flex-row mb-3 p-2 border-gray-200 border rounded-lg gap-4 flex-1 justify-end"
+        class="flex flex-row mb-3 p-2 border-gray-200 border rounded-lg gap-4 flex-1 justify-between"
       >
-        <Menubar class="border-none" breakpoint="100px" :model="items" />
-        <LanguageSelector />
+        <Button
+          :icon="!static_pane ? 'pi pi-chevron-right' : ' pi pi-chevron-left'"
+          @click="toggle_static_pane"
+          class="block md:hidden"
+          severity="secondary"
+          aria-label="Bookmark"
+        />
+        <span></span>
+        <div class="flex flex-row gap-2">
+          <Menubar class="border-none" breakpoint="100px" :model="items" />
+          <LanguageSelector />
+        </div>
       </div>
 
-      <div class="px-3">
+      <div class="md:px-3">
         <router-view></router-view>
       </div>
     </div>
@@ -87,6 +97,8 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from "vue-i18n";
+import Button from "primevue/button";
 import LanguageSelector from "../../LanguageSelector.vue";
 import StaticMenu from "./StaticMenu.vue";
 import { MenuList } from "../entities/MenuList";
@@ -118,8 +130,6 @@ const userName = computed<string>(() => {
   return authService.userData.user.email;
 });
 
-import { useI18n } from "vue-i18n";
-
 const { t } = useI18n();
 
 const items = ref([
@@ -148,6 +158,9 @@ provide("activatedPanel", activePanel);
 <style scoped>
 .slide-bar-container {
   position: sticky;
+  flex-shrink: 0;
+  flex: grow 1;
+  height: 100dvh;
   top: 0;
   transition: all 0.1s ease-out 0.05s;
 }
