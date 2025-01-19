@@ -12,4 +12,13 @@ export const categoryRoutes = [
       mode: "create",
     },
   },
+  {
+    path: "categories/:id/edit",
+    name: "categories.edit",
+    component: () => import("@/components/Shop/Categories/CreateOrModify.vue"),
+    props: (route) => ({
+      mode: "edit",
+      category_id: route.params.id,
+    }),
+  },
 ];

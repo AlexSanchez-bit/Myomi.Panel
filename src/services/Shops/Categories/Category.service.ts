@@ -3,7 +3,12 @@ import { supabase } from "@/setup";
 
 export class CategoryService extends TableService<any> {
   constructor() {
-    super("category", ["id", "name", "icon", "category(name)"]);
+    super("category", [
+      "id",
+      "name",
+      "icon",
+      "category:parent(id, name),created_at ",
+    ]);
   }
 
   public buildSelect() {

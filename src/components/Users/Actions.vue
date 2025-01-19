@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-row gap-4">
     <Button
-      v-tooltip="$t('remove_user')"
+      v-tooltip="$t('remove')"
       icon="pi pi-trash"
       severity="danger"
       rounded

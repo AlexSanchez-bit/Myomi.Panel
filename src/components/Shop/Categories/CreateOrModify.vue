@@ -21,7 +21,7 @@
     </div>
   </div>
 
-  <form @submit.prevent="submitForm" class="space-y-4">
+  <form @submit.prevent="submitForm" class="space-y-4 mb-4">
     <!-- Nombre -->
     <div>
       <label for="name" class="block text-sm font-medium">{{
@@ -138,8 +138,7 @@ onMounted(async () => {
     const { data, error } = await service.getDetails(category_id!);
     if (!error) {
       form.value = data;
-      console.log(data);
-      profileImage.value = data.profile_picture;
+      profileImage.value = data.icon;
     } else {
       notify(
         "error",
@@ -236,8 +235,8 @@ async function submitForm() {
     );
 
     if (!error) {
-      notify("success", "", "Usuario editado", 3000);
-      router.push({ name: "users" });
+      notify("success", "", "Categoría editada", 3000);
+      router.push({ name: "categories" });
     } else {
       notify("error", "", error.message, 3000);
     }

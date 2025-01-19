@@ -15,23 +15,8 @@ export const table_configs: ColumnData[] = [
     sorteable: false,
   },
   {
-    field: "phone_number",
-    header: "phone",
-    filter: {
-      matchMode: FilterMatchMode.CONTAINS,
-      value: null,
-    },
-    sorteable: false,
-  },
-
-  {
-    field: "email",
-    header: "email",
-    filter: {
-      matchMode: FilterMatchMode.CONTAINS,
-      value: null,
-    },
-    sorteable: false,
+    field: "category",
+    header: "parent",
   },
   {
     field: "created_at",

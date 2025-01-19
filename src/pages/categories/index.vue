@@ -7,6 +7,11 @@ import Button from "primevue/button";
 import { ref } from "vue";
 import { useCategoryService } from "@/composables/Shop/Category/useCategoryService";
 
+const deleteCategory = async (id: string) => {
+  alert();
+  console.log(id);
+};
+
 const service = useCategoryService();
 function formatDate(date_str: string) {
   const date = new Date(date_str);
@@ -47,21 +52,21 @@ const refresh = () => {
         <Actions
           :id="data.id"
           :editRoute="`/categories/${data.id}/edit`"
-          :remove-cb="service.deleteCategory"
+          :delete-cb="service.deleteCategory"
           @removed="refresh"
           v-if="data"
         ></Actions>
       </template>
       <template #column-name="{ data }">
         <div v-if="data" class="flex flex-row items-center">
-          {{ data }}
-          <Avatar
-            :image="data?.icon"
-            class="mr-2"
-            size="large"
-            shape="circle"
-          />
+          <Avatar :image="data?.icon" class="mr-2" size="large" />
           {{ data?.name }}
+        </div>
+      </template>
+
+      <template #column-category="{ data }">
+        <div class="flex flex-row items-center">
+          {{ data?.category?.name }}
         </div>
       </template>
 
