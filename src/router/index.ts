@@ -3,6 +3,7 @@ import MainLayout from "../components/Layout/components/MainLayout.vue";
 import { useAuthStore } from "@/stores/AuthStore";
 import { useSplashStore } from "@/stores/SplashScreen";
 import { userRoutes } from "./modules/user";
+import { shopRoutes } from "./modules/shop";
 
 const router = createRouter({
   history: createWebHistory("#"),
@@ -18,6 +19,7 @@ const router = createRouter({
           component: () => import("@/components/Default/Default.vue"),
         },
         ...userRoutes,
+        ...shopRoutes,
       ],
     },
     {

@@ -30,6 +30,8 @@
   "selected_claims": "Permisos Seleccionados",
   "add": "Añadir",
   "save": "Guardar",
+  "Shop": "Tienda",
+  "Administrative": "Administrativo",
   "permissions": {
     "READ_USER": "Ver Usuarios",
     "WRITE_USER": "Modificar Usuarios",

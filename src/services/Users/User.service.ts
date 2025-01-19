@@ -61,7 +61,6 @@ export class UserService extends TableService<any> {
       .update({ name, email, phone_number: phone, profile_picture, last_name })
       .eq("id", id);
 
-    console.log(error, id, name, email, last_name, phone, profile_picture);
     if (error) {
       this.notify.notify("error", "", error.message, 3000);
     }
@@ -70,6 +69,6 @@ export class UserService extends TableService<any> {
   }
 
   async deleteUser(id: string) {
-    return await supabase.from(this.tablename).delete().eq("id", id);
+    return await supabase.from("user").delete().eq("id", id);
   }
 }

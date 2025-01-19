@@ -1,13 +1,12 @@
 <template>
   <Button
     type="button"
-    class="bg-transparent text-darkblue border-none"
+    class="bg-transparent text-darkblue border-none !p-0"
     @click="toggle"
     aria-haspopup="true"
     aria-controls="overlay_menu"
   >
     <img :src="'/' + language + '.svg'" class="w-6 h-5" alt="" />
-    {{ translatedLang }}
   </Button>
   <Menu ref="menu" id="overlay_menu" :model="items" :popup="true">
     <template #item="{ item }">

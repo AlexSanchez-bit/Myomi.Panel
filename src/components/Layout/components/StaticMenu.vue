@@ -4,7 +4,7 @@
       v-bind:class="{ 'main-menu-text-activated': activated }"
       class="mt-4 mb-2 main-menu-text truncate text-gray-200"
     >
-      {{ menu.name }}
+      {{ $t(menu.name) }}
     </p>
     <div class="flex flex-col gap-3">
       <NormalMenu :menuItems="menu.childrenMenu" />

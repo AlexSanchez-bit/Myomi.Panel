@@ -8,43 +8,41 @@
       aria-label="Cancel"
       @click="confirmDelete"
     />
-    <router-link :to="{ name: 'users.edit', params: { id: user_data.id } }">
-      <Button
-        v-tooltip="$t('edit_user')"
-        icon="pi pi-pencil"
-        severity="help"
-        rounded
-        aria-label="Favorite"
-        @click="edit_visible = true"
-      />
-    </router-link>
+    <slot>
+      <router-link :to="props.editRoute">
+        <Button
+          v-tooltip="$t('edit_user')"
+          icon="pi pi-pencil"
+          severity="help"
+          rounded
+          aria-label="Favorite"
+          @click="edit_visible = true"
+        />
+      </router-link>
+    </slot>
   </div>
 </template>
 
 <script setup lang="ts">
-import { type UserData } from "@/utils/Users/UserData";
 import Button from "primevue/button";
-
 import { ref } from "vue";
-import { useUserService } from "@/composables/Users/useUserService";
 import { useConfirm } from "primevue/useconfirm";
 import { useI18n } from "vue-i18n";
 
 const { t } = useI18n();
 const confirm = useConfirm();
 
-const { userService } = useUserService();
-
 const emit = defineEmits<{
   (e: "removed");
 }>();
 
 interface Props {
-  user_data: UserData;
+  id: string | number;
+  deleteCb: (id: string | number) => Promise<any>;
+  editRoute?: string;
 }
 const props = defineProps<Props>();
 const edit_visible = ref(false);
-const { user_data } = props;
 
 const loading = ref(false);
 
@@ -59,7 +57,7 @@ const confirmDelete = () => {
     acceptClass: "p-button-danger",
     accept: async () => {
       loading.value = true;
-      const { error } = await userService.deleteUser(user_data.id);
+      const { error } = await props.deleteCb(props.id);
       loading.value = false;
 
       if (!error) {

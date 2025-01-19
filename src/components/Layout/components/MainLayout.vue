@@ -6,7 +6,7 @@
     :style="{ width: '25rem' }"
   >
   </Dialog>
-  <div class="flex-row w-full flex">
+  <div class="flex-row flex w-full max-w-[100dvw]">
     <div
       @mouseleave="toggle_panel(true)"
       @mouseenter="toggle_panel(false)"
@@ -71,9 +71,9 @@
         </div>
       </div>
     </div>
-    <div class="min-h-screen w-full">
+    <div class="min-h-screen flex-shrink flex-grow">
       <div
-        class="flex flex-row mb-3 p-2 border-gray-200 border rounded-lg gap-4 flex-1 justify-between"
+        class="flex flex-row mb-3 py-2 border-gray-200 border rounded-lg gap-4 justify-between px-2"
       >
         <Button
           :icon="!static_pane ? 'pi pi-chevron-right' : ' pi pi-chevron-left'"
@@ -83,8 +83,8 @@
           aria-label="Bookmark"
         />
         <span></span>
-        <div class="flex flex-row gap-2">
-          <Menubar class="border-none" breakpoint="100px" :model="items" />
+        <div class="flex flex-row gap-0.5">
+          <Menubar class="border-none p-0" breakpoint="100px" :model="items" />
           <LanguageSelector />
         </div>
       </div>

@@ -45,7 +45,13 @@ const refresh = () => {
       </template>
 
       <template #column-actions="{ data }">
-        <Actions :user_data="data" @removed="refresh" v-if="data"></Actions>
+        <Actions
+          :id="data.id"
+          :delete-cb="userService.deleteUser"
+          :editRoute="`/users/${data.id}/edit`"
+          @removed="refresh"
+          v-if="data"
+        ></Actions>
       </template>
       <template #column-name="{ data }">
         <div v-if="data" class="flex flex-row items-center">

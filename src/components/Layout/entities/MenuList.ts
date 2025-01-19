@@ -3,7 +3,7 @@ import { type MenuListItem } from "./MenuListItem";
 
 export const MenuList: MenuListItem[] = [
   {
-    name: "Administrativo",
+    name: "Administrative",
     icon: "",
     router_direction: "",
     type: GroupMenuType.Static,
@@ -12,6 +12,20 @@ export const MenuList: MenuListItem[] = [
         name: "Users",
         icon: "pi pi-user",
         router_direction: "/users",
+        type: GroupMenuType.Normal,
+      },
+    ],
+  },
+  {
+    name: "Shop",
+    icon: "",
+    router_direction: "",
+    type: GroupMenuType.Static,
+    childrenMenu: [
+      {
+        name: "categories",
+        icon: "pi pi-ticket",
+        router_direction: "/categories",
         type: GroupMenuType.Normal,
       },
     ],

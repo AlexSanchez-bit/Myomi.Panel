@@ -122,14 +122,6 @@ export abstract class TableService<T> {
       data = [keys];
       return [];
     }
-    if (data?.length == 0) {
-      const keys: any = {} as any;
-      for (let field of this.search_fields) {
-        keys[field] = null as any;
-      }
-
-      data = [keys];
-    }
     return data as any[];
   }
 

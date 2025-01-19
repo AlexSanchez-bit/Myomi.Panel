@@ -4,6 +4,9 @@ export interface IGenericCreate<T> {
 export interface IGenericList<T> {
   getAll(page: number, limit: number, filter: any): Promise<T[]>;
 }
+export interface IGenericRemove {
+  remove(id: string): Promise<any>;
+}
 
 export interface IGenericCrud<T> extends IGenericCreate<T>, IGenericList<T> {
   getDetail(id: string): Promise<T>;
