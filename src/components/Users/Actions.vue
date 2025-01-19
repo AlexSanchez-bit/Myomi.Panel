@@ -11,7 +11,7 @@
     <slot>
       <router-link :to="props.editRoute">
         <Button
-          v-tooltip="$t('edit_user')"
+          v-tooltip="$t('edit')"
           icon="pi pi-pencil"
           severity="help"
           rounded

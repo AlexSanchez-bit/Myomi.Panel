@@ -13,6 +13,9 @@
   "Delete": "Eliminar",
   "create_user": "Crear Usuario",
   "edit_user": "Editar Usuario",
+  "user_created": "Usuario creado",
+  "user_edited": "Usuario editado",
+  "permissions_updated": "Permisos actualizados",
   "remove_user": "Eliminar Usuario",
   "name": "Nombre",
   "last_name": "Apellidos",
@@ -27,7 +30,10 @@
   "claims": "Permisos",
   "permission_selector": "Seleccione los Permisos",
   "select_a_claim": "Seleccionar",
+  "created": "Creado",
+  "edited": "Editado",
   "selected_claims": "Permisos Seleccionados",
+  "description": "Descripción",
   "add": "Añadir",
   "save": "Guardar",
   "Shop": "Tienda",
@@ -38,5 +44,8 @@
     "READ_CATEGORY": "Ver Categorías",
     "WRITE_CATEGORY": "Asignar Categorías",
     "WRITE_CLAIM": "Asignar Permisos"
-  }
+  },
+  "materials": "Ingredientes",
+  "material": "Ingrediente",
+  "create_material": "Crear Ingrediente"
 }

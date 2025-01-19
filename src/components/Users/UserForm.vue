@@ -105,7 +105,11 @@
     <!-- Botón de Enviar -->
     <Button
       type="submit"
-      :label="mode === 'create' ? 'Crear Usuario' : 'Editar Usuario'"
+      :label="
+        mode === 'create'
+          ? $t('create') + ' ' + $t('user')
+          : $t('edit') + ' ' + $t('user')
+      "
       icon="pi pi-user-plus"
       class="w-full"
       :disabled="isSubmitting"
@@ -124,6 +128,7 @@ import uploadPublicFile from "@/composables/uploadPublicFile";
 import { useRouter } from "vue-router";
 const { userService: service } = useUserService();
 import { useToastStorage } from "@/stores/ToasterStorage";
+import { useI18n } from "vue-i18n";
 const { notify } = useToastStorage();
 
 const router = useRouter();
@@ -220,6 +225,8 @@ function onProfileImageChange(event: Event) {
   }
 }
 
+const { t } = useI18n();
+
 async function submitForm() {
   if (!validateForm()) return;
 
@@ -245,7 +252,7 @@ async function submitForm() {
     );
 
     if (!error) {
-      notify("success", "", "Usuario creado", 3000);
+      notify("success", "", t("user_created"), 3000);
       props.createdCb?.(user.id);
 
       router.push({ name: "users" });
@@ -266,7 +273,7 @@ async function submitForm() {
     );
 
     if (!error) {
-      notify("success", "", "Usuario editado", 3000);
+      notify("success", "", t("user_edited"), 3000);
       router.push({ name: "users" });
     } else {
       notify("error", "", error.message, 3000);

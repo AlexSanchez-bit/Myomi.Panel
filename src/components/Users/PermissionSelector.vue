@@ -73,6 +73,7 @@ import Button from "primevue/button";
 import { useUserPermisionService } from "@/composables/Users/useUserPermisionService";
 
 import { useToastStorage } from "@/stores/ToasterStorage";
+import { useI18n } from "vue-i18n";
 const { notify } = useToastStorage();
 
 // Interfaz para permisos
@@ -115,6 +116,8 @@ onMounted(async () => {
   }
 });
 
+const { t } = useI18n();
+
 // Agregar un permiso
 function addPermission() {
   if (selectedPermission.value) {
@@ -146,7 +149,7 @@ async function save(id?: string) {
   );
   loading.value = false;
 
-  notify("success", "Permisos actualizados", "", 3000);
+  notify("success", t("permissions_updated"), "", 3000);
 }
 
 defineExpose({
