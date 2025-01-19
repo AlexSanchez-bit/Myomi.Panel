@@ -82,7 +82,7 @@
     <!-- Botón de Enviar -->
     <Button
       type="submit"
-      :label="mode === 'create' ? 'Crear Categoría' : 'Editar Categoría'"
+      :label="mode === 'create' ? $t('create_category') : $t('edit_category')"
       icon="pi pi-user-plus"
       class="w-full"
       :disabled="isSubmitting"
@@ -102,7 +102,10 @@ const service = useCategoryService();
 import { useToastStorage } from "@/stores/ToasterStorage";
 import { useCategoryService } from "@/composables/Shop/Category/useCategoryService";
 import { Pagination } from "@/utils/entities/Pagination";
+import { useI18n } from "vue-i18n";
 const { notify } = useToastStorage();
+
+const { t } = useI18n();
 
 const router = useRouter();
 const loading = ref(false);
@@ -216,7 +219,7 @@ async function submitForm() {
     );
 
     if (!error) {
-      notify("success", "", "Categoría creada", 3000);
+      notify("success", "", t("category_created"), 3000);
 
       router.push({ name: "categories" });
     } else {
@@ -235,7 +238,7 @@ async function submitForm() {
     );
 
     if (!error) {
-      notify("success", "", "Categoría editada", 3000);
+      notify("success", "", t("category_edited"), 3000);
       router.push({ name: "categories" });
     } else {
       notify("error", "", error.message, 3000);

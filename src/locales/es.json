@@ -47,5 +47,10 @@
   },
   "materials": "Ingredientes",
   "material": "Ingrediente",
-  "create_material": "Crear Ingrediente"
+  "create_material": "Crear Ingrediente",
+  "edit_material": "Editar Ingrediente",
+  "edit_category": "Editar Categoría",
+  "create_category": "Crear Categoría",
+  "category_created": "Categoría creada",
+  "category_edited": "Categoría editada"
 }
