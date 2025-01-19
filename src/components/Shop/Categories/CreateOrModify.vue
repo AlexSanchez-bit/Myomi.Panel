@@ -129,7 +129,7 @@ const onLazyLoad = async (event: { last: number }) => {
     null,
   );
   totalCount.value = tc;
-  categories.value = data;
+  categories.value = [...data, { id: null, name: "Ninguna" }];
 };
 
 onMounted(async () => {

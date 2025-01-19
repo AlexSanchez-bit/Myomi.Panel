@@ -28,6 +28,12 @@ export const MenuList: MenuListItem[] = [
         router_direction: "/categories",
         type: GroupMenuType.Normal,
       },
+      {
+        name: "material",
+        icon: "pi pi-wrench",
+        router_direction: "/materials",
+        type: GroupMenuType.Normal,
+      },
     ],
   },
 ];

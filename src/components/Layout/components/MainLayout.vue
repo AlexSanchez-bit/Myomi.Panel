@@ -6,18 +6,19 @@
     :style="{ width: '25rem' }"
   >
   </Dialog>
-  <div class="flex-row flex w-full max-w-[100dvw]">
+  <div class="flex flex-row w-full h-full max-w-full">
+    <!-- Sidebar -->
     <div
       @mouseleave="toggle_panel(true)"
       @mouseenter="toggle_panel(false)"
-      v-bind:class="{
+      :class="{
         closed: !visible && !static_pane,
         '!w-72 p-3 pl-0': static_pane || visible,
         'slide-bar': !static_pane,
       }"
-      class="hover:w-72 drop-shadow-md top-0 slide-bar-container z-40 left-0 w-0 md:w-16 md:pl-3 md:py-3 pr-0 overflow-auto bg-darkblue text-wood"
+      class="hover:w-72 drop-shadow-md top-0 slide-bar-container z-40 left-0 w-0 md:w-16 md:pl-3 md:py-3 pr-0 overflow-y-auto bg-darkblue text-wood"
     >
-      <div class="flex flex-col">
+      <div class="flex flex-col h-full">
         <div
           class="w-full flex flex-row justify-end pr-4"
           v-show="visible || static_pane"
@@ -34,7 +35,7 @@
           </div>
         </div>
         <section
-          v-bind:class="{ 'slide-header-visible': visible || static_pane }"
+          :class="{ 'slide-header-visible': visible || static_pane }"
           class="flex flex-row slide-header justify-center items-center pr-3"
         >
           <picture
@@ -43,9 +44,9 @@
           >
             <img
               @click="toggle_panel(false)"
-              class="cursor:pointer w-full h-full"
+              class="cursor-pointer w-full h-full"
               src="/logo/logo.png"
-              alt=" logo"
+              alt="logo"
             />
           </picture>
         </section>
@@ -71,7 +72,9 @@
         </div>
       </div>
     </div>
-    <div class="min-h-screen flex-shrink flex-grow">
+
+    <!-- Main Content -->
+    <div class="flex flex-col flex-grow min-h-screen overflow-auto">
       <div
         class="flex flex-row mb-3 py-2 border-gray-200 border rounded-lg gap-4 justify-between px-2"
       >
@@ -89,8 +92,8 @@
         </div>
       </div>
 
-      <div class="md:px-3">
-        <router-view></router-view>
+      <div class="flex-grow px-3 overflow-y-auto">
+        <router-view />
       </div>
     </div>
   </div>
@@ -246,5 +249,18 @@ provide("activatedPanel", activePanel);
 /* Hide scrollbar for Chrome, Safari and Opera */
 .slide-bar-container::-webkit-scrollbar {
   display: none;
+}
+
+/* Responsive fixes */
+@media (max-width: 768px) {
+  .slide-bar-container {
+    width: 100%;
+    position: fixed;
+    max-width: 80%;
+  }
+
+  .flex-grow {
+    overflow-y: auto;
+  }
 }
 </style>
