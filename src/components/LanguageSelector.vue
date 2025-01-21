@@ -45,8 +45,8 @@ const items = ref([
         },
       },
       {
-        label: "Deutsch",
-        icon: "du",
+        label: "한국어",
+        icon: "co",
         command: () => {
           language.value = "du";
           changeLocale("du");

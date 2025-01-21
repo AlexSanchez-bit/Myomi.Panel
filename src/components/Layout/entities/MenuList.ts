@@ -9,9 +9,15 @@ export const MenuList: MenuListItem[] = [
     type: GroupMenuType.Static,
     childrenMenu: [
       {
-        name: "Users",
+        name: "users",
         icon: "pi pi-user",
         router_direction: "/users",
+        type: GroupMenuType.Normal,
+      },
+      {
+        name: "currencies",
+        icon: "pi pi-money-bill",
+        router_direction: "/currencies",
         type: GroupMenuType.Normal,
       },
     ],

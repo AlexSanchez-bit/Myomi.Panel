@@ -2,12 +2,12 @@ import { createI18n } from "vue-i18n";
 
 import es from "./locales/es.json";
 import en from "./locales/en.json";
-import du from "./locales/du.json";
+import co from "./locales/co.json";
 
 export const i18n = createI18n({
   legacy: false,
   locale: "es",
-  messages: { es, en, du },
+  messages: { es, en, co },
 });
 
 import { createClient } from "@supabase/supabase-js";

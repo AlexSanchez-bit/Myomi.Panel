@@ -18,10 +18,11 @@ export const table_configs: ColumnData[] = [
     field: "price",
     header: "price",
     filter: {
-      matchMode: FilterMatchMode.CONTAINS,
+      matchMode: FilterMatchMode.GREATER_THAN,
       value: null,
     },
-    sorteable: false,
+    sorteable: true,
+    dataType: "number",
   },
   {
     field: "created_at",

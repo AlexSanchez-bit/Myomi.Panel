@@ -4,6 +4,7 @@ import { useAuthStore } from "@/stores/AuthStore";
 import { useSplashStore } from "@/stores/SplashScreen";
 import { userRoutes } from "./modules/user";
 import { shopRoutes } from "./modules/shop";
+import { currencyRoutes } from "./modules/currency";
 
 const router = createRouter({
   history: createWebHistory("#"),
@@ -20,6 +21,7 @@ const router = createRouter({
         },
         ...userRoutes,
         ...shopRoutes,
+        ...currencyRoutes,
       ],
     },
     {

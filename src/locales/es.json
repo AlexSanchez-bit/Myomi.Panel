@@ -66,5 +66,10 @@
   "remove": "Eliminar",
   "product_created": "Producto creado",
   "product_edited": "Producto editado",
-  "products": "Productos"
+  "products": "Productos",
+  "users": "Usuarios",
+  "currencies": "Monedas",
+  "currency": "Moneda",
+  "usd_relative_value": "Tasa de cambio",
+  "create_currency": "Crear Moneda"
 }
