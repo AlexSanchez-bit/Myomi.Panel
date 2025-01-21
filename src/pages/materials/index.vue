@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import Actions from "@/components/Users/Actions.vue";
-import Avatar from "primevue/avatar";
 import Table from "@/utils/Table.vue";
 import { table_configs } from "./tableconfig";
 import Button from "primevue/button";

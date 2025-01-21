@@ -1,15 +1,18 @@
-export interface IGenericCreate<T> {
-  create(data: T): Promise<T>;
+export interface IGenericCreate<T, R> {
+  create(data: T): Promise<R>;
 }
-export interface IGenericList<T> {
-  getAll(page: number, limit: number, filter: any): Promise<T[]>;
+export interface IGenericUpdate<T, R> {
+  update(id: string | number, data: T): Promise<R>;
 }
-export interface IGenericRemove {
-  remove(id: string): Promise<any>;
+export interface IGenericList<DR> {
+  getDetails(id: string | number): Promise<DR>;
+}
+export interface IGenericRemove<DR> {
+  remove(id: string | number): Promise<DR>;
 }
 
-export interface IGenericCrud<T> extends IGenericCreate<T>, IGenericList<T> {
-  getDetail(id: string): Promise<T>;
-  remove(id: string): Promise<void>;
-  edit(id: string, data: T): Promise<T>;
-}
+export interface IGenericCrud<T, CT, UT, CR, ER, Rr, DR>
+  extends IGenericCreate<CT, CR>,
+    IGenericList<DR>,
+    IGenericUpdate<UT, ER>,
+    IGenericRemove<Rr> {}

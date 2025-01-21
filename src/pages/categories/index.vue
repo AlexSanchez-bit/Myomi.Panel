@@ -7,11 +7,6 @@ import Button from "primevue/button";
 import { ref } from "vue";
 import { useCategoryService } from "@/composables/Shop/Category/useCategoryService";
 
-const deleteCategory = async (id: string) => {
-  alert();
-  console.log(id);
-};
-
 const service = useCategoryService();
 function formatDate(date_str: string) {
   const date = new Date(date_str);
@@ -52,7 +47,7 @@ const refresh = () => {
         <Actions
           :id="data.id"
           :editRoute="`/categories/${data.id}/edit`"
-          :delete-cb="service.deleteCategory"
+          :delete-cb="service.remove"
           @removed="refresh"
           v-if="data"
         ></Actions>

@@ -1,4 +1,10 @@
 import { categoryRoutes } from "./categories";
 import { materialRoutes } from "./materials";
 
-export const shopRoutes = [...categoryRoutes, ...materialRoutes];
+import { productsRoutes } from "./products";
+
+export const shopRoutes = [
+  ...categoryRoutes,
+  ...materialRoutes,
+  ...productsRoutes,
+];

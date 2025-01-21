@@ -24,14 +24,20 @@ export const MenuList: MenuListItem[] = [
     childrenMenu: [
       {
         name: "categories",
-        icon: "pi pi-ticket",
+        icon: "pi pi-tags",
         router_direction: "/categories",
         type: GroupMenuType.Normal,
       },
       {
         name: "material",
-        icon: "pi pi-wrench",
+        icon: "pi pi-receipt",
         router_direction: "/materials",
+        type: GroupMenuType.Normal,
+      },
+      {
+        name: "products",
+        icon: "pi pi-shopping-bag",
+        router_direction: "/products",
         type: GroupMenuType.Normal,
       },
     ],

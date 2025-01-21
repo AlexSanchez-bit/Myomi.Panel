@@ -211,12 +211,12 @@ async function submitForm() {
   }
 
   if (mode == "create") {
-    const error = await service.createCategory(
-      form.value.name,
-      form.value.parent,
-      imageUrl,
-      form.value.description,
-    );
+    const error = await service.create({
+      name: form.value.name,
+      parent: form.value.parent,
+      icon: imageUrl,
+      description: form.value.description,
+    });
 
     if (!error) {
       notify("success", "", t("category_created"), 3000);
@@ -229,13 +229,12 @@ async function submitForm() {
   }
 
   if (mode == "edit") {
-    const error = await service.updateCategory(
-      category_id,
-      form.value.name,
-      form.value.parent,
-      imageUrl,
-      form.value.description,
-    );
+    const error = await service.update(category_id, {
+      name: form.value.name,
+      parent: form.value.parent,
+      icon: imageUrl,
+      description: form.value.description,
+    });
 
     if (!error) {
       notify("success", "", t("category_edited"), 3000);

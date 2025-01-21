@@ -43,7 +43,10 @@
     "WRITE_USER": "Modificar Usuarios",
     "READ_CATEGORY": "Ver Categorías",
     "WRITE_CATEGORY": "Asignar Categorías",
-    "WRITE_CLAIM": "Asignar Permisos"
+    "WRITE_CLAIM": "Asignar Permisos",
+    "WRITE_MATERIAL": "Modificar Materiales",
+    "WRITE_PRODUCT": "Modificar Productos",
+    "WRITE_CURRENCY": "Modificar Monedas"
   },
   "materials": "Ingredientes",
   "material": "Ingrediente",
@@ -52,5 +55,16 @@
   "edit_category": "Editar Categoría",
   "create_category": "Crear Categoría",
   "category_created": "Categoría creada",
-  "category_edited": "Categoría editada"
+  "category_edited": "Categoría editada",
+  "edit_product": "Editar Producto",
+  "create_product": "Crear Producto",
+  "enter_usd_price": "Ponga el precio en USD",
+  "short_description": "Descripción Corta",
+  "long_description": "Descripción Larga",
+  "images": "Imágenes",
+  "price": "Precio",
+  "remove": "Eliminar",
+  "product_created": "Producto creado",
+  "product_edited": "Producto editado",
+  "products": "Productos"
 }
