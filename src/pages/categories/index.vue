@@ -31,7 +31,7 @@ const refresh = () => {
           <Button
             icon="pi pi-plus"
             v-tooltip.bottom="{
-              value: $t('create_user'),
+              value: $t('create_category'),
               showDelay: 100,
               hideDelay: 300,
             }"

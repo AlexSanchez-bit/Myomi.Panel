@@ -48,8 +48,8 @@ const items = ref([
         label: "한국어",
         icon: "co",
         command: () => {
-          language.value = "du";
-          changeLocale("du");
+          language.value = "co";
+          changeLocale("co");
         },
       },
     ],
@@ -60,11 +60,11 @@ const toggle = (event: any) => {
   menu.value.toggle(event);
 };
 
-const language = ref<"es" | "en" | "du">("es");
+const language = ref<"es" | "en" | "co">("es");
 
 language.value = i18n.global.locale.value;
 
-const languages = ["es", "en", "du"];
+const languages = ["es", "en", "co"];
 
 const translatedLang = computed<string>(() => {
   return translateLang(language.value);
@@ -76,8 +76,8 @@ function translateLang(lang: string): string {
       return "English";
     case "es":
       return "Español";
-    case "du":
-      return "Deutsch";
+    case "co":
+      return "한국어";
   }
 
   return "English";
@@ -87,7 +87,7 @@ watch(language, (_old, _new) => {
   changeLocale(_old);
 });
 
-const changeLocale = (locale: "en" | "es" | "du") => {
+const changeLocale = (locale: "en" | "es" | "co") => {
   i18n.global.locale.value = locale;
 };
 

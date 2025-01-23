@@ -10,6 +10,7 @@ export interface IProduct {
   short_description?: string;
   long_description?: string;
   price: number;
+  stock: number;
   images: string[];
   categories?: number[];
   materials?: number[];
@@ -17,7 +18,7 @@ export interface IProduct {
 
 export class ProductsService extends TableCrudService<IProduct> {
   constructor() {
-    super("product", ["id", "name", "price", "created_at "]);
+    super("product", ["id", "name", "price", "created_at", "stock"]);
   }
 
   public buildSelect() {

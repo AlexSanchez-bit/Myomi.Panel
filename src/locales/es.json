@@ -1,4 +1,5 @@
 {
+  "stock": "Cantidad",
   "phone": "Numero de Telefono",
   "actions": "Acciones",
   "Newsletter": "Newsletter",
@@ -71,5 +72,8 @@
   "currencies": "Monedas",
   "currency": "Moneda",
   "usd_relative_value": "Tasa de cambio",
-  "create_currency": "Crear Moneda"
+  "create_currency": "Crear Moneda",
+  "categories": "Categorías",
+  "parent": "Padre",
+  "icon": "Icono"
 }

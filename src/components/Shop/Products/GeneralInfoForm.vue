@@ -32,6 +32,21 @@
       }}</small>
       <small v-else id="price-help">{{ $t("enter_usd_price") }}</small>
     </div>
+    <div>
+      <label for="stock" class="block text-sm font-medium">{{
+        $t("stock")
+      }}</label>
+      <InputNumber
+        id="stock"
+        v-model="stock"
+        :class="{ 'p-invalid': errors.stock }"
+        class="w-full"
+        @input="stock = Math.floor(stock)"
+      />
+      <small v-if="errors.stock" class="text-red-500">{{
+        $t(errors.stock)
+      }}</small>
+    </div>
 
     <div>
       <label for="categories" class="block text-sm font-medium">{{
@@ -145,6 +160,7 @@ const name = defineModel<string>("name");
 const selected_categories = defineModel<number[]>("categories");
 const selected_materials = defineModel<number[]>("materials");
 const price = defineModel<number>("price");
+const stock = defineModel<number>("stock");
 
 // Validaciones y errores
 const errors = ref<Record<string, string>>({});
@@ -170,6 +186,15 @@ function validateForm() {
     price.value = 0;
     errors.value.price = "El precio debe ser >= a 0";
   }
+
+  if (!stock.value) {
+    stock.value = 0;
+  }
+  if (stock.value && stock.value < 0) {
+    price.value = 0;
+    errors.value.stock = "No se admiten cantidades negativas";
+  }
+
   if (selected_categories.value && selected_categories.value.length == 0) {
     errors.value.name = "Seleccione al menos una categoría";
   }

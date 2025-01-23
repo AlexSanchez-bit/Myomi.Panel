@@ -22,7 +22,17 @@ export const table_configs: ColumnData[] = [
       value: null,
     },
     sorteable: true,
-    dataType: "number",
+    dataType: "numeric",
+  },
+  {
+    field: "stock",
+    header: "stock",
+    filter: {
+      matchMode: FilterMatchMode.GREATER_THAN,
+      value: null,
+    },
+    sorteable: true,
+    dataType: "numeric",
   },
   {
     field: "created_at",
