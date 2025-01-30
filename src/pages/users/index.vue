@@ -47,7 +47,7 @@ const refresh = () => {
       <template #column-actions="{ data }">
         <Actions
           :id="data.id"
-          :delete-cb="userService.deleteUser"
+          :delete-cb="userService"
           :editRoute="`/users/${data.id}/edit`"
           @removed="refresh"
           v-if="data"

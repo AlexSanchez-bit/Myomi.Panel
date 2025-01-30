@@ -1,7 +1,8 @@
 import { TableService } from "@/utils/service/TableService";
 import { supabase } from "@/setup";
+import { TableCrudService } from "@/utils/service/TableCrudService";
 
-export class UserService extends TableService<any> {
+export class UserService extends TableCrudService<any> {
   constructor() {
     super("user", [
       "id,email,phone_number,profile_picture",
@@ -66,9 +67,5 @@ export class UserService extends TableService<any> {
     }
 
     return error;
-  }
-
-  async deleteUser(id: string) {
-    return await supabase.from("user").delete().eq("id", id);
   }
 }

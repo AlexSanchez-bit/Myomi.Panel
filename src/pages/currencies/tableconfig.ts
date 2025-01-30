@@ -15,6 +15,11 @@ export const table_configs: ColumnData[] = [
     sorteable: false,
   },
   {
+    field: "icon",
+    header: "icon",
+    sorteable: false,
+  },
+  {
     field: "change_value",
     header: "usd_relative_value",
     sorteable: true,

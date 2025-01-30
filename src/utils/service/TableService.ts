@@ -10,7 +10,7 @@ import moment from "moment-timezone";
 export abstract class TableService<T> {
   public data!: T[];
   public totalCount: number = 0;
-  protected tablename: string;
+  public tablename: string;
   protected search_fields: string[];
   protected readonly notify;
   private readonly user_id: string;

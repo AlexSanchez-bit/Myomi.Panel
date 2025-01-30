@@ -21,6 +21,11 @@ export class TableCrudService<T>
       PostgrestSingleResponse<T>
     >
 {
+  constructor(tablename: string, searchFields: string[]) {
+    super(tablename, searchFields);
+    console.log(this);
+  }
+
   async getDetails(id: string | number) {
     return await supabase
       .from(this.tablename)
@@ -41,7 +46,9 @@ export class TableCrudService<T>
 
     return error;
   }
+
   async remove(id: string | number) {
+    console.log(this);
     const { error } = await supabase.from(this.tablename).delete().eq("id", id);
     return error;
   }

@@ -5,6 +5,7 @@ import { table_configs } from "./tableconfig";
 import Button from "primevue/button";
 import { ref } from "vue";
 import { useCurrencyService } from "@/composables/Currency/useCurrencyService";
+import Avatar from "primevue/avatar";
 const service = useCurrencyService();
 
 function formatDate(date_str: string) {
@@ -46,7 +47,7 @@ const refresh = () => {
         <Actions
           :id="data.id"
           :editRoute="`/currencies/${data.id}/edit`"
-          :delete-cb="service.remove"
+          :delete-cb="service"
           @removed="refresh"
           v-if="data"
         ></Actions>
@@ -54,6 +55,17 @@ const refresh = () => {
       <template #column-name="{ data }">
         <div v-if="data" class="flex flex-row items-center">
           {{ data?.name }}
+        </div>
+      </template>
+
+      <template #column-icon="{ data }">
+        <div v-if="data" class="flex flex-row items-center">
+          <Avatar
+            :image="data?.icon"
+            class="mr-2"
+            size="normal"
+            shape="square"
+          />
         </div>
       </template>
 

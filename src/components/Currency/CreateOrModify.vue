@@ -1,5 +1,24 @@
 <template>
   <form @submit.prevent="submitForm" class="space-y-4 mb-4">
+    <div class="relative w-24 h-24">
+      <p class="text-center absolute top-0 left-2">
+        {{ $t("icon") }}
+      </p>
+      <img
+        :src="profileImage ?? '/extras/defaultprofile.jpg'"
+        alt=""
+        class="w-24 h-24 border border-gray-300 object-cover"
+      />
+      <i
+        class="pi pi-upload pi-2x absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-darkblue"
+      ></i>
+      <input
+        type="file"
+        accept="image/*"
+        class="absolute inset-0 opacity-0 cursor-pointer w-24 h-24"
+        @change="onProfileImageChange"
+      />
+    </div>
     <!-- Nombre -->
     <div>
       <label for="name" class="block text-sm font-medium">{{
@@ -59,6 +78,7 @@ import { useToastStorage } from "@/stores/ToasterStorage";
 import { useI18n } from "vue-i18n";
 import { useCurrencyService } from "@/composables/Currency/useCurrencyService";
 import type { ICurrency } from "@/services/Currency/Currency.service";
+import uploadPublicFile from "@/composables/uploadPublicFile";
 const { notify } = useToastStorage();
 const service = useCurrencyService();
 const router = useRouter();
@@ -71,11 +91,27 @@ interface Props {
 const props = defineProps<Props>();
 const { mode, currency_id } = props;
 
+// Foto de perfil
+const profileImage = ref<string | null>(null);
+const profileImageFile = ref<File | null>(null);
+function onProfileImageChange(event: Event) {
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (file) {
+    profileImageFile.value = file;
+    const reader = new FileReader();
+    reader.onload = () => {
+      profileImage.value = reader.result as string;
+    };
+    reader.readAsDataURL(file);
+  }
+}
+
 onMounted(async () => {
   if (mode == "edit") {
     const { data, error } = await service.getDetails(currency_id!);
     if (!error) {
       form.value = data;
+      profileImage.value = data.icon;
     } else {
       notify(
         "error",
@@ -120,9 +156,21 @@ async function submitForm() {
 
   isSubmitting.value = true;
 
+  let imageUrl = profileImage.value;
+  isSubmitting.value = true;
+  if (profileImageFile.value) {
+    imageUrl = await uploadPublicFile(profileImageFile.value);
+    if (!imageUrl) {
+      notify("error", "", "Error al subir la imagen", 3000);
+      isSubmitting.value = false;
+      return;
+    }
+  }
+
   if (mode == "create") {
     const error = await service.create({
       ...(form.value as ICurrency),
+      icon: imageUrl,
     });
 
     if (!error) {
@@ -138,6 +186,7 @@ async function submitForm() {
   if (mode == "edit") {
     const error = await service.update(currency_id, {
       ...(form.value as ICurrency),
+      icon: imageUrl,
     });
 
     if (!error) {

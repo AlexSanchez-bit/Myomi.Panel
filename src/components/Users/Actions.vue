@@ -28,6 +28,7 @@ import Button from "primevue/button";
 import { ref } from "vue";
 import { useConfirm } from "primevue/useconfirm";
 import { useI18n } from "vue-i18n";
+import type { IGenericRemove } from "@/utils/service/IGenericCrud";
 
 const { t } = useI18n();
 const confirm = useConfirm();
@@ -38,7 +39,7 @@ const emit = defineEmits<{
 
 interface Props {
   id: string | number;
-  deleteCb: (id: string | number) => Promise<any>;
+  deleteCb: IGenericRemove<any>;
   editRoute?: string;
 }
 const props = defineProps<Props>();
@@ -57,9 +58,10 @@ const confirmDelete = () => {
     acceptClass: "p-button-danger",
     accept: async () => {
       loading.value = true;
-      const { error } = await props.deleteCb(props.id);
+      const error = await props.deleteCb.remove(props.id);
       loading.value = false;
 
+      console.log(error);
       if (!error) {
         emit("removed");
       }

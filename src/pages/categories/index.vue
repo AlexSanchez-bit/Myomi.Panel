@@ -47,7 +47,7 @@ const refresh = () => {
         <Actions
           :id="data.id"
           :editRoute="`/categories/${data.id}/edit`"
-          :delete-cb="service.remove"
+          :delete-cb="service"
           @removed="refresh"
           v-if="data"
         ></Actions>

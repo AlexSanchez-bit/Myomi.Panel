@@ -1,4 +1,5 @@
 import { TableCrudService } from "@/utils/service/TableCrudService";
+import { supabase } from "@/setup";
 
 export interface ICategory {
   name: string;
@@ -21,5 +22,11 @@ export class CategoryService extends TableCrudService<ICategory> {
     return this.builder.select(this.search_fields.join(" , "), {
       count: "exact",
     });
+  }
+
+  async remove(id: string | number) {
+    console.log(this);
+    const { error } = await supabase.from("category").delete().eq("id", id);
+    return error;
   }
 }

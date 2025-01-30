@@ -169,10 +169,6 @@ const form = ref<CategoryForm>({
 const errors = ref<Record<string, string>>({});
 const isSubmitting = ref(false);
 
-// Foto de perfil
-const profileImage = ref<string | null>(null);
-const profileImageFile = ref<File | null>(null);
-
 function validateForm() {
   errors.value = {};
 
@@ -184,6 +180,9 @@ function validateForm() {
   return Object.keys(errors.value).length === 0;
 }
 
+// Foto de perfil
+const profileImage = ref<string | null>(null);
+const profileImageFile = ref<File | null>(null);
 function onProfileImageChange(event: Event) {
   const file = (event.target as HTMLInputElement).files?.[0];
   if (file) {
