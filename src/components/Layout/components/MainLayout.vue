@@ -16,7 +16,7 @@
         '!w-72 p-3 pl-0': static_pane || visible,
         'slide-bar': !static_pane,
       }"
-      class="hover:w-72 drop-shadow-md top-0 slide-bar-container z-40 left-0 w-0 md:w-16 md:pl-3 md:py-3 pr-0 overflow-y-auto bg-darkblue text-wood"
+      class="hover:w-72 drop-shadow-md top-0 slide-bar-container z-40 left-0 md:w-16 md:pl-3 md:py-3 pr-0 overflow-y-auto bg-darkblue text-wood"
     >
       <div class="flex flex-col h-full">
         <div
@@ -253,6 +253,19 @@ provide("activatedPanel", activePanel);
 
 /* Responsive fixes */
 @media (max-width: 768px) {
+  .closed {
+    width: 0;
+    opacity: 0;
+  }
+
+  .slide-bar:hover {
+    width: auto;
+  }
+
+  .slide-bar:hover .oppened {
+    width: auto;
+  }
+
   .slide-bar-container {
     width: 100%;
     position: fixed;
