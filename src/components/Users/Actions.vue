@@ -60,8 +60,6 @@ const confirmDelete = () => {
       loading.value = true;
       const error = await props.deleteCb.remove(props.id);
       loading.value = false;
-
-      console.log(error);
       if (!error) {
         emit("removed");
       }

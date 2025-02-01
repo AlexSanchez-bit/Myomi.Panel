@@ -68,4 +68,15 @@ export class UserService extends TableCrudService<any> {
 
     return error;
   }
+
+  async remove(id: string | number) {
+    const _resp = await supabase.functions.invoke("remove_user", {
+      method: "POST",
+      body: JSON.stringify({
+        user_id: id,
+      }),
+    });
+
+    return null;
+  }
 }

@@ -11,10 +11,6 @@ export const useAuthStore = defineStore("authStore", {
   }),
   getters: {
     authenticated(state): any {
-      if (!state._authenticated) {
-        const user_saved_data = localStorage.getItem("userData");
-        this._authenticated = user_saved_data != null;
-      }
       return state._authenticated;
     },
     userData(state): any {
