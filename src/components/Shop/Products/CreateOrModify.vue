@@ -176,8 +176,8 @@ async function submitForm() {
     );
     await productsService.update_materials(
       product_id!,
-      originalMaterials.value,
-      form.materials,
+      originalMaterials.value ?? [],
+      form.materials ?? [],
     );
 
     if (!error) {

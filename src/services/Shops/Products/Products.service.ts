@@ -68,12 +68,14 @@ export class ProductsService extends TableCrudService<IProduct> {
       product_data.id,
     );
 
-    await this.uploadProductRelations(
-      "product_materials",
-      "material_id",
-      data.materials,
-      product_data.id,
-    );
+    if (data.materials) {
+      await this.uploadProductRelations(
+        "product_materials",
+        "material_id",
+        data.materials,
+        product_data.id,
+      );
+    }
 
     return null;
   }
