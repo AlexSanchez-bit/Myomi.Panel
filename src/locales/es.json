@@ -75,5 +75,6 @@
   "create_currency": "Crear Moneda",
   "categories": "Categorías",
   "parent": "Padre",
-  "icon": "Icono"
+  "icon": "Icono",
+  "sales": "Cantidad de ventas"
 }

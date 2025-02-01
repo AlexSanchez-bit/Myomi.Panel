@@ -57,11 +57,11 @@
             :class="{ 'slide-text-active': static_pane }"
           >
             <h3 class="text-lg truncate text-wood text-center">
-              {{ authService.userData.user_name }}
-              {{ authService.userData.last_name }}
+              {{ authService.userData?.name }}
+              {{ authService.userData?.last_name }}
             </h3>
             <h4 class="text-md truncate text-wood text-center">
-              {{ authService.userData.user.email }}
+              {{ authService.userData?.email }}
             </h4>
           </section>
           <StaticMenu
@@ -87,7 +87,14 @@
         />
         <span></span>
         <div class="flex flex-row gap-0.5">
-          <Menubar class="border-none p-0" breakpoint="100px" :model="items" />
+          <Menubar class="border-none p-0" breakpoint="100px" :model="items">
+            <template #start>
+              <Avatar
+                :image="authService.userData?.profile_picture"
+                size="normal"
+              />
+            </template>
+          </Menubar>
           <LanguageSelector />
         </div>
       </div>
@@ -108,6 +115,7 @@ import { MenuList } from "../entities/MenuList";
 import { ref, provide, computed } from "vue";
 import Menubar from "primevue/menubar";
 import Dialog from "primevue/dialog";
+import Avatar from "primevue/avatar";
 
 const groups = MenuList;
 
@@ -130,7 +138,7 @@ const toggle_panel = (activation_param: boolean) => {
 };
 
 const userName = computed<string>(() => {
-  return authService.userData.user.email;
+  return `${authService.userData?.name} ${authService.userData?.last_name ?? ""}`;
 });
 
 const { t } = useI18n();

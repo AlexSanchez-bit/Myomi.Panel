@@ -152,8 +152,9 @@ const onLazyLoadMaterials = async (event: { last: number }) => {
 };
 
 onMounted(async () => {
-  onLazyLoadCategories({ last: 0 });
-  onLazyLoadMaterials({ last: 0 });
+  await onLazyLoadCategories({ last: 0 });
+  await onLazyLoadMaterials({ last: 0 });
+  validateForm();
 });
 
 const name = defineModel<string>("name");

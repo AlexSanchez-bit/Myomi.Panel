@@ -1,7 +1,7 @@
 <template>
   <div class="grid grid-cols-4 gap-3 px-4">
     <div
-      class="flex rounded-xl justify-center items-center w-full h-full border-dashed border-2 min-h-[250px] cursor-pointer border-gray-300"
+      class="relative flex rounded-xl justify-center items-center w-full h-full border-dashed border-2 min-h-[250px] cursor-pointer border-gray-300"
     >
       <i class="pi pi-plus"></i>
 
@@ -12,8 +12,20 @@
         @change="onImageSelect"
       />
     </div>
-    <div v-for="(image, index) in images" :key="index">
+    <div
+      v-for="(image, index) in images"
+      :key="index"
+      class="relative shadow-sm shadow-zinc-50 parent-hide"
+    >
       <Image :src="image" alt="Image" height="250" preview />
+      <Button
+        icon="pi pi-trash"
+        class="absolute top-2 right-2 child-hover-hide"
+        severity="danger"
+        variant="text"
+        rounded
+        @click="images.splice(index, 1)"
+      />
     </div>
   </div>
 </template>
@@ -22,6 +34,7 @@
 import Image from "primevue/image";
 import { ref } from "vue";
 import uploadPublicFile from "@/composables/uploadPublicFile";
+import Button from "primevue/button";
 const images = defineModel<string[]>("images");
 if (!images.value) {
   images.value = [];
@@ -70,3 +83,13 @@ defineExpose({
   uploadImages,
 });
 </script>
+
+<style scoped>
+.child-hover-hide {
+  display: none;
+}
+
+.parent-hide:hover .child-hover-hide {
+  display: block;
+}
+</style>

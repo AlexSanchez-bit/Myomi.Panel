@@ -57,8 +57,9 @@
       class="w-full"
       :severity="isValidForm ? 'success' : 'danger'"
       :outlined="!isValidForm"
+      :loading="isSubmitting"
       @click="submitForm"
-      :disabled="isSubmitting"
+      :disabled="isSubmitting || !isValidForm"
     >
     </Button>
   </div>
@@ -147,8 +148,7 @@ async function submitForm() {
   if (!isValidForm.value) return;
 
   isSubmitting.value = true;
-  form.images! = await images.value.uploadImages();
-  console.log(form);
+  form.images = await images.value.uploadImages();
   if (mode == "create") {
     const error = await productsService.create({
       ...(form as IProduct),

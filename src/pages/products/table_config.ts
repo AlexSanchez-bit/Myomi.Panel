@@ -35,6 +35,12 @@ export const table_configs: ColumnData[] = [
     dataType: "numeric",
   },
   {
+    field: "sales",
+    header: "sales",
+    sorteable: true,
+    dataType: "numeric",
+  },
+  {
     field: "created_at",
     header: "created_at",
     filter: { value: null, matchMode: FilterMatchMode.EQUALS },

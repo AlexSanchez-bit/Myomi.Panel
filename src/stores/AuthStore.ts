@@ -28,6 +28,7 @@ export const useAuthStore = defineStore("authStore", {
   },
   actions: {
     autenticate(data: any) {
+      console.log(data);
       localStorage.setItem("userData", JSON.stringify(data));
       this._authenticated = true;
       this._userData = data;
@@ -41,7 +42,7 @@ export const useAuthStore = defineStore("authStore", {
         localStorage.clear();
         this._authenticated = false;
         this._userData = null;
-        router.push("login");
+        router.push("/login");
       }
     },
     async login(email: string, password: string) {
@@ -49,12 +50,16 @@ export const useAuthStore = defineStore("authStore", {
       if (resp.error) {
         const { notify } = useToastStorage();
         notify("error", "error", resp.error.message, 4000);
+        return resp;
       }
-
-      console.log(supabase.auth);
-
-      const { data, error } = await supabase.from("user").select("*");
-      console.log(data, error);
+      const { data, error } = await supabase
+        .from("user")
+        .select("*")
+        .eq("id", resp.data.user.id)
+        .single();
+      if (!error) {
+        this.autenticate(data);
+      }
 
       return resp;
     },

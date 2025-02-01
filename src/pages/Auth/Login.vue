@@ -71,8 +71,7 @@ const router = useRouter()
 const login = async ()=>{
 loading.value = true
   const resp = await authStore.login(email.value!,password.value!);
-  if(resp.error == null){
-  authStore.autenticate(resp.data)
+  if(!resp.error){
     router.push({name:'default'});
   }
   loading.value = false

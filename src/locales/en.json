@@ -74,5 +74,6 @@
   "create_currency": "Create Currency",
   "categories": "Categories",
   "parent": "Parent",
-  "icon": "Icon"
+  "icon": "Icon",
+  "sales": "Quantity of sales"
 }

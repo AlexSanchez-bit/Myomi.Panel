@@ -74,5 +74,6 @@
   "create_currency": "통화 생성",
   "categories": "카테고리",
   "parent": "상위",
-  "icon": "아이콘"
+  "icon": "아이콘",
+  "sales": "판매 수량"
 }

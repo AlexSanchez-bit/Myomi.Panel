@@ -18,7 +18,7 @@ export interface IProduct {
 
 export class ProductsService extends TableCrudService<IProduct> {
   constructor() {
-    super("product", ["id", "name", "price", "created_at", "stock"]);
+    super("product", ["id", "name", "price", "created_at", "stock", "sales"]);
   }
 
   public buildSelect() {
