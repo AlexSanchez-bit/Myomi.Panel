@@ -514,7 +514,6 @@ const initFilters = () => {
   filtersToExport = {};
 
   for (let column of columns) {
-    console.log(column);
     globFilters.push(column.field);
     if (column && column.filter) {
       if (column.dataType === "date") {

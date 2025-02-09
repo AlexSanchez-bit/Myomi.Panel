@@ -60,6 +60,13 @@ const refresh = () => {
           {{ data?.name }}
         </div>
       </template>
+
+      <template #column-brand="{ data }">
+        <div v-if="data && data.brand" class="flex flex-row items-center">
+          {{ data?.brand.name }}
+        </div>
+      </template>
+
       <template #column-price="{ data }">
         <div v-if="data">{{ data.price }} USD</div>
       </template>

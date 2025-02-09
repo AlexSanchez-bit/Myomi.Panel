@@ -11,12 +11,21 @@ export const useAuthStore = defineStore("authStore", {
   }),
   getters: {
     authenticated(state): any {
+      if (!state._authenticated) {
+        return this.userData != null;
+      }
       return state._authenticated;
     },
     userData(state): any {
       if (state._authenticated) {
         if (!state._userData || state._userData == null) {
-          this._userData = JSON.parse(localStorage.getItem("userData")!);
+          try {
+            this._userData = JSON.parse(localStorage.getItem("userData")!);
+          } catch (e) {
+            this._userData = null;
+            this._authenticated = false;
+            return null;
+          }
         }
         return this._userData;
       }
@@ -24,7 +33,6 @@ export const useAuthStore = defineStore("authStore", {
   },
   actions: {
     autenticate(data: any) {
-      console.log(data);
       localStorage.setItem("userData", JSON.stringify(data));
       this._authenticated = true;
       this._userData = data;

@@ -101,6 +101,33 @@
         $t(errors.categoies)
       }}</small>
     </div>
+
+    <div>
+      <label for="brand" class="block text-sm font-medium">{{
+        $t("brand")
+      }}</label>
+
+      <Dropdown
+        id="brand"
+        v-model="brand"
+        :options="brands"
+        optionLabel="name"
+        optionValue="id"
+        class="w-full md:w-14rem"
+        :virtualScrollerOptions="{
+          lazy: true,
+          onLazyLoad: onLazyLoadBrands,
+          itemSize: 38,
+          showLoader: true,
+          loading: brands_loading,
+          delay: 250,
+        }"
+      />
+
+      <small v-if="errors.phone" class="text-red-500">{{
+        $t(errors.brand)
+      }}</small>
+    </div>
   </form>
 </template>
 
@@ -108,17 +135,21 @@
 import { ref, onMounted } from "vue";
 import InputText from "primevue/inputtext";
 import InputNumber from "primevue/inputnumber";
-import Dropdown from "primevue/dropdown";
 import { useCategoryService } from "@/composables/Shop/Category/useCategoryService";
 import { Pagination } from "@/utils/entities/Pagination";
 import { useMaterialService } from "@/composables/Shop/Material/useMaterialService";
-
+import Dropdown from "primevue/dropdown";
 import MultiSelect from "primevue/multiselect";
+import { useBrandService } from "@/composables/Shop/Brand/useBrandService";
 const categoriesService = useCategoryService();
+const brandsService = useBrandService();
 const materialService = useMaterialService();
 
 const categories = ref<any[]>([]);
 const categoriesTotalCount = ref(1);
+
+const brands = ref<any[]>([]);
+const brandsTotalCount = ref(1);
 
 const materials = ref<any[]>();
 const materialsTotalCount = ref(1);
@@ -129,12 +160,26 @@ const onLazyLoadCategories = async (event: { last: number }) => {
   categories_loading.value = true;
   const { data, totalCount: tc } = await categoriesService.getAllTotalCount(
     [],
-    new Pagination(last, 5),
+    new Pagination(last, 100),
     null,
   );
   categoriesTotalCount.value = tc;
   categories.value = [...data];
   categories_loading.value = false;
+};
+
+const onLazyLoadBrands = async (event: { last: number }) => {
+  const { last } = event;
+  if (last >= brandsTotalCount.value) return;
+  brands_loading.value = true;
+  const { data, totalCount: tc } = await brandsService.getAllTotalCount(
+    [],
+    new Pagination(last, 100),
+    null,
+  );
+  brandsTotalCount.value = tc;
+  brands.value = [...data];
+  brands_loading.value = false;
 };
 
 const onLazyLoadMaterials = async (event: { last: number }) => {
@@ -143,7 +188,7 @@ const onLazyLoadMaterials = async (event: { last: number }) => {
   materials_loading.value = true;
   const { data, totalCount: tc } = await materialService.getAllTotalCount(
     [],
-    new Pagination(last, 5),
+    new Pagination(last, 100),
     null,
   );
   materialsTotalCount.value = tc;
@@ -162,10 +207,12 @@ const selected_categories = defineModel<number[]>("categories");
 const selected_materials = defineModel<number[]>("materials");
 const price = defineModel<number>("price");
 const stock = defineModel<number>("stock");
+const brand = defineModel<number>("brand");
 
 // Validaciones y errores
 const errors = ref<Record<string, string>>({});
 const categories_loading = ref(false);
+const brands_loading = ref(false);
 const materials_loading = ref(false);
 
 const emit = defineEmits<{

@@ -14,11 +14,20 @@ export interface IProduct {
   images: string[];
   categories?: number[];
   materials?: number[];
+  brand?: number;
 }
 
 export class ProductsService extends TableCrudService<IProduct> {
   constructor() {
-    super("product", ["id", "name", "price", "created_at", "stock", "sales"]);
+    super("product", [
+      "id",
+      "name",
+      "price",
+      "created_at",
+      "stock",
+      "sales",
+      "brand(name,id,icon)",
+    ]);
   }
 
   public buildSelect() {
@@ -76,7 +85,6 @@ export class ProductsService extends TableCrudService<IProduct> {
         product_data.id,
       );
     }
-
     return null;
   }
 

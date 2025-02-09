@@ -5,6 +5,7 @@ import { useSplashStore } from "@/stores/SplashScreen";
 import { userRoutes } from "./modules/user";
 import { shopRoutes } from "./modules/shop";
 import { currencyRoutes } from "./modules/currency";
+import { brandRoutes } from "./modules/shop/brands";
 
 const router = createRouter({
   history: createWebHistory("#"),
@@ -22,6 +23,7 @@ const router = createRouter({
         ...userRoutes,
         ...shopRoutes,
         ...currencyRoutes,
+        ...brandRoutes,
       ],
     },
     {

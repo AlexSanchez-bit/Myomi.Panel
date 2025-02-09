@@ -40,6 +40,7 @@
         v-model:categories="form.categories"
         v-model:materials="form.materials"
         v-model:price="form.price"
+        v-model:brand="form.brand"
       />
       <Description
         v-show="active_step == 1"
@@ -123,6 +124,7 @@ onMounted(async () => {
       form.name = data.name;
       form.images = data.images;
       form.price = data.price;
+      form.brand = data.brand;
       form.categories = data.categories;
       form.materials = data.materials;
       form.short_description = data.short_description;
@@ -149,6 +151,7 @@ async function submitForm() {
 
   isSubmitting.value = true;
   form.images = await images.value.uploadImages();
+  console.log(form);
   if (mode == "create") {
     const error = await productsService.create({
       ...(form as IProduct),

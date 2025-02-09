@@ -47,7 +47,8 @@
     "WRITE_CLAIM": "Asignar Permisos",
     "WRITE_MATERIAL": "Modificar Materiales",
     "WRITE_PRODUCT": "Modificar Productos",
-    "WRITE_CURRENCY": "Modificar Monedas"
+    "WRITE_CURRENCY": "Modificar Monedas",
+    "WRITE_BRAND": "Modificar Marcas"
   },
   "materials": "Ingredientes",
   "material": "Ingrediente",
@@ -73,8 +74,14 @@
   "currency": "Moneda",
   "usd_relative_value": "Tasa de cambio",
   "create_currency": "Crear Moneda",
+  "create_brand": "Crear Marca",
   "categories": "Categorías",
+  "brands": "Marcas",
   "parent": "Padre",
   "icon": "Icono",
-  "sales": "Cantidad de ventas"
+  "sales": "Cantidad de ventas",
+  "lanscape_image": "Imagen de portada",
+  "brand": "marca",
+  "landscape_image": "imagen de portada",
+  "see_details": "Ver detalles"
 }

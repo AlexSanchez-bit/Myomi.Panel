@@ -41,6 +41,12 @@ export const MenuList: MenuListItem[] = [
         type: GroupMenuType.Normal,
       },
       {
+        name: "brands",
+        icon: "pi pi-tags",
+        router_direction: "/brands",
+        type: GroupMenuType.Normal,
+      },
+      {
         name: "products",
         icon: "pi pi-shopping-bag",
         router_direction: "/products",
