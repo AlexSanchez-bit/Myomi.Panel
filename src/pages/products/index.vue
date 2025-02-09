@@ -6,8 +6,11 @@ import { table_configs } from "./table_config";
 
 import Button from "primevue/button";
 
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import { useProductService } from "@/composables/Shop/Product/useProductService";
+import { Pagination } from "@/utils/entities/Pagination";
+import { useBrandService } from "@/composables/Shop/Brand/useBrandService";
+import Dropdown from "primevue/dropdown";
 
 const service = useProductService();
 
@@ -21,6 +24,28 @@ const table = ref();
 const refresh = () => {
   table.value.refresh();
 };
+
+const brands = ref<any[]>([]);
+const brandsTotalCount = ref(1);
+const brands_loading = ref(false);
+const brandsService = useBrandService();
+
+const onLazyLoadBrands = async (event: { last: number }) => {
+  const { last } = event;
+  if (last >= brandsTotalCount.value) return;
+  brands_loading.value = true;
+  const { data, totalCount: tc } = await brandsService.getAllTotalCount(
+    [],
+    new Pagination(last, 100),
+    null,
+  );
+  brandsTotalCount.value = tc;
+  brands.value = [...data];
+  brands_loading.value = false;
+};
+onMounted(async () => {
+  await onLazyLoadBrands({ last: 0 });
+});
 </script>
 <template>
   <div>
@@ -63,8 +88,41 @@ const refresh = () => {
 
       <template #column-brand="{ data }">
         <div v-if="data && data.brand" class="flex flex-row items-center">
-          {{ data?.brand.name }}
+          <Avatar :image="data?.brand.icon" size="normal" shape="circle" />
+          <router-link
+            class="ml-2 text-blue-500 hover:text-blue-700"
+            :to="{ name: 'brands.edit', params: { id: data.brand.id } }"
+          >
+            {{ data?.brand.name }}
+          </router-link>
         </div>
+      </template>
+
+      <template #filter-brand="{ filterModel, filterCallback }">
+        <Dropdown
+          v-model="filterModel.value"
+          id="brand"
+          :options="brands"
+          optionLabel="name"
+          optionValue="id"
+          class="min-w-36"
+          @change="filterCallback"
+          :virtualScrollerOptions="{
+            lazy: true,
+            onLazyLoad: onLazyLoadBrands,
+            itemSize: 38,
+            showLoader: true,
+            loading: brands_loading,
+            delay: 250,
+          }"
+        >
+          <template #option="slotProps">
+            <div class="flex align-items-center">
+              <Avatar :image="slotProps.option.icon" size="normal" />
+              <div>{{ slotProps.option.name }}</div>
+            </div>
+          </template>
+        </Dropdown>
       </template>
 
       <template #column-price="{ data }">

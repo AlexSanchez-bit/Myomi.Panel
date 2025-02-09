@@ -14,16 +14,18 @@ export const table_configs: ColumnData[] = [
     },
     sorteable: false,
   },
-
   {
     field: "brand",
     header: "brand",
     filter: {
-      matchMode: FilterMatchMode.CONTAINS,
+      matchMode: FilterMatchMode.EQUALS,
       value: null,
     },
+    showFilterOptions: false,
     sorteable: false,
+    dataType: "numeric",
   },
+
   {
     field: "price",
     header: "price",

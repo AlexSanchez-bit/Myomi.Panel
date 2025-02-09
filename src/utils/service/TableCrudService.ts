@@ -23,7 +23,6 @@ export class TableCrudService<T>
 {
   constructor(tablename: string, searchFields: string[]) {
     super(tablename, searchFields);
-    console.log(this);
   }
 
   async getDetails(id: string | number) {
@@ -48,7 +47,6 @@ export class TableCrudService<T>
   }
 
   async remove(id: string | number) {
-    console.log(this);
     const { error } = await supabase.from(this.tablename).delete().eq("id", id);
     return error;
   }

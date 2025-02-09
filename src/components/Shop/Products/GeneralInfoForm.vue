@@ -122,7 +122,14 @@
           loading: brands_loading,
           delay: 250,
         }"
-      />
+      >
+        <template #option="slotProps">
+          <div class="flex align-items-center">
+            <Avatar :image="slotProps.option.icon" size="normal" />
+            <div>{{ slotProps.option.name }}</div>
+          </div>
+        </template>
+      </Dropdown>
 
       <small v-if="errors.phone" class="text-red-500">{{
         $t(errors.brand)
@@ -141,6 +148,7 @@ import { useMaterialService } from "@/composables/Shop/Material/useMaterialServi
 import Dropdown from "primevue/dropdown";
 import MultiSelect from "primevue/multiselect";
 import { useBrandService } from "@/composables/Shop/Brand/useBrandService";
+import Avatar from "primevue/avatar";
 const categoriesService = useCategoryService();
 const brandsService = useBrandService();
 const materialService = useMaterialService();
@@ -163,6 +171,7 @@ const onLazyLoadCategories = async (event: { last: number }) => {
     new Pagination(last, 100),
     null,
   );
+
   categoriesTotalCount.value = tc;
   categories.value = [...data];
   categories_loading.value = false;
@@ -179,6 +188,7 @@ const onLazyLoadBrands = async (event: { last: number }) => {
   );
   brandsTotalCount.value = tc;
   brands.value = [...data];
+  console.log(brands);
   brands_loading.value = false;
 };
 
@@ -199,6 +209,7 @@ const onLazyLoadMaterials = async (event: { last: number }) => {
 onMounted(async () => {
   await onLazyLoadCategories({ last: 0 });
   await onLazyLoadMaterials({ last: 0 });
+  await onLazyLoadBrands({ last: 0 });
   validateForm();
 });
 

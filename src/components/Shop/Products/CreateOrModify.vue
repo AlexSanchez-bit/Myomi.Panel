@@ -1,5 +1,6 @@
 <template>
   <div class="card">
+    {{ form.brand }}
     <Steps
       :model="steps"
       :readonly="false"

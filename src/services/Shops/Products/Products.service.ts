@@ -62,6 +62,7 @@ export class ProductsService extends TableCrudService<IProduct> {
         long_description: data.long_description,
         price: data.price,
         images: data.images,
+        brand: data.brand,
       })
       .select()
       .single();
@@ -97,6 +98,7 @@ export class ProductsService extends TableCrudService<IProduct> {
         long_description: data.long_description,
         price: data.price,
         images: data.images,
+        brand: data.brand,
       })
       .eq("id", id);
 
