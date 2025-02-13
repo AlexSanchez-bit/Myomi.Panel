@@ -19,6 +19,11 @@ export const table_configs: ColumnData[] = [
     header: "parent",
   },
   {
+    field: "order",
+    header: "order",
+    sorteable: true,
+  },
+  {
     field: "created_at",
     header: "created_at",
     filter: { value: null, matchMode: FilterMatchMode.EQUALS },

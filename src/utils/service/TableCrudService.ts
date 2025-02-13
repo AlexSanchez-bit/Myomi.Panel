@@ -37,7 +37,7 @@ export class TableCrudService<T>
     const { error } = await supabase.from(this.tablename).insert(data);
     return error;
   }
-  async update(id: string | number, data: T) {
+  async update(id: string | number, data: Partial<T>) {
     const { error } = await supabase
       .from(this.tablename)
       .update(data)

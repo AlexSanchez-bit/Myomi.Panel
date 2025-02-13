@@ -22,6 +22,12 @@
   </div>
 
   <form @submit.prevent="submitForm" class="space-y-4 mb-4">
+    <div>
+      <label for="order" class="block text-sm font-medium">{{
+        $t("order")
+      }}</label>
+      <InputNumber id="order" v-model="form.order" class="w-3 h-8" />
+    </div>
     <!-- Nombre -->
     <div>
       <label for="name" class="block text-sm font-medium">{{
@@ -103,6 +109,8 @@ import { useToastStorage } from "@/stores/ToasterStorage";
 import { useCategoryService } from "@/composables/Shop/Category/useCategoryService";
 import { Pagination } from "@/utils/entities/Pagination";
 import { useI18n } from "vue-i18n";
+import type { ICategory } from "@/services/Shops/Categories/Category.service";
+import InputNumber from "primevue/inputnumber";
 const { notify } = useToastStorage();
 
 const { t } = useI18n();
@@ -124,7 +132,6 @@ const totalCount = ref(1);
 
 const onLazyLoad = async (event: { last: number }) => {
   const { last } = event;
-  console.log(last, totalCount.value);
   if (last >= totalCount.value) return;
   const { data, totalCount: tc } = await service.getAllTotalCount(
     [],
@@ -154,15 +161,11 @@ onMounted(async () => {
 });
 
 // Modelo del formulario
-interface CategoryForm {
-  name: string;
-  parent?: number;
-  description?: string;
-}
 
 // Estado reactivo para el formulario
-const form = ref<CategoryForm>({
+const form = ref<ICategory>({
   name: "",
+  order: 0,
 });
 
 // Validaciones y errores
@@ -215,6 +218,7 @@ async function submitForm() {
       parent: form.value.parent,
       icon: imageUrl,
       description: form.value.description,
+      order: form.value.order,
     });
 
     if (!error) {
@@ -233,6 +237,7 @@ async function submitForm() {
       parent: form.value.parent,
       icon: imageUrl,
       description: form.value.description,
+      order: form.value.order,
     });
 
     if (!error) {

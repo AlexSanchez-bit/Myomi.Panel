@@ -3,9 +3,10 @@ import { supabase } from "@/setup";
 
 export interface ICategory {
   name: string;
-  parent: number;
-  icon: string;
-  description: string;
+  parent?: number;
+  icon?: string;
+  description?: string;
+  order: number;
 }
 
 export class CategoryService extends TableCrudService<ICategory> {
@@ -15,13 +16,16 @@ export class CategoryService extends TableCrudService<ICategory> {
       "name",
       "icon",
       "category:parent(id, name),created_at ",
+      "order",
     ]);
   }
 
   public buildSelect() {
-    return this.builder.select(this.search_fields.join(" , "), {
-      count: "exact",
-    });
+    return this.builder
+      .select(this.search_fields.join(" , "), {
+        count: "exact",
+      })
+      .order("order", { ascending: true });
   }
 
   async remove(id: string | number) {

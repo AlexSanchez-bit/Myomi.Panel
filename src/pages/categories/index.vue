@@ -12,8 +12,19 @@ function formatDate(date_str: string) {
   const date = new Date(date_str);
   return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
 }
+import { useToastStorage } from "@/stores/ToasterStorage";
+const { notify } = useToastStorage();
 
 const table = ref();
+
+const updateOrder = async (id: string, order: number) => {
+  const resp = await service.update(id, { order });
+  if (resp) {
+    notify("danger", "", "Ocurrio un error", 3000);
+  } else {
+    refresh();
+  }
+};
 
 const refresh = () => {
   table.value.refresh();
@@ -62,6 +73,20 @@ const refresh = () => {
       <template #column-category="{ data }">
         <div class="flex flex-row items-center">
           {{ data?.category?.name }}
+        </div>
+      </template>
+
+      <template #column-order="{ data }">
+        <div class="flex flex-row items-center" v-if="data">
+          <input
+            type="number"
+            :modelValue="data?.order"
+            :value="data?.order"
+            class="w-12 h-8"
+            @input="(e) => updateOrder(data.id, e.target.value)"
+            name=""
+            id=""
+          />
         </div>
       </template>
 
