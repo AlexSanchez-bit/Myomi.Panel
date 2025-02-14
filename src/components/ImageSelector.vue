@@ -17,7 +17,9 @@
       :key="index"
       class="relative shadow-sm shadow-zinc-50 parent-hide"
     >
-      <Image :src="image" alt="Image" height="250" preview />
+      <slot :src="image">
+        <Image :src="image" alt="Image" height="250" preview />
+      </slot>
       <Button
         icon="pi pi-trash"
         class="absolute top-2 right-2 child-hover-hide"
@@ -70,7 +72,6 @@ async function uploadImages() {
   });
 
   const ret = await Promise.all(promises);
-  console.log(ret);
   return original_images.map((image, index) => {
     if (indexes.includes(index)) {
       return ret.find(([_url, ind]) => ind == index)[0];

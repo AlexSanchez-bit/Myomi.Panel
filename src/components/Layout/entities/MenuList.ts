@@ -54,4 +54,18 @@ export const MenuList: MenuListItem[] = [
       },
     ],
   },
+  {
+    name: "General",
+    icon: "",
+    router_direction: "",
+    type: GroupMenuType.Static,
+    childrenMenu: [
+      {
+        name: "general_configs",
+        icon: "pi pi-tags",
+        router_direction: "/general-configs",
+        type: GroupMenuType.Normal,
+      },
+    ],
+  },
 ];

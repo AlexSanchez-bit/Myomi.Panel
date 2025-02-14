@@ -75,7 +75,7 @@ import { useRouter } from "vue-router";
 import { useToastStorage } from "@/stores/ToasterStorage";
 import GeneralInfoForm from "@/components/Shop/Products/GeneralInfoForm.vue";
 import Description from "@/components/Shop/Products/Description.vue";
-import ImageSelector from "@/components/Shop/Products/ImageSelector.vue";
+import ImageSelector from "@/components/ImageSelector.vue";
 import { useI18n } from "vue-i18n";
 import { useProductService } from "@/composables/Shop/Product/useProductService";
 import type { IProduct } from "@/services/Shops/Products/Products.service";

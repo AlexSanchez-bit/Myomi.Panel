@@ -48,7 +48,8 @@
     "WRITE_MATERIAL": "Modificar Materiales",
     "WRITE_PRODUCT": "Modificar Productos",
     "WRITE_CURRENCY": "Modificar Monedas",
-    "WRITE_BRAND": "Modificar Marcas"
+    "WRITE_BRAND": "Modificar Marcas",
+    "WRITE_GENERAL_CONFIG": "Modificar Configuraciones Generales"
   },
   "materials": "Ingredientes",
   "material": "Ingrediente",
@@ -84,5 +85,8 @@
   "brand": "marca",
   "landscape_image": "imagen de portada",
   "see_details": "Ver detalles",
-  "order": "Orden"
+  "order": "Orden",
+  "general_configs": "Configuraciones Generales",
+  "carousel-images": "Imágenes del Carrusel",
+  "promotional_image": "Banner Promocional"
 }

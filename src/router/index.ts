@@ -6,6 +6,7 @@ import { userRoutes } from "./modules/user";
 import { shopRoutes } from "./modules/shop";
 import { currencyRoutes } from "./modules/currency";
 import { brandRoutes } from "./modules/shop/brands";
+import { generalConfigsRoutes } from "./modules/general-configs";
 
 const router = createRouter({
   history: createWebHistory("#"),
@@ -24,6 +25,7 @@ const router = createRouter({
         ...shopRoutes,
         ...currencyRoutes,
         ...brandRoutes,
+        ...generalConfigsRoutes,
       ],
     },
     {

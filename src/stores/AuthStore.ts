@@ -17,18 +17,16 @@ export const useAuthStore = defineStore("authStore", {
       return state._authenticated;
     },
     userData(state): any {
-      if (state._authenticated) {
-        if (!state._userData || state._userData == null) {
-          try {
-            this._userData = JSON.parse(localStorage.getItem("userData")!);
-          } catch (e) {
-            this._userData = null;
-            this._authenticated = false;
-            return null;
-          }
+      if (!state._userData || state._userData == null) {
+        try {
+          this._userData = JSON.parse(localStorage.getItem("userData")!);
+        } catch (e) {
+          this._userData = null;
+          this._authenticated = false;
+          return null;
         }
-        return this._userData;
       }
+      return this._userData;
     },
   },
   actions: {
