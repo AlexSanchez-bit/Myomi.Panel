@@ -198,9 +198,9 @@ async function submitForm() {
     }
   }
 
-  let portraitUrl = profileImage.value;
+  let portraitUrl = portraitImage.value;
   isSubmitting.value = true;
-  if (profileImageFile.value) {
+  if (portraitImageFile.value) {
     portraitUrl = await uploadPublicFile(portraitImageFile.value);
     if (!portraitUrl) {
       notify("error", "", "Error al subir la imagen", 3000);

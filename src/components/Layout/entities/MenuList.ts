@@ -66,6 +66,12 @@ export const MenuList: MenuListItem[] = [
         router_direction: "/general-configs",
         type: GroupMenuType.Normal,
       },
+      {
+        name: "locations",
+        icon: "pi pi-map-marker",
+        router_direction: "/locations",
+        type: GroupMenuType.Normal,
+      },
     ],
   },
 ];
