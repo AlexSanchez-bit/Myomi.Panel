@@ -20,6 +20,12 @@ export const MenuList: MenuListItem[] = [
         router_direction: "/currencies",
         type: GroupMenuType.Normal,
       },
+      {
+        name: "payment_types",
+        icon: "pi pi-money-bill",
+        router_direction: "/payment-types",
+        type: GroupMenuType.Normal,
+      },
     ],
   },
   {

@@ -8,6 +8,7 @@ import { currencyRoutes } from "./modules/currency";
 import { brandRoutes } from "./modules/shop/brands";
 import { generalConfigsRoutes } from "./modules/general-configs";
 import { locationRoutes } from "./modules/location";
+import { paymentTypesRoutes } from "./modules/payment-types";
 
 const router = createRouter({
   history: createWebHistory("#"),
@@ -28,6 +29,7 @@ const router = createRouter({
         ...brandRoutes,
         ...generalConfigsRoutes,
         ...locationRoutes,
+        ...paymentTypesRoutes,
       ],
     },
     {

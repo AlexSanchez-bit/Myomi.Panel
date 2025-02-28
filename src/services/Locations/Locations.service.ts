@@ -8,7 +8,7 @@ export interface ILocation {
 
 export class LocationService extends TableCrudService<ILocation> {
   constructor() {
-    super("location", ["id", "name", "delivery_price"]);
+    super("location", ["id", "name", "delivery_price", "created_at"]);
   }
 
   public buildSelect() {

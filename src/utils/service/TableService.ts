@@ -167,22 +167,10 @@ export abstract class TableService<T> {
   }
 
   private applyFilters(query: any, filters: Filter<any>[]) {
+    console.log(filters);
     for (let filter of filters) {
       if (filter.value != null) {
         let field = filter.field;
-
-        if (field == "username") {
-          field = "receiver->>name";
-        }
-        if (field == "userPhone") {
-          field = "receiver->>landLinePhone";
-        }
-        if (field == "userCellPhone") {
-          field = "receiver->>phone";
-        }
-        if (field == "userCard") {
-          field = "receiver->>card";
-        }
 
         switch (filter.matchMode) {
           case FilterMatchMode.EQUALS:

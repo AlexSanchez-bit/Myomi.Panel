@@ -30,9 +30,6 @@
         fluid
         @input="validateForm"
         inputId="currency-us"
-        mode="currency"
-        currency="USD"
-        locale="en-US"
         suffix=" USD"
         :min="0"
       />
@@ -52,7 +49,7 @@
       icon="pi pi-user-plus"
       class="w-full"
       :loading="isSubmitting"
-      :disabled="isSubmitting || !validateForm()"
+      :disabled="isSubmitting || !!errors.name || !!errors.delivery_price"
     />
   </form>
 </template>
@@ -114,7 +111,10 @@ function validateForm() {
     errors.value.name = "El nombre es obligatorio.";
   }
 
-  if (!form.value.delivery_price || form.value.delivery_price < 0) {
+  if (!form.value.delivery_price) {
+    errors.value.delivery_price = "El precio es obligatorio";
+  }
+  if (form.value.delivery_price && form.value.delivery_price < 0) {
     errors.value.delivery_price = "El precio debe ser >=0";
   }
 

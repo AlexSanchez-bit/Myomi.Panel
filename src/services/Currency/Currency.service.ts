@@ -1,6 +1,7 @@
 import { TableCrudService } from "@/utils/service/TableCrudService";
 
 export interface ICurrency {
+  id?: number;
   name: string;
   change_value: number;
   icon?: string;

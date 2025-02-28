@@ -514,14 +514,17 @@ const initFilters = () => {
   filtersToExport = {};
 
   for (let column of columns) {
-    globFilters.push(column.field);
+    globFilters.push(column.filter_field ?? column.field);
     if (column && column.filter) {
       if (column.dataType === "date") {
-        (dateFilters.value[column.field] as any) = [null, null];
+        (dateFilters.value[column.filter_field ?? column.field] as any) = [
+          null,
+          null,
+        ];
       } else {
-        aux[column.field] = column.filter;
+        aux[column.filter_field ?? column.field] = column.filter;
 
-        (filtersToExport as any)[column.field] = {
+        (filtersToExport as any)[column.filter_field ?? column.field] = {
           matchMode: column.filter?.matchMode ?? null,
           filterQuery: column.filter?.filterQuery ?? null,
           value: null,
@@ -531,6 +534,7 @@ const initFilters = () => {
   }
   globalFilters.value = globFilters;
   filters.value = aux;
+  console.log(filters.value);
 };
 const clearFilter = () => {
   initFilters();

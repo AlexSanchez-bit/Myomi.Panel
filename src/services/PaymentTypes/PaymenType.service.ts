@@ -1,0 +1,148 @@
+import { supabase } from "@/setup";
+import { TableCrudService } from "@/utils/service/TableCrudService";
+import type { PostgrestSingleResponse } from "@supabase/supabase-js";
+import type { ICurrency } from "@/services/Currency/Currency.service";
+
+export interface IPaymentType {
+  id: number;
+  name: string;
+  icon: string;
+  external: boolean;
+  delivery_included: boolean;
+  delivery_currency: boolean;
+  allowed_currencies: ICurrency[];
+}
+
+export class PaymentTypeService extends TableCrudService<IPaymentType> {
+  constructor() {
+    super("payment_type", ["*,allowed_currencies:currency!inner(*)"]);
+  }
+
+  public buildSelect() {
+    return this.builder.select(this.search_fields.join(" , "), {
+      count: "exact",
+    });
+  }
+
+  async getDetails(id: string | number) {
+    const { data, error } = await supabase
+      .from(this.tablename)
+      .select("*,allowed_currencies:currency!inner(currency_id)")
+      .eq("id", id)
+      .single();
+
+    if (!error) {
+      data.categories = data.categories.map((category) => category.category_id);
+      data.materials = data.materials.map((material) => material.material_id);
+    }
+
+    return { data, error } as PostgrestSingleResponse<IPaymentType>;
+  }
+
+  async create(data: IPaymentType) {
+    const { data: payment_data, error: insert_error } = await supabase
+      .from(this.tablename)
+      .insert({
+        name: data.name,
+        icon: data.icon,
+        external: data.external,
+        delivery_included: data.delivery_included,
+        delivery_currency: data.delivery_currency,
+      })
+      .select()
+      .single();
+
+    if (insert_error) {
+      return insert_error;
+    }
+
+    await this.uploadProductRelations(
+      "payment_type_currency",
+      "currency_id",
+      data.allowed_currencies.map((curr) => curr.id),
+      payment_data.id,
+    );
+
+    return null;
+  }
+
+  async update(id: number, data: IPaymentType) {
+    const { data: product_data, error: insert_error } = await supabase
+      .from(this.tablename)
+      .update({
+        name: data.name,
+        icon: data.icon,
+        external: data.external,
+        delivery_included: data.delivery_included,
+        delivery_currency: data.delivery_currency,
+      })
+      .eq("id", id);
+
+    if (insert_error) {
+      return insert_error;
+    }
+
+    return null;
+  }
+
+  async update_currency(
+    id: number,
+    old_currencies: number[],
+    new_currencies: number[],
+  ) {
+    const to_upload_currencies = new_currencies.filter(
+      (nc: number) => !old_currencies.includes(nc),
+    );
+    const to_remove_currencies = old_currencies.filter(
+      (nc: number) => !new_currencies.includes(nc),
+    );
+
+    await this.uploadProductRelations(
+      "payment_type_currency",
+      "currency_id",
+      to_upload_currencies,
+      id,
+    );
+
+    await this.removeProductRelations(
+      "payment_type_currency",
+      "currency_id",
+      to_remove_currencies,
+      id,
+    );
+  }
+
+  async uploadProductRelations(
+    relation_name: string,
+    element_key: string,
+    elements_ids: number[],
+    product_id: number,
+  ) {
+    const promises = elements_ids.map(async (element_id: number) => {
+      const { error } = await supabase
+        .from(relation_name)
+        .insert({ [element_key]: element_id, product_id });
+      return error;
+    });
+
+    return await Promise.all(promises);
+  }
+
+  async removeProductRelations(
+    relation_name: string,
+    element_key: string,
+    elements_ids: number[],
+    product_id: number,
+  ) {
+    const promises = elements_ids.map(async (element_id: number) => {
+      const { error } = await supabase
+        .from(relation_name)
+        .delete()
+        .eq(element_key, element_id)
+        .eq("product_id", product_id);
+      return error;
+    });
+
+    return await Promise.all(promises);
+  }
+}

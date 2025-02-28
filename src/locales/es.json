@@ -50,7 +50,8 @@
     "WRITE_CURRENCY": "Modificar Monedas",
     "WRITE_BRAND": "Modificar Marcas",
     "WRITE_GENERAL_CONFIG": "Modificar Configuraciones Generales",
-    "WRITE_LOCATION": "Modificar Localizaciones"
+    "WRITE_LOCATION": "Modificar Localizaciones",
+    "WRITE_PAYMENT_METHOD": "Modificar métodos de pago"
   },
   "materials": "Ingredientes",
   "material": "Ingrediente",
