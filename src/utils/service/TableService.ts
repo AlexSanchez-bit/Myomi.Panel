@@ -10,7 +10,7 @@ import moment from "moment-timezone";
 export abstract class TableService<T> {
   public data!: T[];
   public totalCount: number = 0;
-  public tablename: string;
+  protected tablename: string;
   protected search_fields: string[];
   protected readonly notify;
   private readonly user_id: string;
@@ -141,12 +141,36 @@ export abstract class TableService<T> {
     if (orders !== this.orders) {
       this.orders = orders;
     }
+    let query = this.buildSelect();
+    query = this.applyFilters(query, filters);
+    if (orders != null) {
+      for (let sortOrder of orders) {
+        query = query.order(sortOrder.field, {
+          ascending: sortOrder.order > 0,
+        });
+      }
+    }
 
-    const { totalCount } = await this.getCount(filters);
+    query = query
+      .range(
+        pagination.page * pagination.ammount,
+        pagination.page * pagination.ammount + pagination.ammount - 1,
+      )
+      .order("created_at", { ascending: false });
 
-    let paginationResult = await this.getAll(filters, pagination, orders);
+    let { data, count, error } = await query;
 
-    return { totalCount, data: paginationResult };
+    if (error) {
+      this.notify.notify("error", "Ocurrio un error", error.message, 4000);
+      const keys: any = {} as any;
+      for (let field in this.search_fields) {
+        keys[field] = null as any;
+      }
+
+      data = [keys];
+      return { totalCount: 0, data };
+    }
+    return { totalCount: count, data: data as any[] };
   }
 
   public async getCount(
@@ -167,7 +191,6 @@ export abstract class TableService<T> {
   }
 
   private applyFilters(query: any, filters: Filter<any>[]) {
-    console.log(filters);
     for (let filter of filters) {
       if (filter.value != null) {
         let field = filter.field;
@@ -175,6 +198,13 @@ export abstract class TableService<T> {
         switch (filter.matchMode) {
           case FilterMatchMode.EQUALS:
             query = query.eq(field, filter.value);
+            break;
+
+          case FilterMatchMode.IN:
+            query = query.in(field, filter.value);
+            break;
+          case "NOT_IN":
+            query = query.not(field, "in", `(${filter.value.join(",")})`);
             break;
           case FilterMatchMode.CONTAINS:
             query = query.ilike(field, `%${filter.value}%`);

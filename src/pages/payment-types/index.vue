@@ -11,13 +11,9 @@ import { Pagination } from "@/utils/entities/Pagination";
 import Dropdown from "primevue/dropdown";
 import { usePaymentTypeService } from "@/composables/PayentTypes/usePaymentTypeService";
 import { useCurrencyService } from "@/composables/Currency/useCurrencyService";
+import MultiSelect from "primevue/multiselect";
 
 const service = usePaymentTypeService();
-
-function formatDate(date_str: string) {
-  const date = new Date(date_str);
-  return `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`;
-}
 
 const table = ref();
 
@@ -91,21 +87,43 @@ onMounted(async () => {
           v-if="data && data.allowed_currencies"
           class="flex flex-row items-center"
         >
-          <span v-for="currency in data.allowed_currencies" :key="currency.id">
-            {{ currency.name }}
-            <!-- <Avatar :image="data?.brand.icon" size="normal" shape="circle" /> -->
-            <!-- <router-link -->
-            <!--   class="ml-2 text-blue-500 hover:text-blue-700" -->
-            <!--   :to="{ name: 'brands.edit', params: { id: data.brand.id } }" -->
-            <!-- > -->
-            <!--   {{ data?.brand.name }} -->
-            <!-- </router-link> -->
+          <span
+            v-for="(currency_data, index) in data.allowed_currencies"
+            :key="currency_data.id"
+          >
+            <Avatar
+              :image="currency_data?.currency.icon"
+              size="normal"
+              shape="circle"
+            />
           </span>
         </div>
       </template>
 
+      <template #column-external="{ data }">
+        <div v-if="data" class="flex flex-row items-center">
+          {{ data.external ? $t("yes") : $t("no") }}
+        </div>
+      </template>
+      <template #column-delivery_included="{ data }">
+        <div v-if="data" class="flex flex-row items-center">
+          {{ data.external ? $t("yes") : $t("no") }}
+        </div>
+      </template>
+
+      <template #column-icon="{ data }">
+        <div v-if="data" class="flex flex-row items-center">
+          <Avatar
+            :image="data?.icon"
+            class="mr-2"
+            size="normal"
+            shape="square"
+          />
+        </div>
+      </template>
+
       <template #filter-allowed_currencies="{ filterModel, filterCallback }">
-        <Dropdown
+        <MultiSelect
           v-model="filterModel.value"
           id="currency"
           :options="currency"
@@ -128,7 +146,7 @@ onMounted(async () => {
               <div>{{ slotProps.option.name }}</div>
             </div>
           </template>
-        </Dropdown>
+        </MultiSelect>
       </template>
     </Table>
   </div>

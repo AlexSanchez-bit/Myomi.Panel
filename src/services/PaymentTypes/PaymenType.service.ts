@@ -9,13 +9,15 @@ export interface IPaymentType {
   icon: string;
   external: boolean;
   delivery_included: boolean;
-  delivery_currency: boolean;
-  allowed_currencies: ICurrency[];
+  delivery_currency: number;
+  allowed_currencies: ICurrency[] | number[];
 }
 
 export class PaymentTypeService extends TableCrudService<IPaymentType> {
   constructor() {
-    super("payment_type", ["*,allowed_currencies:currency!inner(*)"]);
+    super("payment_type", [
+      "*,allowed_currencies:payment_type_currency!inner(*,currency(*))",
+    ]);
   }
 
   public buildSelect() {
@@ -27,14 +29,9 @@ export class PaymentTypeService extends TableCrudService<IPaymentType> {
   async getDetails(id: string | number) {
     const { data, error } = await supabase
       .from(this.tablename)
-      .select("*,allowed_currencies:currency!inner(currency_id)")
+      .select("*,allowed_currencies:payment_type_currency!inner(*)")
       .eq("id", id)
       .single();
-
-    if (!error) {
-      data.categories = data.categories.map((category) => category.category_id);
-      data.materials = data.materials.map((material) => material.material_id);
-    }
 
     return { data, error } as PostgrestSingleResponse<IPaymentType>;
   }
@@ -55,11 +52,10 @@ export class PaymentTypeService extends TableCrudService<IPaymentType> {
     if (insert_error) {
       return insert_error;
     }
-
     await this.uploadProductRelations(
       "payment_type_currency",
       "currency_id",
-      data.allowed_currencies.map((curr) => curr.id),
+      data.allowed_currencies as number[],
       payment_data.id,
     );
 
@@ -116,12 +112,13 @@ export class PaymentTypeService extends TableCrudService<IPaymentType> {
     relation_name: string,
     element_key: string,
     elements_ids: number[],
-    product_id: number,
+    payment_type_id: number,
   ) {
     const promises = elements_ids.map(async (element_id: number) => {
+      console.log(element_id);
       const { error } = await supabase
         .from(relation_name)
-        .insert({ [element_key]: element_id, product_id });
+        .insert({ [element_key]: element_id, payment_type_id });
       return error;
     });
 
@@ -132,14 +129,14 @@ export class PaymentTypeService extends TableCrudService<IPaymentType> {
     relation_name: string,
     element_key: string,
     elements_ids: number[],
-    product_id: number,
+    payment_type_id: number,
   ) {
     const promises = elements_ids.map(async (element_id: number) => {
       const { error } = await supabase
         .from(relation_name)
         .delete()
         .eq(element_key, element_id)
-        .eq("product_id", product_id);
+        .eq("payment_type_id", payment_type_id);
       return error;
     });
 

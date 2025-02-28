@@ -19,9 +19,9 @@ export const table_configs: ColumnData[] = [
     header: "allowed_currencies",
     filter: {
       matchMode: FilterMatchMode.IN,
-      value: null,
+      value: [],
     },
-    filter_field: "allowed_currencies.id",
+    filter_field: "allowed_currencies.currency_id",
     showFilterOptions: false,
     sorteable: false,
     dataType: "numeric",
@@ -45,12 +45,5 @@ export const table_configs: ColumnData[] = [
     sorteable: false,
     filter: { value: null, matchMode: FilterMatchMode.EQUALS },
     dataType: "boolean",
-  },
-  {
-    field: "created_at",
-    header: "created_at",
-    filter: { value: null, matchMode: FilterMatchMode.EQUALS },
-    sorteable: true,
-    dataType: "date",
   },
 ];

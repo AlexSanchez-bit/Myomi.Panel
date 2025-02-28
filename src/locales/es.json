@@ -93,5 +93,17 @@
   "promotional_image": "Banner Promocional",
   "locations": "Localizaciones",
   "location": "Localización",
-  "delivery_price": "Precio de entrega"
+  "delivery_price": "Precio de entrega",
+  "payment_type_created": "Tipo de pago creado",
+  "payment_type_edited": "Tipo de pago editado",
+  "yes": "Sí",
+  "no": "No",
+  "create_payment_type": "Crear Tipo de Pago",
+  "edit_payment_type": "Editar Tipo de Pago",
+  "allowed_currencies": "Monedas Permitidas",
+  "external_payment": "Pago externo",
+  "external": "Pago externo",
+  "delivery_included": "Envío Incluido",
+  "delivery_currency": "Moneda de Entrega",
+  "payment_types": "Tipos de Pago"
 }

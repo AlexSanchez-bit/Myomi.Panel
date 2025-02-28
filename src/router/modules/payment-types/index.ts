@@ -7,7 +7,7 @@ export const paymentTypesRoutes = [
   {
     path: "payment-types/create",
     name: "payment_types.create",
-    component: () => import("@/components/Shop/Products/CreateOrModify.vue"),
+    component: () => import("@/components/PaymentTypes/CreateOrModify.vue"),
     props: {
       mode: "create",
     },
@@ -15,10 +15,10 @@ export const paymentTypesRoutes = [
   {
     path: "payment-types/:id/edit",
     name: "payment_types.edit",
-    component: () => import("@/components/Shop/Products/CreateOrModify.vue"),
+    component: () => import("@/components/PaymentTypes/CreateOrModify.vue"),
     props: (route) => ({
       mode: "edit",
-      product_id: route.params.id,
+      paymentTypeId: route.params.id,
     }),
   },
 ];
