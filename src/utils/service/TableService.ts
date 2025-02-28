@@ -274,7 +274,6 @@ export abstract class TableService<T> {
             const formatted_before = date_before.format(
               "YYYY-MM-DD HH:mm:ss[+00:00]",
             );
-            console.log("UTC date", formatted_before);
             query = query.lte(field, formatted_before);
             break;
         }

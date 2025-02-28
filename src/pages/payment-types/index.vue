@@ -88,7 +88,7 @@ onMounted(async () => {
           class="flex flex-row items-center"
         >
           <span
-            v-for="(currency_data, index) in data.allowed_currencies"
+            v-for="currency_data in data.allowed_currencies"
             :key="currency_data.id"
           >
             <Avatar
@@ -107,7 +107,7 @@ onMounted(async () => {
       </template>
       <template #column-delivery_included="{ data }">
         <div v-if="data" class="flex flex-row items-center">
-          {{ data.external ? $t("yes") : $t("no") }}
+          {{ data.delivery_included ? $t("yes") : $t("no") }}
         </div>
       </template>
 

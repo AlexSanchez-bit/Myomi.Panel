@@ -534,7 +534,6 @@ const initFilters = () => {
   }
   globalFilters.value = globFilters;
   filters.value = aux;
-  console.log(filters.value);
 };
 const clearFilter = () => {
   initFilters();

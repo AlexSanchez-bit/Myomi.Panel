@@ -62,7 +62,6 @@
         optionLabel="name"
         optionValue="id"
         class="w-full"
-        :disabled="!form.delivery_included"
       />
     </div>
     <!-- Allowed Currencies -->

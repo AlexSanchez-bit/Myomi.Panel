@@ -115,7 +115,6 @@ export class PaymentTypeService extends TableCrudService<IPaymentType> {
     payment_type_id: number,
   ) {
     const promises = elements_ids.map(async (element_id: number) => {
-      console.log(element_id);
       const { error } = await supabase
         .from(relation_name)
         .insert({ [element_key]: element_id, payment_type_id });

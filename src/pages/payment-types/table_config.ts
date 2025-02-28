@@ -19,7 +19,7 @@ export const table_configs: ColumnData[] = [
     header: "allowed_currencies",
     filter: {
       matchMode: FilterMatchMode.IN,
-      value: [],
+      value: null,
     },
     filter_field: "allowed_currencies.currency_id",
     showFilterOptions: false,
