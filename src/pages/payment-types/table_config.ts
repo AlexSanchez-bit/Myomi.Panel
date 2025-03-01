@@ -46,4 +46,11 @@ export const table_configs: ColumnData[] = [
     filter: { value: null, matchMode: FilterMatchMode.EQUALS },
     dataType: "boolean",
   },
+  {
+    field: "may_have_change",
+    header: "may_have_change",
+    sorteable: false,
+    filter: { value: null, matchMode: FilterMatchMode.EQUALS },
+    dataType: "bool",
+  },
 ];

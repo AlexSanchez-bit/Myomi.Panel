@@ -105,6 +105,11 @@ onMounted(async () => {
           {{ data.external ? $t("yes") : $t("no") }}
         </div>
       </template>
+      <template #column-may_have_change="{ data }">
+        <div v-if="data" class="flex flex-row items-center">
+          {{ data.may_have_change ? $t("yes") : $t("no") }}
+        </div>
+      </template>
       <template #column-delivery_included="{ data }">
         <div v-if="data" class="flex flex-row items-center">
           {{ data.delivery_included ? $t("yes") : $t("no") }}

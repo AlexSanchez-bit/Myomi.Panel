@@ -43,6 +43,12 @@
       <Checkbox v-model="form.external" binary />
       <label class="ml-2 text-sm font-medium">{{ $t("external") }}</label>
     </div>
+    <div class="flex items-center">
+      <Checkbox v-model="form.may_have_change" binary />
+      <label class="ml-2 text-sm font-medium">
+        {{ $t("may_have_change") }}
+      </label>
+    </div>
     <!-- Delivery Included -->
     <div class="flex items-center">
       <Checkbox v-model="form.delivery_included" binary />
@@ -220,13 +226,7 @@ async function submitForm() {
 
   if (mode === "create") {
     const error = await paymentTypeService.create({
-      id: 0,
-      name: form.name,
-      icon: form.icon,
-      external: form.external,
-      delivery_included: form.delivery_included,
-      delivery_currency: form.delivery_currency,
-      allowed_currencies: form.allowed_currencies,
+      ...form,
     } as IPaymentType);
     if (!error) {
       notify("success", "", t("payment_type_created"), 3000);
@@ -238,12 +238,7 @@ async function submitForm() {
 
   if (mode === "edit" && paymentTypeId) {
     const error = await paymentTypeService.update(paymentTypeId, {
-      id: paymentTypeId,
-      name: form.name,
-      icon: form.icon,
-      external: form.external,
-      delivery_included: form.delivery_included,
-      delivery_currency: form.delivery_currency,
+      ...(form as IPaymentType),
     } as IPaymentType);
     if (!error) {
       await paymentTypeService.update_currency(

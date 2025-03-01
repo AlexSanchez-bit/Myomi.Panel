@@ -11,6 +11,7 @@ export interface IPaymentType {
   delivery_included: boolean;
   delivery_currency: number;
   allowed_currencies: ICurrency[] | number[];
+  may_have_change: boolean;
 }
 
 export class PaymentTypeService extends TableCrudService<IPaymentType> {
@@ -45,6 +46,7 @@ export class PaymentTypeService extends TableCrudService<IPaymentType> {
         external: data.external,
         delivery_included: data.delivery_included,
         delivery_currency: data.delivery_currency,
+        may_have_change: data.may_have_change,
       })
       .select()
       .single();
@@ -71,6 +73,7 @@ export class PaymentTypeService extends TableCrudService<IPaymentType> {
         external: data.external,
         delivery_included: data.delivery_included,
         delivery_currency: data.delivery_currency,
+        may_have_change: data.may_have_change,
       })
       .eq("id", id);
 

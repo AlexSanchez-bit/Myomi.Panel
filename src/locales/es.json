@@ -105,5 +105,6 @@
   "external": "Pago externo",
   "delivery_included": "Envío Incluido",
   "delivery_currency": "Moneda de Entrega",
-  "payment_types": "Tipos de Pago"
+  "payment_types": "Tipos de Pago",
+  "may_have_change": "Puede requerir cambio"
 }
