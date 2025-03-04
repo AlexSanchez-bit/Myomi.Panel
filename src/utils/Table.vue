@@ -167,12 +167,12 @@
           #filter="{ filterModel, filterCallback }"
         >
           <slot
-            :name="`filter-${column.field!}`"
-            :filterModel="filterModel!"
+            :name="`filter-${column.field}`"
+            :filterModel="filterModel"
             :filterCallback="filterCallback"
           >
             <DefaultFilter
-              v-model="filterModel.value!"
+              v-model="filterModel.value"
               :on-input="
                 () => {
                   restartPagination();
@@ -324,6 +324,7 @@ const getAllTotalCount = (
 let filtersToExport = {};
 let filterTimeOut = null;
 const loadFilters = (_filters: any) => {
+  //if is filtered the same then return
   clearTimeout(filterTimeOut);
   filterTimeOut = setTimeout(() => {
     Object.keys(_filters.filters).forEach((f) => {

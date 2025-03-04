@@ -51,7 +51,9 @@
     "WRITE_BRAND": "Modificar Marcas",
     "WRITE_GENERAL_CONFIG": "Modificar Configuraciones Generales",
     "WRITE_LOCATION": "Modificar Localizaciones",
-    "WRITE_PAYMENT_METHOD": "Modificar métodos de pago"
+    "WRITE_PAYMENT_METHOD": "Modificar métodos de pago",
+    "READ_ORDER": "Leer Pedidos",
+    "WRITE_ORDER": "Modificar Pedidos"
   },
   "materials": "Ingredientes",
   "material": "Ingrediente",
@@ -106,5 +108,18 @@
   "delivery_included": "Envío Incluido",
   "delivery_currency": "Moneda de Entrega",
   "payment_types": "Tipos de Pago",
-  "may_have_change": "Puede requerir cambio"
+  "may_have_change": "Puede requerir cambio",
+  "order_status": {
+    "CREATED": "Creado",
+    "PAID": "Pagado",
+    "CANCELED": "Cancelado",
+    "DELIVERED": "Entregado"
+  },
+  "number": "Número",
+  "user_name": "Nombre de Usuario",
+  "status": "Estado",
+  "total": "Pago total",
+  "change_requested": "Cambio solicitado",
+  "orders": "Pedidos",
+  "create_order": "Crear Pedido"
 }

@@ -4,7 +4,6 @@ import { useToastStorage } from "@/stores/ToasterStorage";
 import { supabase } from "@/setup";
 import { Sorter } from "../entities/Sorters";
 import { FilterMatchMode } from "primevue/api";
-import { useAuthStore } from "@/stores/AuthStore";
 import moment from "moment-timezone";
 
 export abstract class TableService<T> {
@@ -176,18 +175,18 @@ export abstract class TableService<T> {
   public async getCount(
     filters: Filter<any>[],
   ): Promise<{ totalCount: number }> {
-    let query = supabase.from(this.tablename).select("count");
+    let query = this.buildSelect();
 
     query = this.applyFilters(query, filters);
 
-    let { data, error } = await query;
+    let { count, error } = await query;
 
     if (error) {
       this.notify.notify("error", "Ocurrio un error", error.message, 5000);
       return { totalCount: 0 };
     }
 
-    return { totalCount: data![0].count };
+    return { totalCount: count };
   }
 
   private applyFilters(query: any, filters: Filter<any>[]) {
@@ -196,6 +195,9 @@ export abstract class TableService<T> {
         let field = filter.field;
 
         switch (filter.matchMode) {
+          case "OR":
+            query = query.or(filter.value);
+            break;
           case FilterMatchMode.EQUALS:
             query = query.eq(field, filter.value);
             break;

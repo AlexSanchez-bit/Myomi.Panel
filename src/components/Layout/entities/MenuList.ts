@@ -58,6 +58,12 @@ export const MenuList: MenuListItem[] = [
         router_direction: "/products",
         type: GroupMenuType.Normal,
       },
+      {
+        name: "orders",
+        icon: "pi pi-shopping-cart",
+        router_direction: "/orders",
+        type: GroupMenuType.Normal,
+      },
     ],
   },
   {
