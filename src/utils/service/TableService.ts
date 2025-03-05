@@ -191,12 +191,23 @@ export abstract class TableService<T> {
 
   private applyFilters(query: any, filters: Filter<any>[]) {
     for (let filter of filters) {
+      if (filter.matchMode == "IS") {
+        query = query.is(
+          filter.field,
+          filter.value == "null" ? null : filter.value,
+        );
+      }
       if (filter.value != null) {
         let field = filter.field;
-
         switch (filter.matchMode) {
           case "OR":
             query = query.or(filter.value);
+            break;
+          case "AND":
+            for (let [field, op, value] of filter.value) {
+              query = query.filter(field, op, value);
+            }
+
             break;
           case FilterMatchMode.EQUALS:
             query = query.eq(field, filter.value);

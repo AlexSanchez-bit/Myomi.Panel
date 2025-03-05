@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import Actions from "@/components/Users/Actions.vue";
 import Table from "@/utils/Table.vue";
 import { table_configs } from "./table_config";
-import Button from "primevue/button";
 import MultiSelect from "primevue/multiselect";
 import { useOrderService } from "@/composables/Order/useOrderService";
 import { OrderStatus } from "@/services/Order/Order.service";
 import { computed, ref } from "vue";
 import Dropdown from "primevue/dropdown";
+import UserFilter from "@/components/Orders/UserFilter.vue";
+import { useToastStorage } from "@/stores/ToasterStorage";
+import { useI18n } from "vue-i18n";
 const service = useOrderService();
 
 const table = ref();
@@ -16,10 +17,17 @@ const refresh = () => {
   table.value.refresh();
 };
 
+const { notify } = useToastStorage();
+const { t } = useI18n();
+
 const changeOrder = async (order_id: number, new_status: string) => {
   const error = await service.update(order_id, { status: new_status });
   console.log(error);
-  table.value.refresh();
+  if (!error) {
+    refresh();
+  } else {
+    notify("error", t("an_error_ocurred"), error.message, 3000);
+  }
 };
 
 function formatDate(date_str: string) {
@@ -48,36 +56,18 @@ const aviable_statuses = (status) => {
         <h1 class="">{{ $t("orders") }}</h1>
       </template>
 
-      <!-- <template #toolbar> -->
-      <!--   <router-link :to="{ name: 'orders.create' }"> -->
-      <!--     <Button -->
-      <!--       icon="pi pi-plus" -->
-      <!--       v-tooltip.bottom="{ -->
-      <!--         value: $t('create_order'), -->
-      <!--         showDelay: 100, -->
-      <!--         hideDelay: 300, -->
-      <!--       }" -->
-      <!--       severity="secondary" -->
-      <!--       text -->
-      <!--       rounded -->
-      <!--       outlined -->
-      <!--     /> -->
-      <!--   </router-link> -->
-      <!-- </template> -->
-
-      <template #column-actions="{ data }">
-        <Actions
-          :id="data.id"
-          :delete-cb="service.remove"
-          :editRoute="`/orders/${data.id}/edit`"
-          @removed="refresh"
-          v-if="data"
-        ></Actions>
-      </template>
       <template #column-user="{ data }">
         <div v-if="data" class="flex flex-row items-center">
           {{ data?.user?.name ?? $t("anonymous") }}
         </div>
+      </template>
+
+      <template #filter-user="{ filterModel, filterCallback }">
+        <UserFilter
+          v-model:value="filterModel.value"
+          v-model:matchMode="filterModel.matchMode"
+          @reload="filterCallback"
+        />
       </template>
 
       <template #column-created_at="{ data }">

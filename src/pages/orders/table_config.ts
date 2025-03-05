@@ -2,11 +2,6 @@ import { ColumnData } from "@/utils/entities/ColumnData";
 import { FilterMatchMode } from "primevue/api";
 export const table_configs: ColumnData[] = [
   {
-    field: "actions",
-    header: "actions",
-  },
-
-  {
     field: "id",
     header: "number",
     filter: {
@@ -30,11 +25,12 @@ export const table_configs: ColumnData[] = [
     field: "user",
     header: "user_name",
     filter: {
-      matchMode: FilterMatchMode.CONTAINS,
+      matchMode: "IS",
       value: null,
     },
-    filter_field: "user.name",
+    filter_field: "user_id",
     sorteable: false,
+    showFilterOptions: false,
   },
   {
     field: "status",

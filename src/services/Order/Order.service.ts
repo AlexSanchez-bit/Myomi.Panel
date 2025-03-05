@@ -22,6 +22,7 @@ export interface IOrder {
   total: number;
   delivery_currency: ICurrency;
   delivery_payment: number;
+  status: OrderStatus;
   products: {
     product: IProduct;
     price: number;

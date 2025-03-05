@@ -121,5 +121,6 @@
   "total": "Pago total",
   "change_requested": "Cambio solicitado",
   "orders": "Pedidos",
-  "create_order": "Crear Pedido"
+  "create_order": "Crear Pedido",
+  "anonymous_user": "Usuario anónimo"
 }

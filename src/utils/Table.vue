@@ -317,6 +317,7 @@ const getAllTotalCount = (
       loading.value = false;
     })
     .catch((error: any) => {
+      console.error(error);
       loading.value = false;
     });
 };
@@ -400,6 +401,7 @@ function buildFilters() {
 const refresh = (): void => {
   const tmp_filters = buildFilters();
   emit("filtersChange", filtersToExport, dateFilters.value);
+  console.log(tmp_filters);
   getAllTotalCount(tmp_filters, pagination, sortOrder.value as Sorter[]);
 };
 
