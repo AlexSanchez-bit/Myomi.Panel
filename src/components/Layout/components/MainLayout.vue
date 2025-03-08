@@ -189,6 +189,10 @@ onMounted(async () => {
       );
     } else {
       const p = (payload) => {
+        const audio = new Audio("/campanilla.mp3"); // Asegúrate de poner la ruta correcta
+        audio.play().catch((error) => {
+          console.error("Error al reproducir el sonido:", error);
+        });
         notify(
           "info",
           t(payload.notification.title),

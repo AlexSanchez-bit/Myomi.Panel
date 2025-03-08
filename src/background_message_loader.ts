@@ -30,22 +30,22 @@ export function set_on_message_payload(payload: (payl: any) => void) {
 
 //firebase
 
-navigator.serviceWorker
-  .register("/firebase-messaging-sw.js")
-  .then(async (registration) => {
-    console.log("✅ Service Worker registrado:", registration);
-
-    // Esperar a que el Service Worker esté listo antes de obtener el token
-    return navigator.serviceWorker.ready;
-  })
-  .then(async (registration) => {
-    const token = await getToken(messaging, {
-      vapidKey:
-        "BCBZKNKL8JVeOqWGsWtSRKi2CIzxwbLmkx008q7dY7JcVcMIfRYCuBkpkqh8gBZJM_ibFbrHQuXE453Z1D93X1c",
-      serviceWorkerRegistration: registration,
-    });
-    console.log("✅ Token FCM:", token);
-  })
-  .catch((error) => {
-    console.error("❌ Error en el Service Worker:", error);
-  });
+// navigator.serviceWorker
+//   .register("/firebase-messaging-sw.js")
+//   .then(async (registration) => {
+//     console.log("✅ Service Worker registrado:", registration);
+//
+//     // Esperar a que el Service Worker esté listo antes de obtener el token
+//     return navigator.serviceWorker.ready;
+//   })
+//   .then(async (registration) => {
+//     const token = await getToken(messaging, {
+//       vapidKey:
+//         "BCBZKNKL8JVeOqWGsWtSRKi2CIzxwbLmkx008q7dY7JcVcMIfRYCuBkpkqh8gBZJM_ibFbrHQuXE453Z1D93X1c",
+//       serviceWorkerRegistration: registration,
+//     });
+//     console.log("✅ Token FCM:", token);
+//   })
+//   .catch((error) => {
+//     console.error("❌ Error en el Service Worker:", error);
+//   });
