@@ -112,7 +112,7 @@ import Button from "primevue/button";
 import LanguageSelector from "../../LanguageSelector.vue";
 import StaticMenu from "./StaticMenu.vue";
 import { MenuList } from "../entities/MenuList";
-import { ref, provide, computed } from "vue";
+import { ref, provide, computed, onMounted } from "vue";
 import Menubar from "primevue/menubar";
 import Dialog from "primevue/dialog";
 import Avatar from "primevue/avatar";
@@ -164,6 +164,42 @@ const activePanel = computed<boolean>(() => {
 });
 
 provide("activatedPanel", activePanel);
+
+import {
+  ask_for_permission,
+  set_on_message_payload,
+} from "@/background_message_loader";
+import { supabase } from "@/setup";
+import { useToastStorage } from "@/stores/ToasterStorage";
+const { notify } = useToastStorage();
+
+onMounted(async () => {
+  const user = authService.userData;
+  if (user.user_permissions.includes("READ_NOTIFICATIONS")) {
+    const token = await ask_for_permission();
+    const { data, error } = await supabase
+      .from("fcm_token")
+      .upsert({ user_id: user.id, token }, { onConflict: "user_id" });
+    if (error) {
+      notify(
+        "error",
+        t("error_registering_notifications"),
+        t("please_reload"),
+        3000,
+      );
+    } else {
+      const p = (payload) => {
+        notify(
+          "info",
+          t(payload.notification.title),
+          t(payload.notification.body),
+          3000,
+        );
+      };
+      set_on_message_payload(p);
+    }
+  }
+});
 </script>
 
 <style scoped>

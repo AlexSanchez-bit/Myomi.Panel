@@ -56,10 +56,13 @@ export const useAuthStore = defineStore("authStore", {
       }
       const { data, error } = await supabase
         .from("user")
-        .select("*")
+        .select("*,user_permissions(permission(name))")
         .eq("id", resp.data.user.id)
         .single();
       if (!error) {
+        data.user_permissions = data.user_permissions.map(
+          (perm) => perm.permission.name,
+        );
         this.autenticate(data);
       }
 

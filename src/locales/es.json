@@ -53,7 +53,8 @@
     "WRITE_LOCATION": "Modificar Localizaciones",
     "WRITE_PAYMENT_METHOD": "Modificar métodos de pago",
     "READ_ORDER": "Leer Pedidos",
-    "WRITE_ORDER": "Modificar Pedidos"
+    "WRITE_ORDER": "Modificar Pedidos",
+    "READ_NOTIFICATIONS": "Recibir notificaciones"
   },
   "materials": "Ingredientes",
   "material": "Ingrediente",
@@ -122,5 +123,8 @@
   "change_requested": "Cambio solicitado",
   "orders": "Pedidos",
   "create_order": "Crear Pedido",
-  "anonymous_user": "Usuario anónimo"
+  "anonymous_user": "Usuario anónimo",
+  "error_registering_notifications": "Error registrando notificaciones",
+  "please_reload": "Por favor, recargue la página para aplicar los cambios.",
+  "verify_notification_permissions": "Por favor verifique los permisos de notificación en la configuración de su dispositivo."
 }
