@@ -1,3 +1,6 @@
+import { Filter } from "@/utils/entities/Filter";
+import { Pagination } from "@/utils/entities/Pagination";
+import { Sorter } from "@/utils/entities/Sorters";
 import { supabase } from "@/setup";
 import { TableCrudService } from "@/utils/service/TableCrudService";
 import type { ICurrency } from "../Currency/Currency.service";
@@ -46,6 +49,42 @@ export class OrderService extends TableCrudService<IOrder> {
       "products:order_product!inner(*,product(*))",
       "payment_type!inner(*)",
     ]);
+  }
+
+  public async getAll(
+    filters: Filter<any>[],
+    pagination: Pagination,
+    orders: Sorter[] | null,
+  ): Promise<any[]> {
+    if (
+      filters.find(
+        (item) => item.field == "user_id" && item.matchMode == "IS",
+      ) ||
+      filters.length == 0
+    ) {
+      this.search_fields[1] = "user!left(*)";
+    } else {
+      this.search_fields[1] = "user!inner(*)";
+    }
+    return await super.getAll(filters, pagination, orders);
+  }
+
+  public async getAllTotalCount(
+    filters: Filter<any>[],
+    pagination: Pagination,
+    orders: Sorter[] | null,
+  ): Promise<any> {
+    if (
+      filters.find(
+        (item) => item.field == "user_id" && item.matchMode == "IS",
+      ) ||
+      filters.length == 0
+    ) {
+      this.search_fields[1] = "user!left(*)";
+    } else {
+      this.search_fields[1] = "user!inner(*)";
+    }
+    return await super.getAllTotalCount(filters, pagination, orders);
   }
 
   async createOrder(newData: IOrder) {
