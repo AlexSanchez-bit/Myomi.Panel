@@ -1,6 +1,5 @@
 <template>
   <div class="card">
-    {{ form.brand }}
     <Steps
       :model="steps"
       :readonly="false"
@@ -40,7 +39,9 @@
         v-model:name="form.name"
         v-model:categories="form.categories"
         v-model:materials="form.materials"
+        v-model:concerns="form.concerns"
         v-model:price="form.price"
+        v-model:stock="form.stock"
         v-model:brand="form.brand"
       />
       <Description
@@ -117,6 +118,7 @@ const isValidForm = ref(false);
 
 const originalCategories = ref([]);
 const originalMaterials = ref([]);
+const originalConcerns = ref([]);
 
 onMounted(async () => {
   if (mode == "edit") {
@@ -125,14 +127,17 @@ onMounted(async () => {
       form.name = data.name;
       form.images = data.images;
       form.price = data.price;
+      form.stock = data.stock;
       form.brand = data.brand;
       form.categories = data.categories;
       form.materials = data.materials;
+      form.concerns = data.concerns;
       form.short_description = data.short_description;
       form.long_description = data.long_description;
 
       originalCategories.value = data.categories;
       originalMaterials.value = data.materials;
+      originalConcerns.value = data.concerns;
     } else {
       notify(
         "error",
@@ -182,6 +187,11 @@ async function submitForm() {
       product_id!,
       originalMaterials.value ?? [],
       form.materials ?? [],
+    );
+    await productsService.update_concerns(
+      product_id!,
+      originalConcerns.value ?? [],
+      form.concerns ?? [],
     );
 
     if (!error) {

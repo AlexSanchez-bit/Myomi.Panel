@@ -70,7 +70,7 @@
         }"
       />
 
-      <small v-if="errors.phone" class="text-red-500">{{
+      <small v-if="errors.categories" class="text-red-500">{{
         $t(errors.categoies)
       }}</small>
     </div>
@@ -97,8 +97,35 @@
         }"
       />
 
-      <small v-if="errors.phone" class="text-red-500">{{
-        $t(errors.categoies)
+      <small v-if="errors.materials" class="text-red-500">{{
+        $t(errors.materials)
+      }}</small>
+    </div>
+
+    <div>
+      <label for="concerns" class="block text-sm font-medium">{{
+        $t("concerns")
+      }}</label>
+
+      <MultiSelect
+        id="concerns"
+        v-model="selected_concerns"
+        :options="concerns"
+        optionLabel="name"
+        optionValue="id"
+        class="w-full md:w-14rem"
+        :virtualScrollerOptions="{
+          lazy: true,
+          onLazyLoad: onLazyLoadConcerns,
+          itemSize: 38,
+          showLoader: true,
+          loading: concerns_loading,
+          delay: 250,
+        }"
+      />
+
+      <small v-if="errors.concerns" class="text-red-500">{{
+        $t(errors.concerns)
       }}</small>
     </div>
 
@@ -131,7 +158,7 @@
         </template>
       </Dropdown>
 
-      <small v-if="errors.phone" class="text-red-500">{{
+      <small v-if="errors.brand" class="text-red-500">{{
         $t(errors.brand)
       }}</small>
     </div>
@@ -149,9 +176,11 @@ import Dropdown from "primevue/dropdown";
 import MultiSelect from "primevue/multiselect";
 import { useBrandService } from "@/composables/Shop/Brand/useBrandService";
 import Avatar from "primevue/avatar";
+import { useConcernService } from "@/composables/Shop/Concern/useConcernService";
 const categoriesService = useCategoryService();
 const brandsService = useBrandService();
 const materialService = useMaterialService();
+const concernService = useConcernService();
 
 const categories = ref<any[]>([]);
 const categoriesTotalCount = ref(1);
@@ -161,6 +190,9 @@ const brandsTotalCount = ref(1);
 
 const materials = ref<any[]>();
 const materialsTotalCount = ref(1);
+
+const concerns = ref<any[]>();
+const concernsTotalCount = ref(1);
 
 const onLazyLoadCategories = async (event: { last: number }) => {
   const { last } = event;
@@ -206,16 +238,32 @@ const onLazyLoadMaterials = async (event: { last: number }) => {
   materials_loading.value = false;
 };
 
+const onLazyLoadConcerns = async (event: { last: number }) => {
+  const { last } = event;
+  if (last >= concernsTotalCount.value) return;
+  concerns_loading.value = true;
+  const { data, totalCount: tc } = await concernService.getAllTotalCount(
+    [],
+    new Pagination(last, 100),
+    null,
+  );
+  concernsTotalCount.value = tc;
+  concerns.value = [...data];
+  concerns_loading.value = false;
+};
+
 onMounted(async () => {
   await onLazyLoadCategories({ last: 0 });
   await onLazyLoadMaterials({ last: 0 });
   await onLazyLoadBrands({ last: 0 });
+  await onLazyLoadConcerns({ last: 0 });
   validateForm();
 });
 
 const name = defineModel<string>("name");
 const selected_categories = defineModel<number[]>("categories");
 const selected_materials = defineModel<number[]>("materials");
+const selected_concerns = defineModel<number[]>("concerns");
 const price = defineModel<number>("price");
 const stock = defineModel<number>("stock");
 const brand = defineModel<number>("brand");
@@ -225,6 +273,7 @@ const errors = ref<Record<string, string>>({});
 const categories_loading = ref(false);
 const brands_loading = ref(false);
 const materials_loading = ref(false);
+const concerns_loading = ref(false);
 
 const emit = defineEmits<{
   (e: "validForm", valid: boolean): void;
@@ -256,6 +305,9 @@ function validateForm() {
 
   if (selected_categories.value && selected_categories.value.length == 0) {
     errors.value.name = "Seleccione al menos una categoría";
+  }
+  if (!brand.value) {
+    errors.value.brand = "Selecciona una marca";
   }
 
   const error = Object.keys(errors.value).length;

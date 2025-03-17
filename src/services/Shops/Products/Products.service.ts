@@ -15,6 +15,7 @@ export interface IProduct {
   categories?: number[];
   materials?: number[];
   brand?: number;
+  concerns?: number[];
 }
 
 export class ProductsService extends TableCrudService<IProduct> {
@@ -40,7 +41,7 @@ export class ProductsService extends TableCrudService<IProduct> {
     const { data, error } = await supabase
       .from(this.tablename)
       .select(
-        "*, categories:product_category (category_id),materials:product_materials (material_id)",
+        "*, categories:product_category (category_id),materials:product_materials (material_id),concerns:product_concern(concern_id)",
       )
       .eq("id", id)
       .single();
@@ -48,6 +49,7 @@ export class ProductsService extends TableCrudService<IProduct> {
     if (!error) {
       data.categories = data.categories.map((category) => category.category_id);
       data.materials = data.materials.map((material) => material.material_id);
+      data.concerns = data.concerns.map((concern) => concern.concern_id);
     }
 
     return { data, error } as PostgrestSingleResponse<IProduct>;
@@ -63,6 +65,7 @@ export class ProductsService extends TableCrudService<IProduct> {
         price: data.price,
         images: data.images,
         brand: data.brand,
+        stock: data.stock,
       })
       .select()
       .single();
@@ -86,6 +89,15 @@ export class ProductsService extends TableCrudService<IProduct> {
         product_data.id,
       );
     }
+
+    if (data.concerns) {
+      await this.uploadProductRelations(
+        "product_concern",
+        "concern_id",
+        data.concerns,
+        product_data.id,
+      );
+    }
     return null;
   }
 
@@ -99,6 +111,7 @@ export class ProductsService extends TableCrudService<IProduct> {
         price: data.price,
         images: data.images,
         brand: data.brand,
+        stock: data.stock,
       })
       .eq("id", id);
 
@@ -159,6 +172,33 @@ export class ProductsService extends TableCrudService<IProduct> {
       "product_materials",
       "material_id",
       to_remove_materials,
+      id,
+    );
+  }
+
+  async update_concerns(
+    id: number,
+    old_concerns: number[],
+    new_concerns: number[],
+  ) {
+    const to_upload_concerns = new_concerns.filter(
+      (nc: number) => !old_concerns.includes(nc),
+    );
+    const to_remove_concerns = old_concerns.filter(
+      (nc: number) => !new_concerns.includes(nc),
+    );
+
+    await this.uploadProductRelations(
+      "product_concern",
+      "concern_id",
+      to_upload_concerns,
+      id,
+    );
+
+    await this.removeProductRelations(
+      "product_concern",
+      "concern_id",
+      to_remove_concerns,
       id,
     );
   }
