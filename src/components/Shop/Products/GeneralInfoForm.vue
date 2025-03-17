@@ -304,7 +304,13 @@ function validateForm() {
   }
 
   if (selected_categories.value && selected_categories.value.length == 0) {
-    errors.value.name = "Seleccione al menos una categoría";
+    errors.value.categories = "Seleccione al menos una categoría";
+  }
+  if (selected_concerns.value && selected_concerns.value.length == 0) {
+    errors.value.concerns = "Seleccione al menos una preocupación";
+  }
+  if (selected_materials.value && selected_materials.value.length == 0) {
+    errors.value.materials = "Seleccione al menos un ingrediente";
   }
   if (!brand.value) {
     errors.value.brand = "Selecciona una marca";
