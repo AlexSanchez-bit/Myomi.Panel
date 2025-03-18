@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="p-4">
     <div>
       <h3>{{ $t("carousel-images") }}</h3>
       <ImageSelector
@@ -30,6 +30,15 @@
         @change="onPortraitImageChange"
       />
     </div>
+
+    <div class="relative w-10/12 h-96 mx-auto mt-8">
+      <p class="text-center">
+        {{ $t("monthly_promotions") }}
+      </p>
+
+      <Editor v-model="form.month_promotion" editorStyle="height: 320px" />
+    </div>
+
     <Button
       :loading="loading"
       class="w-full mt-10"
@@ -40,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import Editor from "primevue/editor";
 import ImageSelector from "@/components/ImageSelector.vue";
 import { useGeneralConfigService } from "@/composables/GeneralConfig/useGeneralConfigService";
 import uploadPublicFile from "@/composables/uploadPublicFile";
@@ -48,7 +58,8 @@ import { useToastStorage } from "@/stores/ToasterStorage";
 import { Pagination } from "@/utils/entities/Pagination";
 import Button from "primevue/button";
 import Image from "primevue/image";
-import { onMounted, reactive, ref } from "vue";
+import { computed, onMounted, reactive, ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 const loading = ref(false);
 
@@ -58,7 +69,7 @@ const carousellImages = ref();
 const form = reactive<Partial<IGeneralConfig>>({});
 const { notify } = useToastStorage();
 
-onMounted(async () => {
+const load_general_options = async () => {
   loading.value = true;
   const resp = await service.getAll([], new Pagination(0, 1), []);
   loading.value = false;
@@ -66,10 +77,13 @@ onMounted(async () => {
     const config = resp[0];
     form.carousell_images = config.carousell_images;
     form.promotional_image = config.promotional_image;
+    form.month_promotion = config.month_promotion;
     config_id.value = config.id;
     portraitImage.value = config.promotional_image;
   }
-});
+};
+
+onMounted(load_general_options);
 
 const portraitImage = ref<string | null>(null);
 const portraitImageFile = ref<File | null>(null);
@@ -99,6 +113,7 @@ async function uploadPortrait() {
   return portraitUrl;
 }
 
+const { t } = useI18n();
 const saveConfigs = async () => {
   loading.value = true;
   const pictureUrl = await carousellImages.value.uploadImages();
@@ -109,8 +124,23 @@ const saveConfigs = async () => {
   form.promotional_image = resp;
   loading.value = false;
   loading.value = true;
-  const error = await service.update(config_id.value, { ...form });
+  const error = await (config_id.value
+    ? service.update(config_id.value, { ...form })
+    : service.create({ ...form }));
   loading.value = false;
   console.log(error);
+
+  if (error) {
+    notify("error", "", t(error.message), 3000);
+  } else {
+    if (!config_id.value) {
+      loading.value = true;
+      await load_general_options();
+      loading.value = false;
+    }
+    notify("success", "", t("general_configs_updated"), 3000);
+  }
 };
+
+const editorModules = {};
 </script>
