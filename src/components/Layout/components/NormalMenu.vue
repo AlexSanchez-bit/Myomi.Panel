@@ -1,6 +1,10 @@
 <template>
   <div class="flex flex-col gap-4">
-    <section v-for="menu of menuItems" :key="menu.icon">
+    <section
+      v-for="menu of menuItems"
+      :key="menu.icon"
+      v-permission="menu.permission"
+    >
       <span
         v-if="menu.type == 'Normal'"
         :class="{ 'menu-row-activated': !activated }"

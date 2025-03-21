@@ -1,6 +1,6 @@
+import { Permission } from "@/utils/Permissions";
 import { GroupMenuType } from "./GroupMenu";
 import { type MenuListItem } from "./MenuListItem";
-
 export const MenuList: MenuListItem[] = [
   {
     name: "Administrative",
@@ -13,18 +13,21 @@ export const MenuList: MenuListItem[] = [
         icon: "pi pi-user",
         router_direction: "/users",
         type: GroupMenuType.Normal,
+        permission: [Permission.READ_USER],
       },
       {
         name: "currencies",
         icon: "pi pi-money-bill",
         router_direction: "/currencies",
         type: GroupMenuType.Normal,
+        permission: [],
       },
       {
         name: "payment_types",
         icon: "pi pi-money-bill",
         router_direction: "/payment-types",
         type: GroupMenuType.Normal,
+        permission: [],
       },
     ],
   },
@@ -39,36 +42,42 @@ export const MenuList: MenuListItem[] = [
         icon: "pi pi-tags",
         router_direction: "/categories",
         type: GroupMenuType.Normal,
+        permission: [],
       },
       {
         name: "material",
         icon: "pi pi-receipt",
         router_direction: "/materials",
         type: GroupMenuType.Normal,
+        permission: [],
       },
       {
         name: "concerns",
         icon: "pi pi-tags",
         router_direction: "/concerns",
         type: GroupMenuType.Normal,
+        permission: [],
       },
       {
         name: "brands",
         icon: "pi pi-tags",
         router_direction: "/brands",
         type: GroupMenuType.Normal,
+        permission: [],
       },
       {
         name: "products",
         icon: "pi pi-shopping-bag",
         router_direction: "/products",
         type: GroupMenuType.Normal,
+        permission: [],
       },
       {
         name: "orders",
         icon: "pi pi-shopping-cart",
         router_direction: "/orders",
         type: GroupMenuType.Normal,
+        permission: [Permission.READ_ORDER],
       },
     ],
   },

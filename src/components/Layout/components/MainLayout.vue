@@ -175,7 +175,7 @@ const { notify } = useToastStorage();
 
 onMounted(async () => {
   const user = authService.userData;
-  if (user.user_permissions.includes("READ_NOTIFICATIONS")) {
+  if (user.user_permissions?.includes("READ_NOTIFICATIONS")) {
     const token = await ask_for_permission();
     const { data, error } = await supabase
       .from("fcm_token")
