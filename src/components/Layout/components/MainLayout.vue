@@ -9,8 +9,7 @@
   <div class="flex flex-row w-full h-full max-w-full">
     <!-- Sidebar -->
     <div
-      @mouseleave="toggle_panel(true)"
-      @mouseenter="toggle_panel(false)"
+      ref="slideovermenu"
       :class="{
         closed: !visible && !static_pane,
         '!w-72 p-3 pl-0': static_pane || visible,
@@ -81,7 +80,7 @@
         <Button
           :icon="!static_pane ? 'pi pi-chevron-right' : ' pi pi-chevron-left'"
           @click="toggle_static_pane"
-          class="block md:hidden"
+          class="block md:hidden z-50"
           severity="secondary"
           aria-label="Bookmark"
         />
@@ -112,7 +111,7 @@ import Button from "primevue/button";
 import LanguageSelector from "../../LanguageSelector.vue";
 import StaticMenu from "./StaticMenu.vue";
 import { MenuList } from "../entities/MenuList";
-import { ref, provide, computed, onMounted } from "vue";
+import { ref, provide, computed, onMounted, onUnmounted } from "vue";
 import Menubar from "primevue/menubar";
 import Dialog from "primevue/dialog";
 import Avatar from "primevue/avatar";
@@ -174,6 +173,8 @@ import { useToastStorage } from "@/stores/ToasterStorage";
 const { notify } = useToastStorage();
 
 onMounted(async () => {
+  window.addEventListener("resize", updateScreenSize);
+  updateScreenSize();
   const user = authService.userData;
   if (user.user_permissions?.includes("READ_NOTIFICATIONS")) {
     const token = await ask_for_permission();
@@ -203,6 +204,28 @@ onMounted(async () => {
       set_on_message_payload(p);
     }
   }
+});
+
+const isLargeScreen = ref(window.innerWidth >= 1024); // Cambia el valor según el tamaño deseado
+
+const slideovermenu = ref();
+
+const updateScreenSize = () => {
+  isLargeScreen.value = window.innerWidth >= 1024;
+  const enterListenner = () => toggle_panel(false);
+  const leaveListenner = () => toggle_panel(true);
+  if (!isLargeScreen.value) {
+    slideovermenu.value?.removeEventListener("mouseenter", enterListenner);
+    slideovermenu.value?.removeEventListener("mouseleave", leaveListenner);
+  } else {
+    slideovermenu.value?.addEventListener("mouseenter", enterListenner);
+
+    slideovermenu.value?.addEventListener("mouseleave", leaveListenner);
+  }
+};
+
+onUnmounted(() => {
+  window.removeEventListener("resize", updateScreenSize);
 });
 </script>
 
