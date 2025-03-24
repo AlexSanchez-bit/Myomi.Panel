@@ -134,5 +134,6 @@
   "concern_edited": "Preocupación editada",
   "concern_created": "Preocupación creada",
   "monthly_promotions": "Promociones del mes",
-  "general_configs_updated": "Actualizada configuración general"
+  "general_configs_updated": "Actualizada configuración general",
+  "select_at_least_one_currency_type": "Seleccione al menos una moneda permitida."
 }

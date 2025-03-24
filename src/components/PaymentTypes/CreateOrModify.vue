@@ -69,6 +69,9 @@
         optionValue="id"
         class="w-full"
       />
+      <small v-if="errors.delivery_currency" class="text-red-500">
+        {{ $t(errors.delivery_currency) }}
+      </small>
     </div>
     <!-- Allowed Currencies -->
     <div>
@@ -199,12 +202,15 @@ watch(
 
 function validateForm() {
   errors.value = {};
-  if (!form.name.trim()) {
+  if (!form.name?.trim()) {
     errors.value.name = "El nombre es obligatorio.";
   }
   if (!form.allowed_currencies || form.allowed_currencies?.length === 0) {
-    errors.value.allowed_currencies =
-      "Seleccione al menos una moneda permitida.";
+    errors.value.allowed_currencies = "select_at_least_one_currency_type";
+  }
+
+  if (!form.delivery_currency) {
+    errors.value.delivery_currency = "select_at_least_one_currency_type";
   }
   return Object.keys(errors.value).length === 0;
 }
