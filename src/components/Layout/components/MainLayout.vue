@@ -43,7 +43,7 @@
           >
             <img
               @click="toggle_panel(false)"
-              class="cursor-pointer w-full h-full"
+              class="cursor-pointer"
               src="/logo/logo.png"
               alt="logo"
             />
@@ -277,8 +277,8 @@ onUnmounted(() => {
 }
 
 .logo-button {
-  height: 50px;
-  width: 50px;
+  width: 5.5rem;
+  overflow: hidden;
 }
 .slide-bar:hover .slide-header {
   padding-right: 29px;

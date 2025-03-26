@@ -16,7 +16,7 @@ const router = useRouter();
 onMounted(async () => {
   const resp = await supabase.auth.refreshSession();
   if (resp.error) {
-    router.push("/auth/login");
+    router.push("/login");
   } else {
     const { data, error } = await supabase
       .from("user")
