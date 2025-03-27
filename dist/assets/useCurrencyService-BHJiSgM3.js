@@ -1,0 +1,1 @@
+import{T as e}from"./TableCrudService-P4VSs95W.js";class r extends e{constructor(){super("currency",["id","name","change_value","icon"])}buildSelect(){return this.builder.select(this.search_fields.join(" , "),{count:"exact"})}}const c=new r,t=()=>c;export{t as u};

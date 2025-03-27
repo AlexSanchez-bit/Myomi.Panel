@@ -20,7 +20,7 @@ const refresh = () => {
 const { notify } = useToastStorage();
 const { t } = useI18n();
 
-const changeOrder = async (order_id: number, new_status: string) => {
+const changeOrder = async (order_id: number, new_status: OrderStatus) => {
   const error = await service.update(order_id, { status: new_status });
   console.log(error);
   if (!error) {

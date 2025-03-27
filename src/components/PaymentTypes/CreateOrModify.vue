@@ -112,7 +112,7 @@ import Button from "primevue/button";
 import { useToastStorage } from "@/stores/ToasterStorage";
 import { useRouter } from "vue-router";
 import { useI18n } from "vue-i18n";
-import type { IPaymentType } from "@/services/PaymentType/PaymentTypeService";
+import type { IPaymentType } from "@/services/PaymentTypes/PaymenType.service";
 import uploadPublicFile from "@/composables/uploadPublicFile";
 import { useCurrencyService } from "@/composables/Currency/useCurrencyService";
 import { Pagination } from "@/utils/entities/Pagination";
@@ -171,7 +171,9 @@ onMounted(async () => {
       form.allowed_currencies = data.allowed_currencies.map(
         (curr) => curr.currency_id,
       );
-      originalAllowedCurrencies.value = [...form.allowed_currencies];
+      originalAllowedCurrencies.value = [
+        ...(form.allowed_currencies as number[]),
+      ];
       profileImage.value = data.icon;
     } else {
       notify(
@@ -250,7 +252,7 @@ async function submitForm() {
       await paymentTypeService.update_currency(
         paymentTypeId,
         originalAllowedCurrencies.value,
-        form.allowed_currencies,
+        form.allowed_currencies as number[],
       );
       notify("success", "", t("payment_type_edited"), 3000);
       router.push({ name: "payment_types" });

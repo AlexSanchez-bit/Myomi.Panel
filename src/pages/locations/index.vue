@@ -1,10 +1,8 @@
 <script setup lang="ts">
 import Actions from "@/components/Users/Actions.vue";
-import Avatar from "primevue/avatar";
 import Table from "@/utils/Table.vue";
 import { table_configs } from "./table_config";
 import Button from "primevue/button";
-import Dropdown from "primevue/dropdown";
 import { useLocationService } from "@/composables/Location/useLocationService";
 import { ref } from "vue";
 
@@ -48,7 +46,7 @@ const refresh = () => {
       <template #column-actions="{ data }">
         <Actions
           :id="data.id"
-          :delete-cb="service.remove"
+          :delete-cb="service"
           :editRoute="`locations/${data.id}/edit`"
           @removed="refresh"
           v-if="data"

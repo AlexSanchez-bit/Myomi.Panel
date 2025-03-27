@@ -74,7 +74,7 @@ onMounted(async () => {
       <template #column-actions="{ data }">
         <Actions
           :id="data.id"
-          :delete-cb="service.remove"
+          :delete-cb="service"
           :editRoute="`/products/${data.id}/edit`"
           @removed="refresh"
           v-if="data"

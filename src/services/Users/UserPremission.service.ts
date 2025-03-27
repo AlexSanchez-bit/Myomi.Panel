@@ -2,9 +2,15 @@ import { supabase } from "@/setup";
 import type { IGenericList } from "@/utils/service/IGenericCrud";
 
 export class UserPermissionService implements IGenericList<any> {
-  async getAll(page: number, limit: number, filter: any): Promise<any> {
+  async getAllPermissions(
+    page: number,
+    limit: number,
+    filter: any,
+  ): Promise<any> {
     return await supabase.from("permission").select("*");
   }
+
+  async getDetails(id: string | number): Promise<any> {}
 
   async getUserPermissions(id: string) {
     return await supabase

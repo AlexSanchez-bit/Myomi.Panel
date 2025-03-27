@@ -196,7 +196,7 @@ const concernsTotalCount = ref(1);
 
 const onLazyLoadCategories = async (event: { last: number }) => {
   const { last } = event;
-  if (last >= categoriesTotalCount.value) return;
+  if (last * 100 >= categoriesTotalCount.value) return;
   categories_loading.value = true;
   const { data, totalCount: tc } = await categoriesService.getAllTotalCount(
     [],
@@ -211,7 +211,7 @@ const onLazyLoadCategories = async (event: { last: number }) => {
 
 const onLazyLoadBrands = async (event: { last: number }) => {
   const { last } = event;
-  if (last >= brandsTotalCount.value) return;
+  if (last * 100 >= brandsTotalCount.value) return;
   brands_loading.value = true;
   const { data, totalCount: tc } = await brandsService.getAllTotalCount(
     [],
@@ -226,7 +226,7 @@ const onLazyLoadBrands = async (event: { last: number }) => {
 
 const onLazyLoadMaterials = async (event: { last: number }) => {
   const { last } = event;
-  if (last >= materialsTotalCount.value) return;
+  if (last * 100 >= materialsTotalCount.value) return;
   materials_loading.value = true;
   const { data, totalCount: tc } = await materialService.getAllTotalCount(
     [],
@@ -240,7 +240,7 @@ const onLazyLoadMaterials = async (event: { last: number }) => {
 
 const onLazyLoadConcerns = async (event: { last: number }) => {
   const { last } = event;
-  if (last >= concernsTotalCount.value) return;
+  if (last * 100 >= concernsTotalCount.value) return;
   concerns_loading.value = true;
   const { data, totalCount: tc } = await concernService.getAllTotalCount(
     [],

@@ -83,7 +83,7 @@ const refresh = () => {
             :modelValue="data?.order"
             :value="data?.order"
             class="w-12 h-8"
-            @input="(e) => updateOrder(data.id, e.target.value)"
+            @input="(e) => updateOrder(data.id, (e.target as any).value)"
             name=""
             id=""
           />

@@ -1,0 +1,1 @@
+import{T as e}from"./TableCrudService-P4VSs95W.js";class c extends e{constructor(){super("location",["id","name","delivery_price","created_at"])}buildSelect(){return this.builder.select(this.search_fields.join(" , "),{count:"exact"})}}const t=new c,o=()=>t;export{o as u};

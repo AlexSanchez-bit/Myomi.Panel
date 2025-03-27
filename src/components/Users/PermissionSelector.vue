@@ -57,7 +57,7 @@
       </div>
       <Button
         v-if="mode != 'create'"
-        @click="save"
+        @click="save()"
         :label="$t('save')"
         class="mx-auto my-3 w-full"
         :icon="loading ? 'pi pi-spin pi-spinner' : 'pi pi-check'"
@@ -67,7 +67,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import Dropdown from "primevue/dropdown";
 import Button from "primevue/button";
 import { useUserPermisionService } from "@/composables/Users/useUserPermisionService";
@@ -94,17 +94,23 @@ const service = useUserPermisionService();
 const loading = ref(false);
 
 // Permisos disponibles (simula datos de un backend o API)
-const availablePermissions = ref<Permission[]>([]);
+const allPermissions = ref<Permission[]>([]);
 const selectedPermissions = ref<Permission[]>([]); // Permisos seleccionados
 const selectedPermission = ref<Permission | null>(null); // Permiso seleccionado en el Dropdown
 let originalPermissions = [] as Permission[];
 
+const availablePermissions = computed(() => {
+  return allPermissions.value.filter(
+    (p) => !selectedPermissions.value.map((s) => s.id).includes(p.id),
+  );
+});
+
 onMounted(async () => {
   loading.value = true;
-  const { data, error } = await service.getAll(0, 0, {});
+  const { data, error } = await service.getAllPermissions(0, 0, {});
   loading.value = false;
   if (!error) {
-    availablePermissions.value = data;
+    allPermissions.value = data;
   }
   if (mode == "edit") {
     const { data, error } = await service.getUserPermissions(user_id!);

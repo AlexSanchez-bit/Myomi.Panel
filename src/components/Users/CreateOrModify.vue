@@ -46,6 +46,7 @@ import UserForm from "./UserForm.vue";
 import PermissionSelector from "./PermissionSelector.vue";
 import { ref } from "vue";
 const claims = ref(null);
+const loading = ref(false);
 interface Props {
   mode: "create" | "edit";
   user_id?: string;

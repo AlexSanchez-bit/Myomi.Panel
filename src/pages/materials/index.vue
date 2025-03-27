@@ -13,6 +13,12 @@ const table = ref();
 const refresh = () => {
   table.value.refresh();
 };
+
+const materialRemover = {
+  remove: async (id: string | number) => {
+    return await service.deleteMaterial(id as number);
+  },
+};
 </script>
 <template>
   <div>
@@ -42,7 +48,7 @@ const refresh = () => {
         <Actions
           :id="data.id"
           :editRoute="`/materials/${data.id}/edit`"
-          :delete-cb="service.deleteMaterial"
+          :delete-cb="materialRemover"
           @removed="refresh"
           v-if="data"
         ></Actions>

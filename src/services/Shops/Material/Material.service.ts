@@ -48,7 +48,7 @@ export class MaterialService extends TableService<any> {
     return error;
   }
 
-  async deleteMaterial(id: string) {
+  async deleteMaterial(id: number) {
     return await supabase.from(this.tablename).delete().eq("id", id);
   }
 }

@@ -173,10 +173,6 @@ function validateForm() {
     errors.value.name = "El nombre es obligatorio.";
   }
 
-  if (form.value.change_value < 0) {
-    errors.value.change_value = "El valor debe ser positivo.";
-  }
-
   return Object.keys(errors.value).length === 0;
 }
 

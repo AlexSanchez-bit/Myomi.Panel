@@ -75,7 +75,7 @@ export abstract class TableService<T> {
     this.notify = useToastStorage();
     this.tablename = tablename;
     this.search_fields = searchFields;
-    this.user_id = "jj";
+    this.user_id = "aa";
   }
   get builder() {
     return supabase.from(this.tablename);

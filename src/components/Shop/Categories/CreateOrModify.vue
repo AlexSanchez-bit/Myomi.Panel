@@ -132,7 +132,8 @@ const totalCount = ref(1);
 
 const onLazyLoad = async (event: { last: number }) => {
   const { last } = event;
-  if (last >= totalCount.value) return;
+  console.log(last, totalCount.value);
+  if (last >= totalCount.value / 5) return;
   const { data, totalCount: tc } = await service.getAllTotalCount(
     [],
     new Pagination(last, 5),

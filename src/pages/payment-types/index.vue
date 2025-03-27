@@ -8,7 +8,6 @@ import Button from "primevue/button";
 
 import { onMounted, ref } from "vue";
 import { Pagination } from "@/utils/entities/Pagination";
-import Dropdown from "primevue/dropdown";
 import { usePaymentTypeService } from "@/composables/PayentTypes/usePaymentTypeService";
 import { useCurrencyService } from "@/composables/Currency/useCurrencyService";
 import MultiSelect from "primevue/multiselect";
@@ -70,7 +69,7 @@ onMounted(async () => {
       <template #column-actions="{ data }">
         <Actions
           :id="data.id"
-          :delete-cb="service.remove"
+          :delete-cb="service"
           :editRoute="`/payment-types/${data.id}/edit`"
           @removed="refresh"
           v-if="data"

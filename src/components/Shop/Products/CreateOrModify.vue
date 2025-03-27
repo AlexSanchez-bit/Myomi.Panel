@@ -27,7 +27,7 @@
               active ? 'text-darkblue' : 'text-primary',
             ]"
           >
-            {{ $t(item.label) }}
+            {{ $t(item.label as string) }}
           </p>
         </div>
       </template>
