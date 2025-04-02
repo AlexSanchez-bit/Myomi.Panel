@@ -327,8 +327,9 @@ onUnmounted(() => {
   .closed {
     width: 0;
     opacity: 0;
+    overflow: hidden;
+    z-index: -100;
   }
-
   .slide-bar:hover {
     width: auto;
   }
