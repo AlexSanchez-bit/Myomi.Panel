@@ -1,10 +1,14 @@
 <template>
-  <div :class="{ fullscreen: fullscreen }" class="tinymce-container" :style="{ width: containerWidth }">
+  <div
+    :class="{ fullscreen: fullscreen }"
+    class="tinymce-container"
+    :style="{ width: containerWidth }"
+  >
     <textarea :id="tinymceId" class="tinymce-textarea" disabled />
     <!--  <div class="editor-custom-btn-container"> -->
     <!--    <editorImage color="#1890ff" class="editor-upload-btn" @successCBK="imageSuccessCBK" /> -->
     <!--  </div> -->
-    <VaSkeleton v-if="loading" class="w-full h-64" />
+    <Skeleton v-if="loading" class="w-full h-64" />
   </div>
 </template>
 
@@ -18,37 +22,43 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 /* eslint-disable */
-import plugins from './plugins'
-import toolbar from './toolbar'
-import load from './dynamicLoadScript'
+import plugins from "./plugins";
+import toolbar from "./toolbar";
+import load from "./dynamicLoadScript";
+import Skeleton from "primevue/skeleton";
 
 // why use this cdn, detail see https://github.com/PanJiaChen/tinymce-all-in-one
-const tinymceCDN = 'https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js'
+const tinymceCDN =
+  "https://cdn.jsdelivr.net/npm/tinymce-all-in-one@4.9.3/tinymce.min.js";
 
 export default {
-  name: 'Tinymce',
+  name: "Tinymce",
   // components: { editorImage },
   props: {
     id: {
       type: String,
       default: function () {
-        return 'vue-tinymce-' + +new Date() + ((Math.random() * 1000).toFixed(0) + '')
+        return (
+          "vue-tinymce-" +
+          +new Date() +
+          ((Math.random() * 1000).toFixed(0) + "")
+        );
       },
     },
     value: {
       type: String,
-      default: '',
+      default: "",
     },
     toolbar: {
       type: Array,
       required: false,
       default() {
-        return []
+        return [];
       },
     },
     menubar: {
       type: String,
-      default: 'file edit insert view format table',
+      default: "file edit insert view format table",
     },
     height: {
       type: [Number, String],
@@ -58,7 +68,7 @@ export default {
     width: {
       type: [Number, String],
       required: false,
-      default: 'auto',
+      default: "auto",
     },
     disabled: {
       type: Boolean,
@@ -74,118 +84,118 @@ export default {
       tinymceId: this.id,
       fullscreen: false,
       languageTypeList: {
-        en: 'en',
-        zh: 'zh_CN',
-        es: 'es_MX',
-        ja: 'ja',
+        en: "en",
+        zh: "zh_CN",
+        es: "es_MX",
+        ja: "ja",
       },
-    }
+    };
   },
   computed: {
     containerWidth() {
-      const width = this.width
+      const width = this.width;
       if (/^[\d]+(\.[\d]+)?$/.test(width)) {
         // matches `100`, `'100'`
-        return `${width}px`
+        return `${width}px`;
       }
-      return width
+      return width;
     },
   },
   watch: {
     value(val) {
       if (!this.hasChange && this.hasInit) {
         this.$nextTick(() => {
-          const editor = window.tinymce.get(this.tinymceId)
+          const editor = window.tinymce.get(this.tinymceId);
           if (editor) {
-            editor.setContent(val || '')
+            editor.setContent(val || "");
           }
           if (this.hasChangeId) {
-            editor.setMode(this.disabled ? 'readonly' : 'design')
-            this.hasChangeId = false
+            editor.setMode(this.disabled ? "readonly" : "design");
+            this.hasChangeId = false;
           }
-        })
+        });
       }
     },
     disabled(val) {
       this.$nextTick(() => {
-        const editor = window.tinymce.get(this.tinymceId)
+        const editor = window.tinymce.get(this.tinymceId);
         if (editor && !this.hasChangeId) {
-          editor.setMode(val ? 'readonly' : 'design')
+          editor.setMode(val ? "readonly" : "design");
         }
-      })
+      });
     },
     id(val) {
-      this.hasChange = !val
-      this.hasChangeId = true
+      this.hasChange = !val;
+      this.hasChangeId = true;
     },
   },
   mounted() {
-    this.init()
+    this.init();
   },
   activated() {
     if (window.tinymce) {
-      this.initTinymce()
+      this.initTinymce();
     } else {
-      this.init()
+      this.init();
     }
   },
   deactivated() {
-    this?.destroyTinymce()
+    this?.destroyTinymce();
   },
   unmounted() {
-    this?.destroyTinymce()
+    this?.destroyTinymce();
   },
   methods: {
     init() {
       // dynamic load tinymce from cdn
-      this.loading = true
+      this.loading = true;
       load(tinymceCDN, (err) => {
-        this.loading = false
+        this.loading = false;
         if (err) {
-          this.$message.error(err.message)
-          return
+          this.$message.error(err.message);
+          return;
         }
-        this.initTinymce()
-      })
+        this.initTinymce();
+      });
     },
     initTinymce() {
-      const _this = this
+      const _this = this;
       window.tinymce.init({
         selector: `#${this.tinymceId}`,
-        language: this.languageTypeList['en'],
+        language: this.languageTypeList["en"],
         height: this.height,
-        body_class: 'panel-body ',
+        body_class: "panel-body ",
         object_resizing: false,
         toolbar: this.toolbar.length > 0 ? this.toolbar : toolbar,
         menubar: this.menubar,
         plugins: plugins,
         end_container_on_empty_block: true,
-        powerpaste_word_import: 'clean',
+        powerpaste_word_import: "clean",
         code_dialog_height: 450,
         code_dialog_width: 1000,
-        advlist_bullet_styles: 'square',
-        advlist_number_styles: 'default',
-        imagetools_cors_hosts: ['www.tinymce.com', 'codepen.io'],
-        default_link_target: '_blank',
+        advlist_bullet_styles: "square",
+        advlist_number_styles: "default",
+        imagetools_cors_hosts: ["www.tinymce.com", "codepen.io"],
+        default_link_target: "_blank",
         link_title: false,
         nonbreaking_force_tab: true, // inserting nonbreaking space &nbsp; need Nonbreaking Space Plugin
         init_instance_callback: (editor) => {
           if (_this.value) {
-            editor.setContent(_this.value)
+            editor.setContent(_this.value);
           }
           if (_this.disabled) {
-            editor.setMode('readonly')
+            editor.setMode("readonly");
           }
-          _this.hasInit = true
-          editor.on('NodeChange Change KeyUp SetContent', () => {
-            this.hasChange = true
-            this.$emit('input', editor.getContent())
-          })
+          _this.hasInit = true;
+          editor.on("NodeChange Change KeyUp SetContent", () => {
+            this.hasChange = true;
+            this.$emit("input", editor.getContent());
+          });
         },
         setup(editor) {
-          editor.on('FullscreenStateChanged', (e) => {
-            _this.fullscreen = e.state
-          })
+          editor.on("FullscreenStateChanged", (e) => {
+            _this.fullscreen = e.state;
+          });
         },
         // it will try to keep these URLs intact
         // https://www.tiny.cloud/docs-3x/reference/configuration/Configuration3x@convert_urls/
@@ -224,33 +234,37 @@ export default {
         //     console.log(err);
         //   });
         // },
-      })
+      });
 
-      console.log(this.tinymceId)
-      console.log(window.tinymce)
+      console.log(this.tinymceId);
+      console.log(window.tinymce);
     },
     destroyTinymce() {
-      const tinymce = window.tinymce?.get(this.tinymceId)
+      const tinymce = window.tinymce?.get(this.tinymceId);
       if (this.fullscreen) {
-        tinymce?.execCommand('mceFullScreen')
+        tinymce?.execCommand("mceFullScreen");
       }
 
       if (tinymce) {
-        tinymce.destroy()
-        tinymce.remove()
+        tinymce.destroy();
+        tinymce.remove();
       }
     },
     setContent(value) {
-      window.tinymce.get(this.tinymceId).setContent(value)
+      window.tinymce.get(this.tinymceId).setContent(value);
     },
     getContent() {
-      window.tinymce.get(this.tinymceId).getContent()
+      window.tinymce.get(this.tinymceId).getContent();
     },
     imageSuccessCBK(arr) {
-      arr.forEach((v) => window.tinymce.get(this.tinymceId).insertContent(`<img class="wscnph" src="${v.url}" >`))
+      arr.forEach((v) =>
+        window.tinymce
+          .get(this.tinymceId)
+          .insertContent(`<img class="wscnph" src="${v.url}" >`),
+      );
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>

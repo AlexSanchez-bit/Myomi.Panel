@@ -5,7 +5,7 @@
       <label for="name" class="block text-sm font-medium">{{
         $t("name")
       }}</label>
-      <InputText
+      <Textarea
         id="name"
         v-model="name"
         :class="{ 'p-invalid': errors.name }"
@@ -166,6 +166,7 @@
 </template>
 
 <script setup lang="ts">
+import Textarea from "primevue/textarea";
 import { ref, onMounted } from "vue";
 import InputText from "primevue/inputtext";
 import InputNumber from "primevue/inputnumber";
