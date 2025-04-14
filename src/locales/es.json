@@ -135,5 +135,7 @@
   "concern_created": "Preocupación creada",
   "monthly_promotions": "Promociones del mes",
   "general_configs_updated": "Actualizada configuración general",
-  "select_at_least_one_currency_type": "Seleccione al menos una moneda permitida."
+  "select_at_least_one_currency_type": "Seleccione al menos una moneda permitida.",
+  "fee_mus_be_between_0_1": "El impuesto debe estar entre 1 y 0",
+  "fee": "Impuesto"
 }

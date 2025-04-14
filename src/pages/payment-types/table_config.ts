@@ -15,6 +15,16 @@ export const table_configs: ColumnData[] = [
     sorteable: false,
   },
   {
+    field: "fee",
+    header: "fee",
+    filter: {
+      matchMode: FilterMatchMode.EQUALS,
+      value: null,
+    },
+    sorteable: true,
+    dataType: "numeric",
+  },
+  {
     field: "allowed_currencies",
     header: "allowed_currencies",
     filter: {

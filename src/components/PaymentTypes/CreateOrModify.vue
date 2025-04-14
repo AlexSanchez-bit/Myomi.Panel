@@ -56,6 +56,21 @@
         {{ $t("delivery_included") }}
       </label>
     </div>
+
+    <div class="flex flex-col items-start" v-if="form.external">
+      <label for="fee" class="ml-2 text-sm font-medium">
+        {{ $t("fee") }}
+      </label>
+      <InputNumber
+        id="fee"
+        inputId="locale-user"
+        :max-fraction-digits="2"
+        v-model="form.fee"
+      />
+      <small v-if="errors.fee" class="text-red-500">
+        {{ $t(errors.fee) }}
+      </small>
+    </div>
     <!-- Delivery Currency (selección única, solo activa si delivery_included es true) -->
     <div v-if="!form.delivery_included">
       <label for="delivery_currency" class="block text-sm font-medium">
@@ -117,6 +132,7 @@ import uploadPublicFile from "@/composables/uploadPublicFile";
 import { useCurrencyService } from "@/composables/Currency/useCurrencyService";
 import { Pagination } from "@/utils/entities/Pagination";
 import { usePaymentTypeService } from "@/composables/PayentTypes/usePaymentTypeService";
+import InputNumber from "primevue/inputnumber";
 
 interface Props {
   mode: "create" | "edit";
@@ -128,6 +144,7 @@ const { mode, paymentTypeId } = props;
 const form = reactive<Partial<IPaymentType>>({
   external: false,
   delivery_included: false,
+  fee: 0,
 });
 
 const errors = ref<Record<string, string>>({});
@@ -210,8 +227,11 @@ function validateForm() {
   if (!form.allowed_currencies || form.allowed_currencies?.length === 0) {
     errors.value.allowed_currencies = "select_at_least_one_currency_type";
   }
+  if (form.fee < 0 || form.fee > 1) {
+    errors.value.fee = "fee_mus_be_between_0_1";
+  }
 
-  if (!form.delivery_currency) {
+  if (!form.delivery_currency && !form.delivery_included) {
     errors.value.delivery_currency = "select_at_least_one_currency_type";
   }
   return Object.keys(errors.value).length === 0;
