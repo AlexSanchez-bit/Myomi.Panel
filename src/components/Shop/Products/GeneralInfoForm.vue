@@ -60,14 +60,6 @@
         optionLabel="name"
         optionValue="id"
         class="w-full md:w-14rem"
-        :virtualScrollerOptions="{
-          lazy: true,
-          onLazyLoad: onLazyLoadCategories,
-          itemSize: 38,
-          showLoader: true,
-          loading: categories_loading,
-          delay: 250,
-        }"
       />
 
       <small v-if="errors.categories" class="text-red-500">{{
@@ -87,14 +79,6 @@
         optionLabel="name"
         optionValue="id"
         class="w-full md:w-14rem"
-        :virtualScrollerOptions="{
-          lazy: true,
-          onLazyLoad: onLazyLoadMaterials,
-          itemSize: 38,
-          showLoader: true,
-          loading: materials_loading,
-          delay: 250,
-        }"
       />
 
       <small v-if="errors.materials" class="text-red-500">{{
@@ -114,14 +98,6 @@
         optionLabel="name"
         optionValue="id"
         class="w-full md:w-14rem"
-        :virtualScrollerOptions="{
-          lazy: true,
-          onLazyLoad: onLazyLoadConcerns,
-          itemSize: 38,
-          showLoader: true,
-          loading: concerns_loading,
-          delay: 250,
-        }"
       />
 
       <small v-if="errors.concerns" class="text-red-500">{{
@@ -141,14 +117,6 @@
         optionLabel="name"
         optionValue="id"
         class="w-full md:w-14rem"
-        :virtualScrollerOptions="{
-          lazy: true,
-          onLazyLoad: onLazyLoadBrands,
-          itemSize: 38,
-          showLoader: true,
-          loading: brands_loading,
-          delay: 250,
-        }"
       >
         <template #option="slotProps">
           <div class="flex align-items-center">
@@ -221,22 +189,23 @@ const onLazyLoadBrands = async (event: { last: number }) => {
   );
   brandsTotalCount.value = tc;
   brands.value = [...data];
-  console.log(brands);
   brands_loading.value = false;
 };
 
 const onLazyLoadMaterials = async (event: { last: number }) => {
   const { last } = event;
-  if (last * 100 >= materialsTotalCount.value) return;
+  if (last * 100 >= materialsTotalCount.value) {
+    return [];
+  }
   materials_loading.value = true;
   const { data, totalCount: tc } = await materialService.getAllTotalCount(
     [],
     new Pagination(last, 100),
     null,
   );
+  materials_loading.value = false;
   materialsTotalCount.value = tc;
   materials.value = [...data];
-  materials_loading.value = false;
 };
 
 const onLazyLoadConcerns = async (event: { last: number }) => {

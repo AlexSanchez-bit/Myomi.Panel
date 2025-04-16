@@ -186,7 +186,7 @@ onMounted(async () => {
         "error",
         t("error_registering_notifications"),
         t("please_reload"),
-        3000,
+        13000,
       );
     } else {
       const p = (payload) => {
