@@ -12,7 +12,7 @@ import { paymentTypesRoutes } from "./modules/payment-types";
 import { orderRoutes } from "./modules/orders";
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory("#"),
   routes: [
     {
       path: "/",
