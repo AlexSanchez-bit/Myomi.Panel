@@ -36,11 +36,11 @@ const onLazyLoadBrands = async (event: { last: number }) => {
   brands_loading.value = true;
   const { data, totalCount: tc } = await brandsService.getAllTotalCount(
     [],
-    new Pagination(last, 100),
+    new Pagination(last, 1000),
     null,
   );
-  brandsTotalCount.value = tc;
-  brands.value = [...data];
+  brandsTotalCount.value = tc * 1000;
+  brands.value = [...brands.value, ...data];
   brands_loading.value = false;
 };
 onMounted(async () => {
@@ -88,7 +88,7 @@ onMounted(async () => {
 
       <template #column-brand="{ data }">
         <div v-if="data && data.brand" class="flex flex-row items-center">
-          <Avatar :image="data?.brand.icon" size="normal" shape="circle" />
+          <Avatar :image="data?.brand.icon" size="normal" />
           <router-link
             class="ml-2 text-blue-500 hover:text-blue-700"
             :to="{ name: 'brands.edit', params: { id: data.brand.id } }"
@@ -107,17 +107,9 @@ onMounted(async () => {
           optionValue="id"
           class="min-w-36"
           @change="filterCallback"
-          :virtualScrollerOptions="{
-            lazy: true,
-            onLazyLoad: onLazyLoadBrands,
-            itemSize: 38,
-            showLoader: true,
-            loading: brands_loading,
-            delay: 250,
-          }"
         >
           <template #option="slotProps">
-            <div class="flex align-items-center">
+            <div class="flex align-items-center items-center gap-2">
               <Avatar :image="slotProps.option.icon" size="normal" />
               <div>{{ slotProps.option.name }}</div>
             </div>
@@ -132,8 +124,13 @@ onMounted(async () => {
       <template #column-created_at="{ data }">
         <div v-if="data && data.created_at">
           {{ formatDate(data.created_at) }}
-        </div>
-      </template>
+        </div> </template
+      >c
     </Table>
   </div>
 </template>
+<style scoped>
+:deep(.p-avatar img) {
+  object-fit: scale-down;
+}
+</style>
