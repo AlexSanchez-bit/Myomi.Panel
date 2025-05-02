@@ -63,7 +63,7 @@
       />
 
       <small v-if="errors.categories" class="text-red-500">{{
-        $t(errors.categoies)
+        $t(errors.categories)
       }}</small>
     </div>
 

@@ -76,3 +76,8 @@ const refresh = () => {
     </Table>
   </div>
 </template>
+<style scoped>
+:deep(.p-avatar img) {
+  object-fit: scale-down;
+}
+</style>
