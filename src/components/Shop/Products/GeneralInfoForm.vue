@@ -26,6 +26,8 @@
         :class="{ 'p-invalid': errors.price }"
         class="w-full"
         aria-describedby="price-help"
+        :maxFractionDigits="2"
+        fluid
       />
       <small v-if="errors.price" class="text-red-500">{{
         $t(errors.price)
