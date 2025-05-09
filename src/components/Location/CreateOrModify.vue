@@ -156,7 +156,7 @@ function validateForm() {
     errors.value.name = "El nombre es obligatorio.";
   }
 
-  if (usdPrice.value <= 0) {
+  if (form.value.delivery_price <= 0) {
     errors.value.delivery_price = "El precio debe ser mayor que cero.";
   }
 

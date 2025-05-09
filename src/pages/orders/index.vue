@@ -85,10 +85,10 @@ const aviable_statuses = (status) => {
 
       <template #column-total="{ data }">
         <div v-if="data && data.total" class="flex flex-row items-center">
-          {{ data.total * data.currency.change_value }} {{ data.currency.name }}
+          {{ (data.total * data.currency.change_value).toFixed(2) }} {{ data.currency.name }}
           <span v-if="data.delivery_payment">
             +
-            {{ data.delivery_payment * data.delivery_currency.change_value }}
+            {{ (data.delivery_payment * data.delivery_currency.change_value).toFixed(2) }}
             {{ data.delivery_currency.name }}
           </span>
         </div>
