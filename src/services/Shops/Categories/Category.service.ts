@@ -29,7 +29,6 @@ export class CategoryService extends TableCrudService<ICategory> {
   }
 
   async remove(id: string | number) {
-    console.log(this);
     const { error } = await supabase.from("category").delete().eq("id", id);
     return error;
   }

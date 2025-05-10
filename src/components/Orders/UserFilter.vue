@@ -60,7 +60,7 @@ const anonymous: Ref<any> = ref(false);
 onMounted(() => {
   if (matchMode.value === "IS") {
     anonymous.value = true;
-  } else {
+  } else if(value.value) {
     name_filter.value = value.value[1][2]?.split("%")[1];
   }
 });
@@ -79,10 +79,12 @@ const toggleDropdown = () => {
 const lastTiemout = ref(null);
 
 async function changeInput(nv: string | boolean) {
+  alert()
   if (nv === true) {
     matchMode.value = "IS";
     value.value = "null";
   } else {
+    anonymous.value = false
     matchMode.value = "AND";
     value.value = [
       ["session_id", "is", null],

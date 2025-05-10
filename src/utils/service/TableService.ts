@@ -18,24 +18,24 @@ export abstract class TableService<T> {
   private _orders: any | null = null;
 
   public get filters() {
-    if (this._filters == null) {
-      try {
-        return JSON.parse(
-          localStorage.getItem(this.user_id + this.tablename + "filter")!,
-        );
-      } catch (e) {
-        return null;
-      }
-    }
+    // if (this._filters == null) {
+    //   try {
+    //     return JSON.parse(
+    //       localStorage.getItem(this.user_id + this.tablename + "filter")!,
+    //     );
+    //   } catch (e) {
+    //     return null;
+    //   }
+    // }
     return this._filters;
   }
 
   public set filters(value: any) {
     this._filters = value;
-    localStorage.setItem(
-      this.user_id + this.tablename + "filter",
-      JSON.stringify(value),
-    );
+    // localStorage.setItem(
+    //   this.user_id + this.tablename + "filter",
+    //   JSON.stringify(value),
+    // );
   }
 
   public get pagination() {
@@ -75,7 +75,7 @@ export abstract class TableService<T> {
     this.notify = useToastStorage();
     this.tablename = tablename;
     this.search_fields = searchFields;
-    this.user_id = "aa";
+    this.user_id = "browser_id";
   }
   get builder() {
     return supabase.from(this.tablename);

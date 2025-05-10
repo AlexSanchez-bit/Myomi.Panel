@@ -110,6 +110,7 @@
   "delivery_included": "Envío Incluido",
   "delivery_currency": "Moneda de Entrega",
   "payment_types": "Tipos de Pago",
+  "payment_type": "Tipo de Pago",
   "may_have_change": "Puede requerir cambio",
   "order_status": {
     "CREATED": "Creado",
@@ -137,5 +138,33 @@
   "general_configs_updated": "Actualizada configuración general",
   "select_at_least_one_currency_type": "Seleccione al menos una moneda permitida.",
   "fee_mus_be_between_0_1": "El impuesto debe estar entre 0 y 1",
-  "fee": "Impuesto"
+  "fee": "Impuesto",
+    "order": {
+    "orderNumber": "Orden #",
+    "total": "Total",
+    "paymentMethod": "Método de Pago",
+    "date": "Fecha",
+    "productsCount": "Productos",
+    "status": {
+      "paid": "Pagado",
+      "created": "Creado",
+      "cancelled": "Cancelado",
+      "delivered": "Entregado"
+    },
+    "viewDetails": "Ver Más Detalles",
+    "hideDetails": "Ocultar Detalles",
+    "generateInvoice": "Generar Factura",
+    "productDetails": "Detalles del Producto",
+    "contactDetails": "Información del Contacto",
+    "contactName": "Nombre",
+    "contactPhone": "Teléfono",
+    "contactAddress": "Dirección",
+    "contactCity": "Ciudad",
+    "price": "Precio",
+    "quantity": "Cantidad",
+    "unknown": "Desconocido"
+  }
+
+
+
 }

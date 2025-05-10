@@ -17,6 +17,8 @@
     "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "firebase": "^11.4.0",
+    "jspdf": "^3.0.1",
+    "jspdf-autotable": "^5.0.2",
     "moment-timezone": "^0.5.45",
     "pinia": "^2.1.7",
     "primeicons": "^7.0.0",

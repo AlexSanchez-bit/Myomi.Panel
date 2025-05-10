@@ -26,10 +26,21 @@ export const table_configs: ColumnData[] = [
     dataType: "date",
   },
   {
+    field:"payment_type",
+    header:"payment_type",
+    filter: {
+      matchMode: FilterMatchMode.IN,
+      value: null,
+    },
+    filter_field: "payment_type_id",
+    sorteable: false,
+    showFilterOptions: false,
+  },
+  {
     field: "user",
     header: "user_name",
     filter: {
-      matchMode: "IS",
+      matchMode: "EQUALS",
       value: null,
     },
     filter_field: "user_id",

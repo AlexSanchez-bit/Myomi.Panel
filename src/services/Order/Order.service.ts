@@ -46,7 +46,7 @@ export class OrderService extends TableCrudService<IOrder> {
     super("order", [
       "*",
       "user!left(*)",
-      "products:order_product!inner(*,product(*))",
+      "products:order_product!left(*,product(*))",
       "payment_type!inner(*)",
     ]);
   }
@@ -62,7 +62,7 @@ export class OrderService extends TableCrudService<IOrder> {
       ) ||
       filters.length == 0
     ) {
-      this.search_fields[1] = "user!left(*)";
+      this.search_fields[1] = "user!(*)";
     } else {
       this.search_fields[1] = "user!inner(*)";
     }
@@ -74,10 +74,16 @@ export class OrderService extends TableCrudService<IOrder> {
     pagination: Pagination,
     orders: Sorter[] | null,
   ): Promise<any> {
+     const founded_user =  filters.find(
+        (item) => item.field == "user_id" ,
+      ) 
+
+
     if (
-      filters.find(
-        (item) => item.field == "user_id" && item.matchMode == "IS",
-      ) ||
+      !founded_user ||
+      (      !!founded_user && founded_user.matchMode =="IS"
+)
+     ||
       filters.length == 0
     ) {
       this.search_fields[1] = "user!left(*)";

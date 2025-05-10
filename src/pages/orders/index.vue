@@ -1,17 +1,30 @@
 <script setup lang="ts">
+import Avatar from "primevue/avatar"
 import Table from "@/utils/Table.vue";
 import { table_configs } from "./table_config";
 import MultiSelect from "primevue/multiselect";
 import { useOrderService } from "@/composables/Order/useOrderService";
 import { OrderStatus } from "@/services/Order/Order.service";
-import { computed, ref } from "vue";
 import Dropdown from "primevue/dropdown";
 import UserFilter from "@/components/Orders/UserFilter.vue";
 import { useToastStorage } from "@/stores/ToasterStorage";
 import { useI18n } from "vue-i18n";
+import Actions from "@/components/Shop/Order/Actions.vue"
+import {usePaymentTypeService} from "@/composables/PayentTypes/usePaymentTypeService"
+import {Pagination} from "@/utils/entities/Pagination"
+import {ref,onMounted,computed} from 'vue'
 const service = useOrderService();
+const pay_type_service = usePaymentTypeService()
+
+const payment_types = ref([])
 
 const table = ref();
+
+onMounted(async()=>{
+  payment_types.value = await pay_type_service.getAll([],new Pagination(0,100),[])
+  console.log(payment_types.value)
+
+})
 
 const refresh = () => {
   table.value.refresh();
@@ -22,7 +35,6 @@ const { t } = useI18n();
 
 const changeOrder = async (order_id: number, new_status: OrderStatus) => {
   const error = await service.update(order_id, { status: new_status });
-  console.log(error);
   if (!error) {
     refresh();
   } else {
@@ -54,6 +66,12 @@ const aviable_statuses = (status) => {
     <Table ref="table" :dataService="service" :columns="table_configs">
       <template #header>
         <h1 class="">{{ $t("orders") }}</h1>
+      </template>
+
+      <template #column-actions="{data}">
+        <div>
+          <Actions :order="data"  v-if="data"/> 
+        </div>
       </template>
 
       <template #column-user="{ data }">
@@ -139,6 +157,40 @@ const aviable_statuses = (status) => {
           </template>
         </MultiSelect>
       </template>
+
+      <template #column-payment_type="{data}">
+        <div v-if="data && data.payment_type" class="flex flex-row items-center gap-2">
+          <Avatar :src="data.payment_type.icon" /> {{data.payment_type.name}}
+        </div>
+        <div v-else-if="data">Eliminado</div>
+      </template>
+
+
+      <template #filter-payment_type="{ filterModel, filterCallback }">
+        <MultiSelect
+          v-model="filterModel.value"
+          display="chip"
+          id="statuses"
+          :options="payment_types"
+          optionValue="id"
+          optionLabel="name"
+          class="min-w-36"
+          @change="filterCallback"
+        >
+          <template #chip="slotProps">
+            <div class="flex align-items-center">
+              <div>{{ payment_types.find(e=>e.id == slotProps.value).name }}</div>
+            </div>
+          </template>
+          <template #option="slotProps">
+            <div class="flex align-items-center">
+              <div>{{ $t(`${slotProps.option.name}`) }}</div>
+            </div>
+          </template>
+        </MultiSelect>
+      </template>
+
+
     </Table>
   </div>
 </template>
