@@ -139,10 +139,6 @@ onMounted(async () => {
     if (!error && data) {
       form.value = data;
       usdPrice.value = data.delivery_price ?? 0;
-      // Calcular localPrice con la moneda actual
-      if (selectedCurrency.value) {
-        localPrice.value = usdPrice.value * selectedCurrency.value.change_value;
-      }
     } else if (error) {
       notify("error", "Error", error.message, 3000);
     }
@@ -160,6 +156,7 @@ function validateForm() {
     errors.value.delivery_price = "El precio debe ser mayor que cero.";
   }
 
+
   return Object.keys(errors.value).length === 0;
 }
 
@@ -172,8 +169,6 @@ function onCurrencyChange() {
 
 function onPriceChange() {
   if (selectedCurrency.value) {
-    // Cambio de precio local: recalcular usdPrice
-    usdPrice.value = localPrice.value / selectedCurrency.value.change_value;
     form.value.delivery_price = usdPrice.value;
   }
 }
