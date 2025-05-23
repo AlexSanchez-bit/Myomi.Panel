@@ -110,7 +110,7 @@
   "delivery_included": "Envío Incluido",
   "delivery_currency": "Moneda de Entrega",
   "payment_types": "Tipos de Pago",
-  "payment_type": "Tipo de Pago",
+  "payment_type": "Tipos de Pago",
   "may_have_change": "Puede requerir cambio",
   "order_status": {
     "CREATED": "Creado",
@@ -159,12 +159,12 @@
     "contactName": "Nombre",
     "contactPhone": "Teléfono",
     "contactAddress": "Dirección",
-    "contactCity": "Ciudad",
+    "contactCity": "Municipio",
     "price": "Precio",
     "quantity": "Cantidad",
     "unknown": "Desconocido"
-  }
-
+  },
+  "view_details": "Ver Más Detalles"
 
 
 }
