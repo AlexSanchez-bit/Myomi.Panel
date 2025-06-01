@@ -4,6 +4,8 @@ export interface IGeneralConfig {
   carousell_images?: string[];
   promotional_image?: string;
   month_promotion?: string;
+  transfermovil_card_number: string,
+  transfermovil_check_number: string
 }
 
 export class GeneralConfigsService extends TableCrudService<IGeneralConfig> {
@@ -13,6 +15,8 @@ export class GeneralConfigsService extends TableCrudService<IGeneralConfig> {
       "carousell_images",
       "promotional_image",
       "month_promotion",
+      "transfermovil_card_number",
+      "transfermovil_check_number"
     ]);
   }
 

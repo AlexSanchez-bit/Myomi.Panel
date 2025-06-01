@@ -358,13 +358,14 @@ const generateInvoice = async () => {
   let DscColY = currentY;
   doc.setFont("helvetica", "bold");
   doc.text("DOMICILIO", DscX, DscColY);
-  doc.text(`${(order.delivery_payment * order.delivery_currency.change_value).toFixed(2)} ${order.delivery_currency.name}`, DscX + 35, DscColY);
+  const delivery_text = `${(order.delivery_payment * order.delivery_currency.change_value).toFixed(2)} ${order.delivery_currency.name}`
+  doc.text(delivery_text, DscX + 35, DscColY);
   DscColY += 5;
 
   doc.text("SUBTOTAL", DscX, DscColY);
-  const subtotalText = `${subtotalAmount.toFixed(2)} ${currencyName}`;
+  const subtotalText = `${subtotalAmount.toFixed(2)} ${currencyName} ${order.payment_type?.delivery_included ? '' : '+ ' + delivery_text}`;
   const subtotalValueX = DscX + 35; // Position for the subtotal value
-  const subtotalYellowBoxWidth = 30; // Width of yellow box for subtotal
+  const subtotalYellowBoxWidth = subtotalText.length * 2; // Width of yellow box for subtotal
 
   doc.setFillColor(lightYellow);
   doc.rect(subtotalValueX - 2, DscColY - 3.5, subtotalYellowBoxWidth, 5, "F");

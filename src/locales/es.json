@@ -164,7 +164,7 @@
     "quantity": "Cantidad",
     "unknown": "Desconocido"
   },
-  "view_details": "Ver Más Detalles"
-
-
+  "view_details": "Ver Más Detalles",
+  "transfermovil_card_number":"Número  de tarjeta",
+  "transfermovil_check_number":"Móvil a confirmar"
 }

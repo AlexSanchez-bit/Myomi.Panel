@@ -2,11 +2,7 @@
   <div class="p-4">
     <div>
       <h3>{{ $t("carousel-images") }}</h3>
-      <ImageSelector
-        v-model:images="form.carousell_images"
-        v-slot="{ src: image }"
-        ref="carousellImages"
-      >
+      <ImageSelector v-model:images="form.carousell_images" v-slot="{ src: image }" ref="carousellImages">
         <Image :src="image" alt="Image" preview height="250px" />
       </ImageSelector>
     </div>
@@ -15,21 +11,14 @@
       <p class="text-center absolute w-full top-1/2 left-2">
         {{ $t("promotional_image") }}
       </p>
-      <img
-        :src="portraitImage ?? '/extras/defaultprofile.jpg'"
-        alt=""
-        class="w-full h-full border border-gray-300 object-cover"
-      />
-      <i
-        class="pi pi-upload pi-2x absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-darkblue"
-      ></i>
-      <input
-        type="file"
-        accept="image/*"
-        class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
-        @change="onPortraitImageChange"
-      />
+      <img :src="portraitImage ?? '/extras/defaultprofile.jpg'" alt=""
+        class="w-full h-full border border-gray-300 object-cover" />
+      <i class="pi pi-upload pi-2x absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-darkblue"></i>
+      <input type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full"
+        @change="onPortraitImageChange" />
     </div>
+
+
 
     <div class="relative w-10/12 h-96 mx-auto mt-8">
       <p class="text-center">
@@ -38,18 +27,29 @@
 
       <Editor v-model="form.month_promotion" editorStyle="height: 320px" />
     </div>
+    <div class="border-2 border-dashed border-coreanblue p-4 flex flex-col items-center justify-center gap-4">
+      <h4 class="text-center text-coreanblue">Transfermovil</h4>
+      <div class="flex-auto">
+        <label for="card" class="font-bold block mb-2">{{ $t('transfermovil_card_number') }}</label>
+        <InputMask id="card" v-model="form.transfermovil_card_number" mask="9999 9999 9999 9999"
+          placeholder="xxxx xxxx xxxx xxxx" />
+      </div>
+      <div class="flex-auto">
+        <label for="phone" class="font-bold block mb-2">{{ $t('transfermovil_check_number') }}</label>
+        <InputMask id="phone" v-model="form.transfermovil_check_number" mask="+53 99999999"
+          placeholder="+53 xxxxxxxx" />
+      </div>
+    </div>
 
-    <Button
-      :loading="loading"
-      class="w-full mt-10"
-      :label="$t('save')"
-      @click="saveConfigs"
-    />
+    <Button :loading="loading" class="w-full mt-10" :label="$t('save')" @click="saveConfigs" />
+
+
   </div>
 </template>
 
 <script setup lang="ts">
 import Editor from "primevue/editor";
+import InputMask from 'primevue/inputmask';
 import ImageSelector from "@/components/ImageSelector.vue";
 import { useGeneralConfigService } from "@/composables/GeneralConfig/useGeneralConfigService";
 import uploadPublicFile from "@/composables/uploadPublicFile";
@@ -78,6 +78,8 @@ const load_general_options = async () => {
     form.carousell_images = config.carousell_images;
     form.promotional_image = config.promotional_image;
     form.month_promotion = config.month_promotion;
+    form.transfermovil_card_number = config.transfermovil_card_number;
+    form.transfermovil_check_number = config.transfermovil_check_number;
     config_id.value = config.id;
     portraitImage.value = config.promotional_image;
   }
@@ -126,7 +128,7 @@ const saveConfigs = async () => {
   loading.value = true;
   const error = await (config_id.value
     ? service.update(config_id.value, { ...form })
-    : service.create({ ...form }));
+    : service.create({ ...form } as IGeneralConfig));
   loading.value = false;
   console.log(error);
 
