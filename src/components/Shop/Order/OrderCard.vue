@@ -43,9 +43,9 @@
       <button @click="toggleDetails">
         {{ showDetails ? $t("order.hideDetails") : $t("order.viewDetails") }}
       </button>
-      <button @click="generateInvoice">
+      <Button @click="generateInvoice" :loading="loading">
         {{ $t("order.generateInvoice") }}
-      </button>
+      </Button>
     </div>
 
     <!-- Sección expandible con transición -->
@@ -100,6 +100,8 @@ import autoTable from "jspdf-autotable";
 import { usePaymentTypeService } from "@/composables/PayentTypes/usePaymentTypeService";
 import { useCurrencyService } from "@/composables/Currency/useCurrencyService";
 import { Pagination } from "@/utils/entities/Pagination";
+import { useGeneralConfigService } from "@/composables/GeneralConfig/useGeneralConfigService";
+import Button from 'primevue/button'
 
 const { t } = useI18n();
 
@@ -112,6 +114,7 @@ const props = defineProps({
 
 const paymetTypeService = usePaymentTypeService()
 const currencyService = useCurrencyService()
+const generalConfigService = useGeneralConfigService()
 
 const showDetails = ref(false);
 
@@ -122,6 +125,7 @@ const totalProducts = computed(() =>
 
 // Formatear Fecha
 const formatDate = (dateString) => new Date(dateString).toLocaleDateString();
+const loading = ref(false)
 
 // Estado de la orden
 const getStatusText = (status) => {
@@ -142,6 +146,7 @@ const toggleDetails = () => {
 // Función para generar la factura
 const generateInvoice = async () => {
   if (!props.order) return;
+  loading.value = true
   const order = props?.order || {};
 
   const doc = new jsPDF();
@@ -430,14 +435,17 @@ const generateInvoice = async () => {
   const bankDetailsTextX = bankBoxX + 2;
   const bankDetailsValueX = bankBoxX + 23; // X for the account numbers etc.
 
+  const [{ transfermovil_card_number, transfermovil_check_number }] = await generalConfigService.getAll([], new Pagination(0, 1), [])
+  console.log(transfermovil_card_number, transfermovil_check_number)
+
   doc.rect(bankBoxX, bankDetailsColY, bankBoxWidth, bankBoxCellHeight, "S");
   doc.text("Cuenta CUP:", bankDetailsTextX, bankDetailsColY + bankTextVPadding);
-  doc.text(order.bank_details?.cup_account || "9205 1299 7355 0818", bankDetailsValueX, bankDetailsColY + bankTextVPadding);
+  doc.text(transfermovil_card_number, bankDetailsValueX, bankDetailsColY + bankTextVPadding);
   bankDetailsColY += bankBoxCellHeight;
 
   doc.rect(bankBoxX, bankDetailsColY, bankBoxWidth, bankBoxCellHeight, "S");
   doc.text("Confirmación:", bankDetailsTextX, bankDetailsColY + bankTextVPadding);
-  doc.text(order.bank_details?.confirmation_phone || "+52 56569237", bankDetailsValueX, bankDetailsColY + bankTextVPadding);
+  doc.text(transfermovil_check_number, bankDetailsValueX, bankDetailsColY + bankTextVPadding);
 
   currentY = Math.max(monedaPagoColY, bankDetailsColY) + 15;
 
@@ -468,6 +476,7 @@ const generateInvoice = async () => {
   // Save the PDF
   const fileName = `Factura_MYOM_${order.id || "preview"}.pdf`;
   doc.save(fileName);
+  loading.value = false
   console.log(`${fileName} generated.`);
 };
 
