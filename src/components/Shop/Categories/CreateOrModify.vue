@@ -4,20 +4,11 @@
       <p class="text-center absolute top-0 left-2">
         {{ $t("icon") }}
       </p>
-      <img
-        :src="profileImage ?? '/extras/defaultprofile.jpg'"
-        alt=""
-        class="w-24 h-24 border border-gray-300 object-cover"
-      />
-      <input
-        type="file"
-        accept="image/*"
-        class="absolute inset-0 opacity-0 cursor-pointer"
-        @change="onProfileImageChange"
-      />
-      <i
-        class="pi pi-upload pi-2x absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-darkblue"
-      ></i>
+      <img :src="profileImage ?? '/extras/defaultprofile.jpg'" alt=""
+        class="w-24 h-24 border border-gray-300 object-cover" />
+      <input type="file" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer"
+        @change="onProfileImageChange" />
+      <i class="pi pi-upload pi-2x absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-darkblue"></i>
     </div>
   </div>
 
@@ -33,12 +24,7 @@
       <label for="name" class="block text-sm font-medium">{{
         $t("name")
       }}</label>
-      <InputText
-        id="name"
-        v-model="form.name"
-        :class="{ 'p-invalid': errors.name }"
-        class="w-full"
-      />
+      <InputText id="name" v-model="form.name" :class="{ 'p-invalid': errors.name }" class="w-full" />
       <small v-if="errors.name" class="text-red-500">{{
         $t(errors.name)
       }}</small>
@@ -49,21 +35,11 @@
         $t("parent")
       }}</label>
 
-      <Dropdown
-        v-model="form.parent"
-        :options="categories"
-        optionLabel="name"
-        optionValue="id"
-        class="w-full md:w-14rem"
-        :virtualScrollerOptions="{
-          lazy: true,
-          onLazyLoad: onLazyLoad,
+      <Dropdown v-model="form.parent" :options="categories" optionLabel="name" optionValue="id"
+        class="w-full md:w-14rem" :virtualScrollerOptions="{
           itemSize: 38,
           showLoader: true,
-          loading: loading,
-          delay: 250,
-        }"
-      />
+        }" />
 
       <small v-if="errors.phone" class="text-red-500">{{
         $t(errors.phone)
@@ -75,24 +51,14 @@
       <label for="description" class="block text-sm font-medium">{{
         $t("description")
       }}</label>
-      <TinyMce
-        id="description"
-        :value="form.description"
-        menubar="format"
-        @input="form.description = $event"
-      />
+      <TinyMce id="description" :value="form.description" menubar="format" @input="form.description = $event" />
     </div>
 
     <!-- Número Telefónico -->
 
     <!-- Botón de Enviar -->
-    <Button
-      type="submit"
-      :label="mode === 'create' ? $t('create_category') : $t('edit_category')"
-      icon="pi pi-user-plus"
-      class="w-full"
-      :disabled="isSubmitting"
-    />
+    <Button type="submit" :label="mode === 'create' ? $t('create_category') : $t('edit_category')"
+      icon="pi pi-user-plus" class="w-full" :disabled="isSubmitting" />
   </form>
 </template>
 
@@ -130,17 +96,23 @@ const { mode, category_id } = props;
 const categories = ref<any[]>([]);
 const totalCount = ref(1);
 
+const getName = (c: any) => {
+  if (c.category) {
+    return `${getName(c.category)} > ${c.name}`
+  } else {
+    return c.name
+  }
+}
+
 const onLazyLoad = async (event: { last: number }) => {
   const { last } = event;
-  console.log(last, totalCount.value);
-  if (last >= totalCount.value / 5) return;
   const { data, totalCount: tc } = await service.getAllTotalCount(
     [],
-    new Pagination(last, 5),
+    new Pagination(last, 1000),
     null,
   );
   totalCount.value = tc;
-  categories.value = [...data, { id: null, name: "Ninguna" }];
+  categories.value = [{ id: null, name: "Ninguna" }, ...data.map(c => ({ ...c, name: getName(c) }))]
 };
 
 onMounted(async () => {

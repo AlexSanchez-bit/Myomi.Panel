@@ -1,1 +1,0 @@
-import{T as e}from"./TableCrudService-BAze40sZ.js";class r extends e{constructor(){super("brand",["id","name","icon","layer_image,brand_link"])}buildSelect(){return this.builder.select(this.search_fields.join(" , "),{count:"exact"})}}const n=new r,s=()=>n;export{s as u};

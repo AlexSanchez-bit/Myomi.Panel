@@ -4,122 +4,81 @@
     <div>
       <label for="name" class="block text-sm font-medium">{{
         $t("name")
-      }}</label>
-      <Textarea
-        id="name"
-        v-model="name"
-        :class="{ 'p-invalid': errors.name }"
-        class="w-full"
-        aria-describedby="name-error"
-      />
+        }}</label>
+      <Textarea id="name" v-model="name" :class="{ 'p-invalid': errors.name }" class="w-full"
+        aria-describedby="name-error" />
       <small v-if="errors.name" class="text-red-500" id="name-error">{{
         $t(errors.name)
-      }}</small>
+        }}</small>
     </div>
     <div>
       <label for="price" class="block text-sm font-medium">{{
         $t("price")
-      }}</label>
-      <InputNumber
-        id="price"
-        v-model="price"
-        :class="{ 'p-invalid': errors.price }"
-        class="w-full"
-        aria-describedby="price-help"
-        :maxFractionDigits="2"
-        fluid
-      />
+        }}</label>
+      <InputNumber id="price" v-model="price" :class="{ 'p-invalid': errors.price }" class="w-full"
+        aria-describedby="price-help" :maxFractionDigits="2" fluid />
       <small v-if="errors.price" class="text-red-500">{{
         $t(errors.price)
-      }}</small>
+        }}</small>
       <small v-else id="price-help">{{ $t("enter_usd_price") }}</small>
     </div>
     <div>
       <label for="stock" class="block text-sm font-medium">{{
         $t("stock")
-      }}</label>
-      <InputNumber
-        id="stock"
-        v-model="stock"
-        :class="{ 'p-invalid': errors.stock }"
-        class="w-full"
-        @input="stock = Math.floor(stock)"
-      />
+        }}</label>
+      <InputNumber id="stock" v-model="stock" :class="{ 'p-invalid': errors.stock }" class="w-full"
+        @input="stock = Math.floor(stock)" />
       <small v-if="errors.stock" class="text-red-500">{{
         $t(errors.stock)
-      }}</small>
+        }}</small>
     </div>
 
     <div>
       <label for="categories" class="block text-sm font-medium">{{
         $t("categories")
-      }}</label>
+        }}</label>
 
-      <MultiSelect
-        id="categories"
-        v-model="selected_categories"
-        :options="categories"
-        optionLabel="name"
-        optionValue="id"
-        class="w-full md:w-14rem"
-      />
+      <MultiSelect id="categories" v-model="selected_categories" :options="categories" optionLabel="name"
+        optionValue="id" class="w-full md:w-14rem" />
 
       <small v-if="errors.categories" class="text-red-500">{{
         $t(errors.categories)
-      }}</small>
+        }}</small>
     </div>
 
     <div>
       <label for="materials" class="block text-sm font-medium">{{
         $t("materials")
-      }}</label>
+        }}</label>
 
-      <MultiSelect
-        id="materials"
-        v-model="selected_materials"
-        :options="materials"
-        optionLabel="name"
-        optionValue="id"
-        class="w-full md:w-14rem"
-      />
+      <MultiSelect id="materials" v-model="selected_materials" :options="materials" optionLabel="name" optionValue="id"
+        class="w-full md:w-14rem" />
 
       <small v-if="errors.materials" class="text-red-500">{{
         $t(errors.materials)
-      }}</small>
+        }}</small>
     </div>
 
     <div>
       <label for="concerns" class="block text-sm font-medium">{{
         $t("concerns")
-      }}</label>
+        }}</label>
 
-      <MultiSelect
-        id="concerns"
-        v-model="selected_concerns"
-        :options="concerns"
-        optionLabel="name"
-        optionValue="id"
-        class="w-full md:w-14rem"
-      />
+      <MultiSelect id="concerns" v-model="selected_concerns" :options="concerns" optionLabel="name" optionValue="id"
+        class="w-full md:w-14rem" />
 
       <small v-if="errors.concerns" class="text-red-500">{{
         $t(errors.concerns)
-      }}</small>
+        }}</small>
     </div>
 
     <div>
       <label for="brand" class="block text-sm font-medium">{{
         $t("brand")
-      }}</label>
+        }}</label>
 
-      <Dropdown
-        id="brand"
-        v-model="brand"
-        :options="brands"
-        optionLabel="name"
-        optionValue="id"
-        class="w-full md:w-14rem"
-      >
+      <Dropdown id="brand" v-model="brand" :options="brands" optionLabel="name" optionValue="id"
+        class="w-full md:w-14rem">
         <template #option="slotProps">
           <div class="flex align-items-center">
             <Avatar :image="slotProps.option.icon" size="normal" />
@@ -130,7 +89,7 @@
 
       <small v-if="errors.brand" class="text-red-500">{{
         $t(errors.brand)
-      }}</small>
+        }}</small>
     </div>
   </form>
 </template>
@@ -165,18 +124,26 @@ const materialsTotalCount = ref(1);
 const concerns = ref<any[]>();
 const concernsTotalCount = ref(1);
 
+const getName = (c: any) => {
+  if (c.category) {
+    return `${getName(c.category)} > ${c.name}`
+  } else {
+    return c.name
+  }
+}
+
 const onLazyLoadCategories = async (event: { last: number }) => {
   const { last } = event;
   if (last * 100 >= categoriesTotalCount.value) return;
   categories_loading.value = true;
   const { data, totalCount: tc } = await categoriesService.getAllTotalCount(
     [],
-    new Pagination(last, 100),
+    new Pagination(last, 1000),
     null,
   );
 
   categoriesTotalCount.value = tc;
-  categories.value = [...data];
+  categories.value = data.map(c => ({ ...c, name: getName(c) }))
   categories_loading.value = false;
 };
 
@@ -186,7 +153,7 @@ const onLazyLoadBrands = async (event: { last: number }) => {
   brands_loading.value = true;
   const { data, totalCount: tc } = await brandsService.getAllTotalCount(
     [],
-    new Pagination(last, 100),
+    new Pagination(last, 1000),
     null,
   );
   brandsTotalCount.value = tc;
@@ -202,7 +169,7 @@ const onLazyLoadMaterials = async (event: { last: number }) => {
   materials_loading.value = true;
   const { data, totalCount: tc } = await materialService.getAllTotalCount(
     [],
-    new Pagination(last, 100),
+    new Pagination(last, 1000),
     null,
   );
   materials_loading.value = false;
@@ -216,7 +183,7 @@ const onLazyLoadConcerns = async (event: { last: number }) => {
   concerns_loading.value = true;
   const { data, totalCount: tc } = await concernService.getAllTotalCount(
     [],
-    new Pagination(last, 100),
+    new Pagination(last, 1000),
     null,
   );
   concernsTotalCount.value = tc;

@@ -15,7 +15,7 @@ export class CategoryService extends TableCrudService<ICategory> {
       "id",
       "name",
       "icon",
-      "category:parent(id, name),created_at ",
+      "category:parent(*,category:parent(*)),created_at ",
       "order",
     ]);
   }
