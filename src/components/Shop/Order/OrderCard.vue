@@ -390,7 +390,7 @@ const generateInvoice = async () => {
 
   doc.setFont("helvetica", "bold");
   doc.text("CAMBIO", DscX, DscColY);
-  doc.text(`${order.change_value ?? ''} ${order.change_value ? order.currency.name : ''}`, subtotalValueX, DscColY - 0.5);
+  doc.text(`${order.change > 0 ? order.change * order.currency.change_value : ''} ${order.change > 0 ? order.currency.name : ''}`, subtotalValueX, DscColY - 0.5);
 
   currentY = Math.max(promoColY, DscColY) + 7;
 
