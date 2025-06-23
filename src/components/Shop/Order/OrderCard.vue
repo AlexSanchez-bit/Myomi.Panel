@@ -297,6 +297,7 @@ const generateInvoice = async () => {
     return sum + (price * quantity * currencyRate);
   }, 0);
 
+
   autoTable(doc, {
     startY: currentY,
     head: [["PRODUCTO", "PRECIO", "CANT.", "TOTAL"]],
@@ -488,6 +489,11 @@ const generateInvoice = async () => {
   loading.value = false
   console.log(`${fileName} generated.`);
 };
+
+
+function safeAscii(text) {
+  return text.replace(/[^\x00-\x7F]/g, ''); // elimina caracteres no-ASCII
+}
 
 </script>
 
