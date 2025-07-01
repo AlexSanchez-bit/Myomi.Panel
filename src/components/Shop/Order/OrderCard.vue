@@ -296,6 +296,11 @@ const generateInvoice = async () => {
     const quantity = p.quantity || 1;
     return sum + (price * quantity * currencyRate);
   }, 0);
+  const totalQuantity = products.reduce((sum, p) => {
+    const quantity = p.quantity || 1;
+    return sum + quantity;
+  }, 0);
+
 
 
   autoTable(doc, {
@@ -303,8 +308,10 @@ const generateInvoice = async () => {
     head: [["PRODUCTO", "PRECIO", "CANT.", "TOTAL"]],
     body: tableData,
     foot: [
-      [{ content: 'SUBTOTAL', colSpan: 3, styles: { halign: 'center', fontStyle: 'bold', cellPadding: { right: 2, top: 2 } } },
-      { content: `${subtotalAmount.toFixed(2)} ${currencyName}`, styles: { halign: 'right', fontStyle: 'bold' } }]
+      [
+        { content: 'SUBTOTAL', colSpan: 2, styles: { halign: 'center', fontStyle: 'bold', cellPadding: { right: 2, top: 2 } } },
+        { content: `${totalQuantity}`, styles: { halign: 'center', fontStyle: 'bold' } },
+        { content: `${subtotalAmount.toFixed(2)} ${currencyName}`, styles: { halign: 'right', fontStyle: 'bold' } }]
     ],
     theme: 'grid', // 'grid' for visible lines like image
     headStyles: {
